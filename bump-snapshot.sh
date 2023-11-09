@@ -33,21 +33,6 @@ else
 fi
 
 
-# Move Ivy
-mv helix-admin-webapp/helix-admin-webapp-$version-SNAPSHOT.ivy helix-admin-webapp/helix-admin-webapp-$new_version-SNAPSHOT.ivy
-mv helix-agent/helix-agent-$version-SNAPSHOT.ivy helix-agent/helix-agent-$new_version-SNAPSHOT.ivy
-mv helix-common/helix-common-$version-SNAPSHOT.ivy helix-common/helix-common-$new_version-SNAPSHOT.ivy
-mv helix-core/helix-core-$version-SNAPSHOT.ivy helix-core/helix-core-$new_version-SNAPSHOT.ivy
-mv helix-lock/helix-lock-$version-SNAPSHOT.ivy helix-lock/helix-lock-$new_version-SNAPSHOT.ivy
-mv helix-rest/helix-rest-$version-SNAPSHOT.ivy helix-rest/helix-rest-$new_version-SNAPSHOT.ivy
-mv metadata-store-directory-common/metadata-store-directory-common-$version-SNAPSHOT.ivy metadata-store-directory-common/metadata-store-directory-common-$new_version-SNAPSHOT.ivy
-mv metrics-common/metrics-common-$version-SNAPSHOT.ivy metrics-common/metrics-common-$new_version-SNAPSHOT.ivy
-mv zookeeper-api/zookeeper-api-$version-SNAPSHOT.ivy zookeeper-api/zookeeper-api-$new_version-SNAPSHOT.ivy
-mv helix-view-aggregator/helix-view-aggregator-$version-SNAPSHOT.ivy helix-view-aggregator/helix-view-aggregator-$new_version-SNAPSHOT.ivy
-mv meta-client/meta-client-$version-SNAPSHOT.ivy meta-client/meta-client-$new_version-SNAPSHOT.ivy
-
-
-find . -type f -name '*.ivy' -exec sed -i "s/$version/$new_version/g" {} \;
 find . -type f -name 'pom.xml' -exec sed -i "s/$version/$new_version/g" {} \;
 
 

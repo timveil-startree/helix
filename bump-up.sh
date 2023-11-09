@@ -30,30 +30,8 @@ update_pom_version() {
   fi
 }
 
-update_ivy() {
-  module=$1
-  ivy_file=`find $module -type f -name '*.ivy'`
-  new_ivy_file="$module/$module-$new_version.ivy"
-  if [ -f $ivy_file ]; then
-    echo "bump up $ivy_file"
-    git mv "$ivy_file" "$new_ivy_file"
-    current_ivy_version=`get_version_from_ivy $new_ivy_file`
-    sed -i'' -e "s/${current_ivy_version}/${new_version}/g" "$new_ivy_file"
-    if ! grep -C 1 "$new_version" "$new_ivy_file"; then
-      echo "Failed to update new version $new_version in $new_ivy_file"
-      exit 1
-    fi
-  else
-    echo "$module/$ivy_file not exist"
-  fi
-}
-
 get_version_from_pom() {
   grep -A 1 "<artifactId>helix</artifactId>" $1 |tail -1 | awk 'BEGIN {FS="[<,>]"};{print $3}'
-}
-
-get_version_from_ivy() {
-  grep revision "$1" | awk 'BEGIN {FS="[=,\"]"};{print $3}'
 }
 
 current_version=`get_version_from_pom pom.xml`
@@ -75,7 +53,6 @@ update_pom_version "pom.xml" $current_version
 
 for module in "metrics-common" "metadata-store-directory-common" "zookeeper-api" "helix-common" "helix-core" \
               "helix-admin-webapp" "helix-rest" "helix-lock" "helix-view-aggregator" "helix-agent" "meta-client"; do
-  update_ivy $module
   update_pom_version $module/pom.xml $current_version
 done
 
