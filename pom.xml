@@ -456,7 +456,7 @@
     <osgi.export.service />
 
     <!--Skips test in default 'mvn clean install' build command-->
-    <!-- <maven.test.skip.exec>true</maven.test.skip.exec> -->
+    <maven.test.skip.exec>false</maven.test.skip.exec>
 
     <!--  Configuration for unit/integration tests section 1 of 3 (properties) STARTS HERE.
     Property for running integration tests with profiles
@@ -483,6 +483,11 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
+        <version>1.7.32</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
         <version>1.7.32</version>
       </dependency>
       <dependency>
@@ -521,6 +526,17 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.14</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
         <groupId>org.apache.helix</groupId>
         <artifactId>helix-core</artifactId>
         <type>test-jar</type>
@@ -536,11 +552,13 @@
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <version>6.0.1</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
         <version>3.12.4</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -608,14 +626,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>3.3.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
-          <configuration>
-            <skip>true</skip>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
