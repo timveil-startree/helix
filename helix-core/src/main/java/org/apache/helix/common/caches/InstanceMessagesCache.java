@@ -451,7 +451,7 @@ public class InstanceMessagesCache {
         long completeTime = currentState.getEndTime(partitionName);
         if (completeTime > relayMessage.getCreateTimeStamp()) {
           setMessageRelayTime(relayMessage, completeTime);
-          LOG.error("Target state for partition {} matches the hosted message's target state, "
+          LOG.info("Target state for partition {} matches the hosted message's target state, "
               + "set relay message {} to be expired.", partitionName, relayMessage.getId());
           return;
         }
