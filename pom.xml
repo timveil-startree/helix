@@ -456,7 +456,7 @@
     <osgi.export.service />
 
     <!--Skips test in default 'mvn clean install' build command-->
-    <maven.test.skip.exec>false</maven.test.skip.exec>
+    <skipTests>false</skipTests>
 
     <!--  Configuration for unit/integration tests section 1 of 3 (properties) STARTS HERE.
     Property for running integration tests with profiles
@@ -669,7 +669,42 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>3.2.2</version>
+          <!--
+                Configuration for unit/integration tests section 2 of 3 (plugins) STARTS HERE.
+                This is the core piece for being able to manage unit tests and
+                integration (='system') tests within Maven by using surefire.
+                See also: properties section and profiles section.
+          -->
+          <configuration>
+            <skipTests>${skipTests}</skipTests>
+            <argLine>@{argLine} -Xms4096m -Xmx4096m</argLine>
+            <suiteXmlFiles>
+              <suiteXmlFile>src/test/conf/testng.xml</suiteXmlFile>
+            </suiteXmlFiles>
+            <excludes>
+              <exclude>**/integration/**</exclude>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <id>integration-tests</id>
+              <phase>integration-test</phase>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <skipTests>${SKIP_INTEGRATION_TESTS}</skipTests>
+                <excludes>
+                  <exclude>none</exclude>
+                </excludes>
+                <includes>
+                  <include>**/integration/**</include>
+                </includes>
+              </configuration>
+            </execution>
+          </executions>
+          <!--  Configuration for unit/integration tests section 2 of 3 (plugins) ENDS HERE. -->
         </plugin>
         <plugin>
           <groupId>org.apache.rat</groupId>
@@ -748,44 +783,7 @@
         <artifactId>maven-source-plugin</artifactId>
         <version>3.2.1</version>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <!--
-              Configuration for unit/integration tests section 2 of 3 (plugins) STARTS HERE.
-              This is the core piece for being able to manage unit tests and
-              integration (='system') tests within Maven by using surefire.
-              See also: properties section and profiles section.
-        -->
-        <configuration>
-          <argLine>${argLine} -Xms4096m -Xmx4096m</argLine>
-          <suiteXmlFiles>
-            <suiteXmlFile>src/test/conf/testng.xml</suiteXmlFile>
-          </suiteXmlFiles>
-          <excludes>
-            <exclude>**/integration/**</exclude>
-          </excludes>
-        </configuration>
-        <executions>
-          <execution>
-            <id>integration-tests</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <skip>${SKIP_INTEGRATION_TESTS}</skip>
-              <excludes>
-                <exclude>none</exclude>
-              </excludes>
-              <includes>
-                <include>**/integration/**</include>
-              </includes>
-            </configuration>
-          </execution>
-        </executions>
-        <!--  Configuration for unit/integration tests section 2 of 3 (plugins) ENDS HERE. -->
-      </plugin>
+
       <!-- Code Coverage report generation -->
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -798,7 +796,7 @@
             </goals>
             <configuration>
               <!-- Skip this phase if unit tests are skipped -->
-              <skip>${maven.test.skip.exec}</skip>
+              <skip>${skipTests}</skip>
             </configuration>
           </execution>
           <execution>
@@ -856,7 +854,7 @@
           <stylesheetfile>javadocstyle.css</stylesheetfile>
           <reportOutputDirectory>site</reportOutputDirectory>
           <destDir>apidocs</destDir>
-          <aggregate>true</aggregate>
+<!--          <aggregate>true</aggregate>-->
         </configuration>
         <reportSets>
           <reportSet>
@@ -876,7 +874,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.3.0</version>
         <inherited>false</inherited>
         <reportSets>
           <reportSet>
