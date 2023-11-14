@@ -417,8 +417,7 @@ public class TestMessageThrottle2 extends ZkTestBase {
     public void onExternalViewChange(List<ExternalView> externalViewList,
         NotificationContext changeContext) {
       for (ExternalView externalView : externalViewList) {
-        System.out
-            .println("StatusPrinter.onExternalViewChange:" + "externalView = " + externalView);
+        LOG.debug("StatusPrinter.onExternalViewChange:" + "externalView = " + externalView);
       }
     }
 
@@ -451,8 +450,7 @@ public class TestMessageThrottle2 extends ZkTestBase {
     public void onLiveInstanceChange(List<LiveInstance> liveInstances,
         NotificationContext changeContext) {
       for (LiveInstance liveInstance : liveInstances) {
-        System.out
-            .println("StatusPrinter.onLiveInstanceChange:" + "liveInstance = " + liveInstance);
+        LOG.debug("StatusPrinter.onLiveInstanceChange:" + "liveInstance = " + liveInstance);
       }
     }
 

@@ -193,7 +193,7 @@ public class TestHelper {
       // debug
       // LOG.info(verifierName + ": wait " + ((i + 1) * 1000) + "ms to verify ("
       // + result + ")");
-      System.err.println(
+      LOG.error(
           verifierName + ": wait " + ((i + 1) * 1000) + "ms to verify " + " (" + result + ")");
       LOG.debug("args:" + Arrays.toString(args));
       // System.err.println("args:" + Arrays.toString(args));
@@ -538,7 +538,7 @@ public class TestHelper {
       ZNode node = map.get(key);
       TreeSet<String> childSet = new TreeSet<String>();
       childSet.addAll(node.getChildSet());
-      System.out.print(
+      LOG.debug(
           key + "=" + node.getData() + ", " + childSet + ", " + (node.getStat() == null ? "null\n"
               : node.getStat()));
     }
@@ -620,8 +620,7 @@ public class TestHelper {
       Map<String, ZNode> cache, Map<String, ZNode> zkMap, boolean needVerifyStat) {
     // equal size
     if (zkMap.size() != cache.size()) {
-      System.err
-          .println("size mismatch: cacheSize: " + cache.size() + ", zkMapSize: " + zkMap.size());
+      LOG.error("size mismatch: cacheSize: " + cache.size() + ", zkMapSize: " + zkMap.size());
       LOG.debug("cache: (" + cache.size() + ")");
       TestHelper.printCache(cache);
 
@@ -638,7 +637,7 @@ public class TestHelper {
 
       if (zkNode == null) {
         // in cache but not on zk
-        System.err.println("path: " + path + " in cache but not on zk: inCacheNode: " + cacheNode);
+        LOG.error("path: " + path + " in cache but not on zk: inCacheNode: " + cacheNode);
         return false;
       }
 
@@ -646,7 +645,7 @@ public class TestHelper {
           && cacheNode.getData() == null) || (zkNode.getData() != null
           && cacheNode.getData() != null && !zkNode.getData().equals(cacheNode.getData()))) {
         // data not equal
-        System.err.println(
+        LOG.error(
             "data mismatch on path: " + path + ", inCache: " + cacheNode.getData() + ", onZk: "
                 + zkNode.getData());
         return false;
@@ -657,7 +656,7 @@ public class TestHelper {
           zkNode.getChildSet() != null && cacheNode.getChildSet() != null && !zkNode.getChildSet()
               .equals(cacheNode.getChildSet()))) {
         // childSet not equal
-        System.err.println(
+        LOG.error(
             "childSet mismatch on path: " + path + ", inCache: " + cacheNode.getChildSet()
                 + ", onZk: " + zkNode.getChildSet());
         return false;
@@ -666,7 +665,7 @@ public class TestHelper {
       if (needVerifyStat && pathsExcludeForStat != null && !pathsExcludeForStat.contains(path)) {
         if (cacheNode.getStat() == null || !zkNode.getStat().equals(cacheNode.getStat())) {
           // stat not equal
-          System.err.println(
+          LOG.error(
               "Stat mismatch on path: " + path + ", inCache: " + cacheNode.getStat() + ", onZk: "
                   + zkNode.getStat());
           return false;

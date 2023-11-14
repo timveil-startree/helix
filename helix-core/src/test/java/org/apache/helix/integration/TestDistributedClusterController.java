@@ -49,8 +49,7 @@ public class TestDistributedClusterController extends ZkTestBase {
 
     Set<MockParticipantManager> participantRefs = new HashSet<>();
 
-    System.out
-        .println("START " + clusterNamePrefix + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterNamePrefix + " at " + new Date(System.currentTimeMillis()));
 
     // setup 10 clusters
     for (int i = 0; i < clusterNb; i++) {

@@ -44,8 +44,7 @@ import org.testng.annotations.Test;
 public class TestSyncSessionToController extends ZkTestBase {
   @Test
   public void testSyncSessionToController() throws Exception {
-    System.out
-        .println("START testSyncSessionToController at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testSyncSessionToController at " + new Date(System.currentTimeMillis()));
 
     String clusterName = getShortClassName();
     MockParticipantManager[] participants = new MockParticipantManager[5];

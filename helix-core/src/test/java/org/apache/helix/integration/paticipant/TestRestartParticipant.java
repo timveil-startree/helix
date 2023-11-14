@@ -46,7 +46,7 @@ public class TestRestartParticipant extends ZkTestBase {
     public void doTransition(Message message, NotificationContext context) {
       MockParticipantManager other = _other.getAndSet(null);
       if (other != null) {
-        System.err.println("Kill " + other.getInstanceName()
+        LOG.debug("Kill " + other.getInstanceName()
             + ". Interrupted exceptions are IGNORABLE");
         other.syncStop();
       }
@@ -98,7 +98,7 @@ public class TestRestartParticipant extends ZkTestBase {
     MockParticipantManager participant =
         new MockParticipantManager(ZK_ADDR, participants[0].getClusterName(),
             participants[0].getInstanceName());
-    System.err.println("Restart " + participant.getInstanceName());
+    LOG.debug("Restart " + participant.getInstanceName());
     participant.syncStart();
     result =
         ClusterStateVerifier.verifyByZkCallback(new BestPossAndExtViewZkVerifier(ZK_ADDR,

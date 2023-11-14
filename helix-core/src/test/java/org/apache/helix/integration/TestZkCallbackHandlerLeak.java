@@ -265,7 +265,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     boolean result = TestHelper.verify(() -> {
       Map<String, Set<String>> watchers = ZkTestHelper.getListenersBySession(ZK_ADDR);
       Set<String> watchPaths = watchers.get("0x" + controller.getSessionId());
-      System.err.println("controller watch paths after session expiry: " + watchPaths.size());
+      LOG.debug("controller watch paths after session expiry: " + watchPaths.size());
 
       // where r is number of resources and n is number of nodes
       // task resource count does not attribute to ideal state watch paths

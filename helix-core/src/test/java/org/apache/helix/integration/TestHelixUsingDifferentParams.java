@@ -31,8 +31,7 @@ public class TestHelixUsingDifferentParams extends ZkTestBase {
 
   @Test()
   public void testCMUsingDifferentParams() throws Exception {
-    System.out
-        .println("START " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
 
     int[] numResourceArray = new int[] {
         1
@@ -67,14 +66,12 @@ public class TestHelixUsingDifferentParams extends ZkTestBase {
             TestDriver.verifyCluster(uniqClusterName, 1000, 50 * 1000);
             TestDriver.stopCluster(uniqClusterName);
             deleteCluster(uniqClusterName);
-            System.out
-                .println("END " + uniqClusterName + " at " + new Date(System.currentTimeMillis()));
+            LOG.debug("END " + uniqClusterName + " at " + new Date(System.currentTimeMillis()));
           }
         }
       }
     }
 
-    System.out
-        .println("END " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
   }
 }

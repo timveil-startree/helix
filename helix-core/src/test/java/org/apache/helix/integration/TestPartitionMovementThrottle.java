@@ -330,7 +330,7 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
       IdealState is =
           _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, dbName);
       if (is != null) {
-        System.err.println(dbName + "exists!");
+        LOG.debug(dbName + "exists!");
         is.setReplicas(String.valueOf(replica));
         is.setMinActiveReplicas(minActiveReplica);
         is.setRebalanceDelay(delay);
@@ -411,8 +411,7 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
       }
     }
 
-    System.out
-        .println("Max number of ST in parallel: " + maxInParallel + " for " + throttledItemName);
+    LOG.debug("Max number of ST in parallel: " + maxInParallel + " for " + throttledItemName);
     return maxInParallel;
   }
 

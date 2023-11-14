@@ -81,7 +81,7 @@ public class TestGroupCommitAddBackData extends ZkTestBase {
       try {
         _gSetupTool.deleteCluster(CLUSTER_NAME);
       } catch (Exception ex) {
-        System.err.println(
+        LOG.error(
             "Failed to delete cluster " + CLUSTER_NAME + ", error: " + ex.getLocalizedMessage());
         _gSetupTool.deleteCluster(CLUSTER_NAME);
       }

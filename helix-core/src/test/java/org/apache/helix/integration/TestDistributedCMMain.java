@@ -49,8 +49,7 @@ public class TestDistributedCMMain extends ZkTestBase {
     final int n = 5;
     final int clusterNb = 10;
 
-    System.out
-        .println("START " + clusterNamePrefix + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterNamePrefix + " at " + new Date(System.currentTimeMillis()));
 
     // setup 10 clusters
     for (int i = 0; i < clusterNb; i++) {

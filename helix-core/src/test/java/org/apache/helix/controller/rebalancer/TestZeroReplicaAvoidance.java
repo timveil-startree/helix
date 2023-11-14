@@ -54,10 +54,9 @@ public class TestZeroReplicaAvoidance extends BaseStageTest {
   public void testZeroReplicaAvoidanceDuringRebalance(StateModelDefinition stateModelDef,
       List<String> instancePreferenceList, Map<String, String> currentStateMap,
       Map<String, List<Message>> pendingMessages, Map<String, String> expectedBestPossibleMap) {
-    System.out
-        .println("START TestDelayedAutoRebalancer at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START TestDelayedAutoRebalancer at " + new Date(System.currentTimeMillis()));
 
-    System.err.println("Test input: " + instancePreferenceList + ":" + currentStateMap + ":");
+    LOG.debug("Test input: " + instancePreferenceList + ":" + currentStateMap + ":");
 
     int numNode = 6;
     Set<String> liveInstances = new HashSet<>();
@@ -94,8 +93,7 @@ public class TestZeroReplicaAvoidance extends BaseStageTest {
         "Differs, get " + bestPossibleMap + "\nexpected: " + expectedBestPossibleMap
             + "\ncurrentState: " + currentStateMap + "\npreferenceList: " + instancePreferenceList);
 
-    System.out
-        .println("END TestBestPossibleStateCalcStage at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END TestBestPossibleStateCalcStage at " + new Date(System.currentTimeMillis()));
   }
 
   @DataProvider(name = "zeroReplicaInput")

@@ -222,8 +222,7 @@ public class TestZnodeModify extends ZkUnitTestBase {
 
   @BeforeClass()
   public void beforeClass() {
-    System.out
-        .println("START " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
+   LOG.debug("START " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
     if (_gZkClient.exists(PREFIX)) {
       _gZkClient.deleteRecursively(PREFIX);
     }
@@ -234,8 +233,7 @@ public class TestZnodeModify extends ZkUnitTestBase {
     if (_gZkClient.exists(PREFIX)) {
       _gZkClient.deleteRecursively(PREFIX);
     }
-    System.out
-        .println("END " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
   }
 
   private ZNRecord getExampleZNRecord() {

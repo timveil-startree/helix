@@ -358,8 +358,8 @@ public class DummyProcess {
     try {
       return cliParser.parse(cliOptions, cliArgs);
     } catch (ParseException pe) {
-      System.err.println("CommandLineClient: failed to parse command-line options: "
-          + pe.toString());
+      logger.error("CommandLineClient: failed to parse command-line options: "
+          + pe.getMessage(), pe);
       printUsage(cliOptions);
       System.exit(1);
     }

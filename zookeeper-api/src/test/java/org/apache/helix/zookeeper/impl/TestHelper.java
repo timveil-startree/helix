@@ -77,7 +77,7 @@ public class TestHelper {
         }
       }
 
-      System.err.println(
+      LOG.debug(
           verifierName + ": wait " + ((i + 1) * 1000) + "ms to verify " + " (" + result + ")");
       LOG.debug("args:" + Arrays.toString(args));
       // System.err.println("args:" + Arrays.toString(args));

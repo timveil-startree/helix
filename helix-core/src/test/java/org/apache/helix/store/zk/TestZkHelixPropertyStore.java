@@ -145,8 +145,7 @@ public class TestZkHelixPropertyStore extends ZkUnitTestBase {
 
   @Test
   public void testLocalTriggeredCallback() throws Exception {
-    System.out
-        .println("START testLocalTriggeredCallback() at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testLocalTriggeredCallback() at " + new Date(System.currentTimeMillis()));
 
     String subRoot = _root + "/" + "localCallback";
     List<String> subscribedPaths = new ArrayList<>();
@@ -200,14 +199,12 @@ public class TestZkHelixPropertyStore extends ZkUnitTestBase {
         "Should receive " + expectDeleteNodes + " delete callbacks");
 
     store.stop();
-    System.out
-        .println("END testLocalTriggeredCallback() at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testLocalTriggeredCallback() at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
   public void testZkTriggeredCallback() throws Exception {
-    System.out
-        .println("START testZkTriggeredCallback() at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testZkTriggeredCallback() at " + new Date(System.currentTimeMillis()));
 
     String subRoot = _root + "/" + "zkCallback";
     List<String> subscribedPaths = Collections.singletonList(subRoot);
@@ -262,8 +259,7 @@ public class TestZkHelixPropertyStore extends ZkUnitTestBase {
 
   @Test
   public void testBackToBackRemoveAndSet() throws Exception {
-    System.out
-        .println("START testBackToBackRemoveAndSet() at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testBackToBackRemoveAndSet() at " + new Date(System.currentTimeMillis()));
 
     String subRoot = _root + "/" + "backToBackRemoveAndSet";
     List<String> subscribedPaths = new ArrayList<>();
@@ -300,8 +296,7 @@ public class TestZkHelixPropertyStore extends ZkUnitTestBase {
     // LOG.debug("3:get:" + record);
 
     store.stop();
-    System.out
-        .println("END testBackToBackRemoveAndSet() at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testBackToBackRemoveAndSet() at " + new Date(System.currentTimeMillis()));
   }
 
   private String getNodeId(int i, int j) {
