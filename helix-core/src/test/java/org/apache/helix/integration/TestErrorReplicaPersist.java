@@ -52,7 +52,7 @@ public class TestErrorReplicaPersist extends ZkStandAloneCMTestBase {
   @BeforeClass
   public void beforeClass() throws Exception {
     // Logger.getRootLogger().setLevel(Level.INFO);
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     int numNode = NODE_NR + 1;
     _participants = new MockParticipantManager[numNode];

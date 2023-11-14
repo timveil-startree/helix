@@ -50,7 +50,7 @@ public class TestDedicatedZkClient extends RealmAwareZkClientFactoryTestBase {
 
   @BeforeClass
   public void beforeClass() throws IOException, InvalidRoutingDataException {
-    System.out.println("Starting " + TestDedicatedZkClient.class.getSimpleName());
+    LOG.debug("Starting " + TestDedicatedZkClient.class.getSimpleName());
     super.beforeClass();
     // Set the factory to DedicatedZkClientFactory
     _realmAwareZkClientFactory = DedicatedZkClientFactory.getInstance();
@@ -60,7 +60,7 @@ public class TestDedicatedZkClient extends RealmAwareZkClientFactoryTestBase {
   public void afterClass() {
     super.afterClass();
     // Close it as it is created in before class.
-    System.out.println("Ending " + TestDedicatedZkClient.class.getSimpleName());
+    LOG.debug("Ending " + TestDedicatedZkClient.class.getSimpleName());
   }
 
   /**

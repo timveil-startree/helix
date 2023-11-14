@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
@@ -88,12 +87,16 @@ import org.glassfish.jersey.test.JerseyTestNg;
 import org.glassfish.jersey.test.spi.TestContainer;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 
 public class AbstractTestClass extends JerseyTestNg.ContainerPerClassTest {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(AbstractTestClass.class);
   /**
    * Constants for multi-ZK environment.
    */
@@ -211,10 +214,6 @@ public class AbstractTestClass extends JerseyTestNg.ContainerPerClassTest {
       throws Exception {
     if (!_init) {
       setupZooKeepers();
-
-      // TODO: use logging.properties file to config java.util.logging.Logger levels
-      java.util.logging.Logger topJavaLogger = java.util.logging.Logger.getLogger("");
-      topJavaLogger.setLevel(Level.WARNING);
 
       HelixZkClient.ZkClientConfig clientConfig = new HelixZkClient.ZkClientConfig();
 

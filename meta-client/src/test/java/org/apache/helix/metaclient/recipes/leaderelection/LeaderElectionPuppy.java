@@ -52,7 +52,7 @@ public class LeaderElectionPuppy extends AbstractPuppy {
   @Override
   protected void bark() throws Exception {
     int randomNumber = _random.nextInt((int) TimeUnit.SECONDS.toMillis(5));
-    System.out.println("LeaderElectionPuppy " + _participant + " Joining");
+    LOG.debug("LeaderElectionPuppy " + _participant + " Joining");
     _leaderElectionClient.joinLeaderElectionParticipantPool(_leaderGroup);
 
     Assert.assertTrue(MetaClientTestUtil.verify(() -> {
@@ -66,7 +66,7 @@ public class LeaderElectionPuppy extends AbstractPuppy {
     }, MetaClientTestUtil.WAIT_DURATION));
 
     Thread.sleep(randomNumber);
-    System.out.println("LeaderElectionPuppy " +  _participant + " Leaving");
+    LOG.debug("LeaderElectionPuppy " +  _participant + " Leaving");
     _leaderElectionClient.exitLeaderElectionParticipantPool(_leaderGroup);
     Assert.assertTrue(MetaClientTestUtil.verify(() -> {
       return (_leaderElectionClient.getParticipantInfo(_leaderGroup, _participant) == null);
@@ -78,7 +78,7 @@ public class LeaderElectionPuppy extends AbstractPuppy {
   @Override
   protected void cleanup() {
     try {
-      System.out.println("Cleaning - LeaderElectionPuppy " +  _participant + " Leaving");
+      LOG.debug("Cleaning - LeaderElectionPuppy " +  _participant + " Leaving");
       _leaderElectionClient.exitLeaderElectionParticipantPool(_leaderGroup);
     } catch (MetaClientException ignore) {
       // already leave the pool. OK to throw exception.

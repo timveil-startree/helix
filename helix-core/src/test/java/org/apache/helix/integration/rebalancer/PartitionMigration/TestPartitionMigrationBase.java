@@ -71,7 +71,7 @@ public class TestPartitionMigrationBase extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     _gSetupTool.addCluster(CLUSTER_NAME, true);
 
@@ -206,21 +206,21 @@ public class TestPartitionMigrationBase extends ZkTestBase {
     private void verifyPartitionCount(String resource, String partition,
         Map<String, String> stateMap, int replica, String warningPrefix, int minActiveReplica) {
       if (stateMap.size() < replica) {
-//        System.out.println(
+//        LOG.debug(
 //            "resource " + resource + ", partition " + partition + " has " + stateMap.size()
 //                + " replicas in " + warningPrefix);
         _hasLessReplica = true;
       }
 
       if (stateMap.size() > replica + EXTRA_REPLICA) {
-//        System.out.println(
+//        LOG.debug(
 //            "resource " + resource + ", partition " + partition + " has " + stateMap.size()
 //                + " replicas in " + warningPrefix);
 //        _hasMoreReplica = true;
       }
 
       if (stateMap.size() < minActiveReplica) {
-//        System.out.println(
+//        LOG.debug(
 //            "resource " + resource + ", partition " + partition + " has " + stateMap.size()
 //                + " min active replicas in " + warningPrefix);
         _hasMinActiveReplica = true;
@@ -256,6 +256,6 @@ public class TestPartitionMigrationBase extends ZkTestBase {
     }
     _manager.disconnect();
     deleteCluster(CLUSTER_NAME);
-    System.out.println("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
   }
 }

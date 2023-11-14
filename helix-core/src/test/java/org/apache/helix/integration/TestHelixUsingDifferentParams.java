@@ -53,7 +53,7 @@ public class TestHelixUsingDifferentParams extends ZkTestBase {
           for (int replica : replicas) {
             String uniqClusterName = "TestDiffParam_" + "rg" + numResources + "_p"
                 + numPartitionsPerResource + "_n" + numInstance + "_r" + replica;
-            System.out.println(
+            LOG.debug(
                 "START " + uniqClusterName + " at " + new Date(System.currentTimeMillis()));
 
             TestDriver.setupCluster(uniqClusterName, ZK_ADDR, numResources,

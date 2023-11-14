@@ -34,10 +34,15 @@ import org.apache.helix.model.LiveInstance;
 import org.apache.helix.model.Message;
 import org.apache.helix.model.Message.MessageState;
 import org.apache.helix.model.Message.MessageType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestMsgSelectionStage {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(TestMsgSelectionStage.class);
+
   private Message newMessage(String resourceName, String partitionName, String instanceName,
       String fromState, String toState) {
     String uuid = UUID.randomUUID().toString();
@@ -59,7 +64,7 @@ public class TestMsgSelectionStage {
 
   @Test
   public void testMasterXfer() {
-    System.out.println("START testMasterXfer at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testMasterXfer at " + new Date(System.currentTimeMillis()));
 
     Map<String, LiveInstance> liveInstances = new HashMap<String, LiveInstance>();
     liveInstances.put("localhost_0", new LiveInstance("localhost_0"));
@@ -92,12 +97,12 @@ public class TestMsgSelectionStage {
 
     Assert.assertEquals(selectedMsg.size(), 1);
     Assert.assertEquals(selectedMsg.get(0).getMsgId(), "msgId_1");
-    System.out.println("END testMasterXfer at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testMasterXfer at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
   public void testMasterXferAfterMasterResume() {
-    System.out.println("START testMasterXferAfterMasterResume at "
+    LOG.debug("START testMasterXferAfterMasterResume at "
         + new Date(System.currentTimeMillis()));
 
     Map<String, LiveInstance> liveInstances = new HashMap<String, LiveInstance>();
@@ -129,7 +134,7 @@ public class TestMsgSelectionStage {
             BuiltInStateModelDefinitions.MasterSlave.getStateModelDefinition(), false);
 
     Assert.assertEquals(selectedMsg.size(), 0);
-    System.out.println("END testMasterXferAfterMasterResume at "
+    LOG.debug("END testMasterXferAfterMasterResume at "
         + new Date(System.currentTimeMillis()));
   }
 }

@@ -62,7 +62,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     final int r = 2;
     final int taskResourceCount = 2;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
         "localhost", // participant name prefix
@@ -130,12 +130,12 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
         "HelixParticipant should have 1 (msg->HelixTaskExecutor) callback handlers");
 
     // expire the session of participant
-    System.out.println("Expiring participant session...");
+    LOG.debug("Expiring participant session...");
     String oldSessionId = participantManagerToExpire.getSessionId();
 
     ZkTestHelper.expireSession(participantManagerToExpire.getZkClient());
     String newSessionId = participantManagerToExpire.getSessionId();
-    System.out.println(
+    LOG.debug(
         "Expired participant session. oldSessionId: " + oldSessionId + ", newSessionId: "
             + newSessionId);
 
@@ -180,7 +180,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     }
     TestHelper.dropCluster(clusterName, _gZkClient);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -192,7 +192,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     final int r = 1;
     final int taskResourceCount = 1;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
         "localhost", // participant name prefix
@@ -250,12 +250,12 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
             + particHandlerNb + ", " + printHandlers(participantManager));
 
     // expire controller
-    System.out.println("Expiring controller session...");
+    LOG.debug("Expiring controller session...");
     String oldSessionId = controller.getSessionId();
 
     ZkTestHelper.expireSession(controller.getZkClient());
     String newSessionId = controller.getSessionId();
-    System.out.println(
+    LOG.debug(
         "Expired controller session. oldSessionId: " + oldSessionId + ", newSessionId: "
             + newSessionId);
 
@@ -301,7 +301,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     }
     TestHelper.dropCluster(clusterName, _gZkClient);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -311,7 +311,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     String clusterName = className + "_" + methodName;
     final int n = 3;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, "localhost", "TestDB", 1, // resource
         32, // partitions
@@ -389,7 +389,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     }
     TestHelper.dropCluster(clusterName, _gZkClient);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -401,7 +401,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     final String zkAddr = ZK_ADDR;
     final int mJobUpdateCnt = 500;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, zkAddr, 12918, "localhost", "TestDB", 1, // resource
         32, // partitions
@@ -485,7 +485,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     rpManager.syncStop();
     TestHelper.dropCluster(clusterName, _gZkClient);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -495,7 +495,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     String clusterName = className + "_" + methodName;
     final int n = 3;
     final String zkAddr = ZK_ADDR;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, zkAddr, 12918, "localhost", "TestDB", 1, // resource
         32, // partitions
@@ -570,12 +570,12 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
         "Should have 2 child-watches: MESSAGES, and CURRENTSTATE/{sessionId}");
 
     // expire localhost_12918
-    System.out.println(
+    LOG.debug(
         "Expire participant: " + participantToExpire.getInstanceName() + ", session: "
             + participantToExpire.getSessionId());
     ZkTestHelper.expireSession(participantToExpire.getZkClient());
     String newSessionId = participantToExpire.getSessionId();
-    System.out.println(participantToExpire.getInstanceName() + " oldSessionId: " + oldSessionId
+    LOG.debug(participantToExpire.getInstanceName() + " oldSessionId: " + oldSessionId
         + ", newSessionId: " + newSessionId);
     verifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
@@ -636,7 +636,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
 
     // another session expiry on localhost_12918 should clear the two exist-watches on
     // CURRENTSTATE/{oldSessionId}
-    System.out.println(
+    LOG.debug(
         "Expire participant: " + participantToExpire.getInstanceName() + ", session: "
             + participantToExpire.getSessionId());
     ZkTestHelper.expireSession(participantToExpire.getZkClient());
@@ -662,7 +662,7 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     }
     TestHelper.dropCluster(clusterName, _gZkClient);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   // debug code

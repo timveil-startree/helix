@@ -47,7 +47,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestParticipantMonitor {
-  private static Logger _logger = LoggerFactory.getLogger(TestParticipantMonitor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestParticipantMonitor.class);
   private static String CLUSTER_NAME = TestHelper.getTestClassName();
   private static final String PARTICIPANT_NAME = "participant_0";
   private static final String DOMAIN_NAME = "CLMParticipantReport";
@@ -67,11 +67,11 @@ public class TestParticipantMonitor {
             _server.queryMBeans(new ObjectName(_domain + ":" + key + "=" + value + ",*"), null);
         for (ObjectInstance instance : existingInstances) {
           String mbeanName = instance.getObjectName().toString();
-          // System.out.println("mbeanName: " + mbeanName);
+          // LOG.debug("mbeanName: " + mbeanName);
           addMBean(instance.getObjectName());
         }
       } catch (Exception e) {
-        _logger.warn("fail to get all existing mbeans in " + _domain, e);
+        LOG.warn("fail to get all existing mbeans in " + _domain, e);
       }
     }
 
@@ -88,12 +88,12 @@ public class TestParticipantMonitor {
         _beanValueMap.put(beanName.toString(), new HashMap<String, Object>());
         for (MBeanAttributeInfo infoItem : infos) {
           Object val = _server.getAttribute(beanName, infoItem.getName());
-          // System.out.println("         " + infoItem.getName() + " : " +
+          // LOG.debug("         " + infoItem.getName() + " : " +
           // _server.getAttribute(beanName, infoItem.getName()) + " type : " + infoItem.getType());
           _beanValueMap.get(beanName.toString()).put(infoItem.getName(), val);
         }
       } catch (Exception e) {
-        _logger.error("Error getting bean info, domain=" + _domain, e);
+        LOG.error("Error getting bean info, domain=" + _domain, e);
       }
     }
 
@@ -114,7 +114,7 @@ public class TestParticipantMonitor {
       throws InstanceNotFoundException, MalformedObjectNameException, NullPointerException,
              IOException, InterruptedException, MBeanException, AttributeNotFoundException,
              ReflectionException {
-    System.out.println("START TestParticipantStateTransitionMonitor");
+    LOG.debug("START TestParticipantStateTransitionMonitor");
     ParticipantStatusMonitor monitor = new ParticipantStatusMonitor(false, null);
 
     int monitorNum = 0;
@@ -173,7 +173,7 @@ public class TestParticipantMonitor {
     monitorListener2.disconnect();
     monitorListener.disconnect();
 
-    System.out.println("END TestParticipantStateTransitionMonitor");
+    LOG.debug("END TestParticipantStateTransitionMonitor");
   }
 
   @Test()
@@ -181,7 +181,7 @@ public class TestParticipantMonitor {
       throws InstanceNotFoundException, MalformedObjectNameException, NullPointerException,
              IOException, InterruptedException, MBeanException, AttributeNotFoundException,
              ReflectionException {
-    System.out.println("START TestParticipantMessageMonitor");
+    LOG.debug("START TestParticipantMessageMonitor");
     ParticipantStatusMonitor monitor = new ParticipantStatusMonitor(true, PARTICIPANT_NAME);
 
     Message message = new Message(Message.MessageType.NO_OP, "0");
@@ -241,6 +241,6 @@ public class TestParticipantMonitor {
 
     monitorListener.disconnect();
 
-    System.out.println("END TestParticipantMessageMonitor");
+    LOG.debug("END TestParticipantMessageMonitor");
   }
 }

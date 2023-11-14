@@ -78,7 +78,7 @@ public class TestWtCacheAsyncOpMultiThread extends ZkUnitTestBase {
         }
 
         boolean[] success = _accessor.createChildren(paths, records, AccessOption.PERSISTENT);
-        // System.out.println("thread-" + _id + " creates " + j + ": " + Arrays.toString(success));
+        // LOG.debug("thread-" + _id + " creates " + j + ": " + Arrays.toString(success));
 
         // create all all sync'ed, so we shall see either all true or all false
         for (int i = 1; i < 5; i++) {
@@ -123,7 +123,7 @@ public class TestWtCacheAsyncOpMultiThread extends ZkUnitTestBase {
         }
 
         boolean[] success = _accessor.updateChildren(paths, updaters, AccessOption.PERSISTENT);
-        // System.out.println("thread-" + _id + " updates " + j + ": " + Arrays.toString(success));
+        // LOG.debug("thread-" + _id + " updates " + j + ": " + Arrays.toString(success));
 
         for (int i = 0; i < 10; i++) {
           Assert.assertTrue(success[i], "Should be all succeed");
@@ -189,7 +189,7 @@ public class TestWtCacheAsyncOpMultiThread extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     // init zkCacheDataAccessor
     String curStatePath = PropertyPathBuilder.instanceCurrentState(clusterName, "localhost_8901");
@@ -244,6 +244,6 @@ public class TestWtCacheAsyncOpMultiThread extends ZkUnitTestBase {
     Assert.assertTrue(ret, "wtCache doesn't match data on Zk");
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 }

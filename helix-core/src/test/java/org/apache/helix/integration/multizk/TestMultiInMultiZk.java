@@ -59,9 +59,7 @@ public class TestMultiInMultiZk extends MultiZkTestBase {
                             new RealmAwareZkClient.RealmAwareZkClientConfig());
             _zkClient.setZkSerializer(new ZNRecordSerializer());
         } catch (Exception ex) {
-            for (StackTraceElement elm : ex.getStackTrace()) {
-                System.out.println(elm);
-            }
+            LOG.error(ex.getMessage(), ex);
         }
     }
 
@@ -72,7 +70,7 @@ public class TestMultiInMultiZk extends MultiZkTestBase {
     @Test
     public void testMultiDiffRealm() {
         String methodName = TestHelper.getTestMethodName();
-        System.out.println("START " + _className + "_" + methodName + " at " + new Date(System.currentTimeMillis()));
+        LOG.debug("START " + _className + "_" + methodName + " at " + new Date(System.currentTimeMillis()));
 
         List<Op> ops = Arrays.asList(
                 Op.create(CLUSTER_LIST.get(0), new byte[0],
@@ -92,6 +90,6 @@ public class TestMultiInMultiZk extends MultiZkTestBase {
             boolean pathExists = _zkClient.exists("/" + CLUSTER_LIST.get(0) + "/test");
             Assert.assertFalse(pathExists, "Path should not have been created.");
         }
-        System.out.println("END " + _className + "_" + methodName + " at " + new Date(System.currentTimeMillis()));
+        LOG.debug("END " + _className + "_" + methodName + " at " + new Date(System.currentTimeMillis()));
     }
 }

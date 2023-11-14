@@ -43,7 +43,7 @@ import org.testng.annotations.BeforeSuite;
  * Test base class for various integration tests with an in-memory ZooKeeper.
  */
 public class ZkTestBase {
-  private static final Logger LOG = LoggerFactory.getLogger(ZkTestBase.class);
+  protected static final Logger LOG = LoggerFactory.getLogger(ZkTestBase.class);
   private static final MBeanServerConnection MBEAN_SERVER =
       ManagementFactory.getPlatformMBeanServer();
 
@@ -141,7 +141,7 @@ public class ZkTestBase {
 
     int port = Integer.parseInt(zkAddress.substring(zkAddress.lastIndexOf(':') + 1));
     ZkServer zkServer = new ZkServer(dataDir, logDir, defaultNameSpace, port);
-    System.out.println("Starting ZK server at " + zkAddress);
+    LOG.debug("Starting ZK server at " + zkAddress);
     zkServer.start();
     return zkServer;
   }

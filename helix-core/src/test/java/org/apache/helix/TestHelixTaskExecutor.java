@@ -32,14 +32,18 @@ import org.apache.helix.model.Message.MessageType;
 import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 import org.apache.helix.tools.StateModelConfigGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 public class TestHelixTaskExecutor {
 
+  protected static final Logger LOG = LoggerFactory.getLogger(TestHelixTaskExecutor.class);
+
   @Test()
   public void testCMTaskExecutor() throws Exception {
-    System.out.println("START TestCMTaskExecutor");
+    LOG.debug("START TestCMTaskExecutor");
     String msgId = "TestMessageId";
     Message message = new Message(MessageType.TASK_REPLY, msgId);
 
@@ -90,7 +94,7 @@ public class TestHelixTaskExecutor {
       }
     }
     AssertJUnit.assertTrue(stateModel.stateModelInvoked);
-    System.out.println("END TestCMTaskExecutor");
+    LOG.debug("END TestCMTaskExecutor");
   }
 
 }

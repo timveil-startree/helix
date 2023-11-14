@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 
@@ -88,7 +87,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 public class ZkTestBase {
-  private static final Logger LOG = LoggerFactory.getLogger(ZkTestBase.class);
+  protected static final Logger LOG = LoggerFactory.getLogger(ZkTestBase.class);
   private static final String MULTI_ZK_PROPERTY_KEY = "multiZk";
   private static final String NUM_ZK_PROPERTY_KEY = "numZk";
 
@@ -122,20 +121,17 @@ public class ZkTestBase {
     com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean)
         java.lang.management.ManagementFactory.getOperatingSystemMXBean();
     long physicalMemorySize = os.getTotalPhysicalMemorySize();
-    System.out.println("************ SYSTEM Physical Memory:"  + physicalMemorySize);
+    LOG.debug("************ SYSTEM Physical Memory:"  + physicalMemorySize);
 
     long MB = 1024 * 1024;
     Runtime runtime = Runtime.getRuntime();
     long free = runtime.freeMemory()/MB;
     long total = runtime.totalMemory()/MB;
-    System.out.println("************ total memory:" + total + " free memory:" + free);
+    LOG.debug("************ total memory:" + total + " free memory:" + free);
   }
 
   @BeforeSuite
   public void beforeSuite() throws Exception {
-    // TODO: use logging.properties file to config java.util.logging.Logger levels
-    java.util.logging.Logger topJavaLogger = java.util.logging.Logger.getLogger("");
-    topJavaLogger.setLevel(Level.WARNING);
 
     // Due to ZOOKEEPER-2693 fix, we need to specify whitelist for execute zk commends
     System.setProperty("zookeeper.4lw.commands.whitelist", "*");
@@ -605,7 +601,7 @@ public class ZkTestBase {
       idealState.setNumPartitions(partitions);
       idealStates.add(idealState);
 
-      // System.out.println(idealState);
+      // LOG.debug(idealState);
       accessor.setProperty(keyBuilder.idealStates(resourceName), idealState);
     }
     return idealStates;
@@ -614,7 +610,7 @@ public class ZkTestBase {
   @AfterClass
   public void cleanupLiveInstanceOwners() throws InterruptedException {
     String testClassName = this.getShortClassName();
-    System.out.println("AfterClass: " + testClassName + " called.");
+    LOG.debug("AfterClass: " + testClassName + " called.");
     for (String cluster : _liveInstanceOwners.keySet()) {
       Map<String, HelixZkClient> clientMap = _liveInstanceOwners.get(cluster);
       for (HelixZkClient client : clientMap.values()) {

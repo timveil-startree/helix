@@ -19,8 +19,6 @@ package org.apache.helix.webapp;
  * under the License.
  */
 
-import java.util.logging.Level;
-
 import org.apache.helix.TestHelper;
 import org.apache.helix.manager.zk.ZNRecordSerializer;
 import org.apache.helix.zookeeper.impl.client.ZkClient;
@@ -37,7 +35,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 public class AdminTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(AdminTestBase.class);
+  protected static Logger LOG = LoggerFactory.getLogger(AdminTestBase.class);
   public static final String ZK_ADDR = "localhost:2187";
   protected final static int ADMIN_PORT = 2202;
 
@@ -50,10 +48,6 @@ public class AdminTestBase {
 
   @BeforeSuite
   public void beforeSuite() throws Exception {
-    // TODO: use logging.properties file to config java.util.logging.Logger levels
-    java.util.logging.Logger topJavaLogger = java.util.logging.Logger.getLogger("");
-    topJavaLogger.setLevel(Level.WARNING);
-
     // start zk
     _zkServer = TestHelper.startZkServer(ZK_ADDR);
     AssertJUnit.assertTrue(_zkServer != null);
@@ -77,7 +71,7 @@ public class AdminTestBase {
 
   @AfterSuite
   public void afterSuite() {
-    // System.out.println("START AdminTestBase.afterSuite() at " + new
+    // LOG.debug("START AdminTestBase.afterSuite() at " + new
     // Date(System.currentTimeMillis()));
     // stop admin
     _adminThread.stop();
@@ -87,7 +81,7 @@ public class AdminTestBase {
     _gZkClient.close();
 
     TestHelper.stopZkServer(_zkServer);
-    // System.out.println("END AdminTestBase.afterSuite() at " + new
+    // LOG.debug("END AdminTestBase.afterSuite() at " + new
     // Date(System.currentTimeMillis()));
   }
 

@@ -51,7 +51,7 @@ public class TestCMWithFailParticipant extends ZkTestBase {
     String uniqClusterName =
         "TestFail_" + "rg" + numResources + "_p" + numPartitionsPerResource + "_n" + numInstance
             + "_r" + replica;
-    System.out.println("START " + uniqClusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + uniqClusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestDriver.setupCluster(uniqClusterName, ZK_ADDR, numResources, numPartitionsPerResource,
         numInstance, replica);
@@ -66,7 +66,7 @@ public class TestCMWithFailParticipant extends ZkTestBase {
     TestDriver.stopCluster(uniqClusterName);
     deleteCluster(uniqClusterName);
 
-    System.out.println("END " + uniqClusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + uniqClusterName + " at " + new Date(System.currentTimeMillis()));
 
   }
 }

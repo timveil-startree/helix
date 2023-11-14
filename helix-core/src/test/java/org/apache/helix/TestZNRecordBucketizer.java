@@ -19,10 +19,14 @@ package org.apache.helix;
  * under the License.
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestZNRecordBucketizer {
+  protected static final Logger LOG = LoggerFactory.getLogger(TestZNRecordBucketizer.class);
+
   @Test
   public void testZNRecordBucketizer() {
     final int bucketSize = 3;
@@ -36,7 +40,7 @@ public class TestZNRecordBucketizer {
       int startBucketNb = i / bucketSize * bucketSize;
       int endBucketNb = startBucketNb + bucketSize - 1;
       String expectBucketName = "TestDB_p" + startBucketNb + "-p" + endBucketNb;
-      System.out.println("Expect: " + expectBucketName + ", actual: " + bucketName);
+      LOG.debug("Expect: " + expectBucketName + ", actual: " + bucketName);
       Assert.assertEquals(expectBucketName, bucketName);
 
     }
@@ -50,7 +54,7 @@ public class TestZNRecordBucketizer {
     // record.setListField("TestDB_3", Arrays.asList("localhost_30", "localhost_31"));
     // record.setListField("TestDB_4", Arrays.asList("localhost_40", "localhost_41"));
     //
-    // System.out.println(bucketizer.bucketize(record));
+    // LOG.debug(bucketizer.bucketize(record));
 
   }
 }

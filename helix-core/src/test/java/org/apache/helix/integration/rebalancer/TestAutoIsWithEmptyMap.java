@@ -42,7 +42,7 @@ public class TestAutoIsWithEmptyMap extends ZkTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
         "localhost", // participant name prefix
@@ -65,7 +65,7 @@ public class TestAutoIsWithEmptyMap extends ZkTestBase {
     ZNRecord idealState =
         DefaultIdealStateCalculator.calculateIdealState(instanceNames, 10, 2, "TestDB0", "LEADER",
             "STANDBY");
-    // System.out.println(idealState);
+    // LOG.debug(idealState);
     // curIdealState.setSimpleField(IdealState.IdealStateProperty.IDEAL_STATE_MODE.toString(),
     // "CUSTOMIZED");
     curIdealState.setSimpleField(IdealState.IdealStateProperty.REPLICAS.toString(), "3");
@@ -99,7 +99,7 @@ public class TestAutoIsWithEmptyMap extends ZkTestBase {
     }
     deleteCluster(clusterName);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
   }
 }

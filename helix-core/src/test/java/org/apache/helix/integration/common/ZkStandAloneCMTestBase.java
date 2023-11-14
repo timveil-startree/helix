@@ -59,7 +59,7 @@ public class ZkStandAloneCMTestBase extends ZkTestBase {
   @BeforeClass
   public void beforeClass() throws Exception {
     super.beforeClass();
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     // setup storage cluster
     _gSetupTool.addCluster(CLUSTER_NAME, true);
@@ -114,6 +114,6 @@ public class ZkStandAloneCMTestBase extends ZkTestBase {
     }
 
     deleteCluster(CLUSTER_NAME);
-    System.out.println("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
   }
 }

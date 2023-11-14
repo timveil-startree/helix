@@ -85,7 +85,7 @@ public class TestDisableCustomCodeRunner extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
         "localhost", // participant name prefix
@@ -222,7 +222,7 @@ public class TestDisableCustomCodeRunner extends ZkUnitTestBase {
 
     deleteLiveInstances(clusterName);
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private String verifyCustomCodeInvoked(Map<String, DummyCallback> callbacks,

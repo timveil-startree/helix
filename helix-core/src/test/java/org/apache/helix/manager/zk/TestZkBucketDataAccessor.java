@@ -180,14 +180,14 @@ public class TestZkBucketDataAccessor extends ZkTestBase {
     long before = System.currentTimeMillis();
     _bucketDataAccessor.compressedBucketWrite("/" + name, property);
     long after = System.currentTimeMillis();
-    System.out.println("Write took " + (after - before) + " ms");
+    LOG.debug("Write took " + (after - before) + " ms");
 
     // Read it back
     before = System.currentTimeMillis();
     HelixProperty readRecord =
         _bucketDataAccessor.compressedBucketRead("/" + name, HelixProperty.class);
     after = System.currentTimeMillis();
-    System.out.println("Read took " + (after - before) + " ms");
+    LOG.debug("Read took " + (after - before) + " ms");
 
     // Check against the original HelixProperty
     Assert.assertEquals(readRecord, property);

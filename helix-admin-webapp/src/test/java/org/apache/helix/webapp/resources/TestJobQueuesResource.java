@@ -60,7 +60,7 @@ public class TestJobQueuesResource extends AdminTestBase {
     final int p = 20;
     final int r = 3;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     _gSetupTool.addCluster(clusterName, true);
     for (int i = 0; i < n; i++) {
@@ -198,6 +198,6 @@ public class TestJobQueuesResource extends AdminTestBase {
       }
     }
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 }

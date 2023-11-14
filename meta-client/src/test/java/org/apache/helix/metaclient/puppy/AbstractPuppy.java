@@ -20,6 +20,9 @@ package org.apache.helix.metaclient.puppy;
  */
 
 import org.apache.helix.metaclient.api.MetaClientInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 
 
@@ -27,6 +30,8 @@ import java.util.HashMap;
  * AbstractPuppy object contains interfaces to implement puppy and main logics to manage puppy life cycle
  */
 public abstract class AbstractPuppy implements Runnable {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(AbstractPuppy.class);
 
   protected MetaClientInterface<String> _metaclient;
   protected PuppySpec _puppySpec;

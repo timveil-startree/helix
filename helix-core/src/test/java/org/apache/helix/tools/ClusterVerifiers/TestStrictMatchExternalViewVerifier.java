@@ -26,17 +26,21 @@ import java.util.Map;
 import org.apache.helix.model.BuiltInStateModelDefinitions;
 import org.apache.helix.util.HelixUtil;
 import org.apache.helix.util.TestInputLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class TestStrictMatchExternalViewVerifier {
 
+  protected static final Logger LOG = LoggerFactory.getLogger(TestStrictMatchExternalViewVerifier.class);
+
   @Test(dataProvider = "TestComputeIdealMappingInput")
   public void testComputeIdealMapping(String comment, String stateModelName,
       List<String> preferenceList, List<String> liveAndEnabledInstances,
       Map<String, String> expectedIdealMapping) {
-    System.out.println("Test case comment: " + comment);
+    LOG.debug("Test case comment: " + comment);
     Map<String, String> idealMapping = HelixUtil.computeIdealMapping(preferenceList,
         BuiltInStateModelDefinitions.valueOf(stateModelName).getStateModelDefinition(),
         new HashSet<>(liveAndEnabledInstances));

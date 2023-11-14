@@ -34,11 +34,15 @@ import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.LiveInstance;
 import org.apache.helix.task.assigner.AssignableInstance;
 import org.apache.helix.task.assigner.TaskAssignResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestAssignableInstanceManager {
+  protected static final Logger LOG = LoggerFactory.getLogger(TestAssignableInstanceManager.class);
+
   private static final int NUM_PARTICIPANTS = 3;
   private static final int NUM_JOBS = 3;
   private static final int NUM_TASKS = 3;
@@ -56,7 +60,7 @@ public class TestAssignableInstanceManager {
 
   @BeforeClass
   public void beforeClass() {
-    System.out.println(
+    LOG.debug(
         "START " + this.getClass().getSimpleName() + " at " + new Date(System.currentTimeMillis()));
     _clusterConfig = new ClusterConfig(CLUSTER_NAME);
     _taskDataCache = new MockTaskDataCache(CLUSTER_NAME);

@@ -23,10 +23,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestGetProperty {
+  protected static final Logger LOG = LoggerFactory.getLogger(TestGetProperty.class);
+
   @Test
   public void testGetProperty() {
     String version;
@@ -39,7 +43,7 @@ public class TestGetProperty {
       props.load(stream);
       version = props.getProperty("clustermanager.version");
       Assert.assertNotNull(version);
-      System.out.println("cluster-manager-version:" + version);
+      LOG.debug("cluster-manager-version:" + version);
     } catch (IOException e) {
       // e.printStackTrace();
       Assert.fail("could not open cluster-manager-version.properties. ", e);

@@ -136,7 +136,7 @@ public class TestPipelinePerformance extends ZkTestBase {
     long withoutComputationValue = (Long) _server.getAttribute(currentStateMbeanObjectName, "TotalDurationCounter");
     long durationWithoutComputation = withoutComputationValue - durationWithComputation;
     double pctDecrease = (durationWithComputation - durationWithoutComputation) * 100 / durationWithComputation;
-    System.out.println(String.format("durationWithComputation: %s, durationWithoutComputation: %s, pctDecrease: %s",
+    LOG.debug(String.format("durationWithComputation: %s, durationWithoutComputation: %s, pctDecrease: %s",
         durationWithComputation, durationWithoutComputation, pctDecrease));
 
     Assert.assertTrue(durationWithComputation > durationWithoutComputation);

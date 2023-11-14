@@ -85,7 +85,7 @@ public class TestWagedRebalance extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     _gSetupTool.addCluster(CLUSTER_NAME, true);
 

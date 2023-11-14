@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 
 public class TestClusterStartsup extends ZkStandAloneCMTestBase {
   void setupCluster() throws HelixException {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     // setup storage cluster
     _gSetupTool.addCluster(CLUSTER_NAME, true);

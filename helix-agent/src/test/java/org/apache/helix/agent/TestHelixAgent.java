@@ -59,7 +59,7 @@ public class TestHelixAgent extends ZkUnitTestBase {
     if (serverCmd != null) {
       // shutdown server
       ExternalCommand.execute(new File(workingDir), "simpleHttpClient.py", "exit");
-      // System.out.println("simpleHttpServer output: \n" + serverCmd.getStringOutput());
+      // LOG.debug("simpleHttpServer output: \n" + serverCmd.getStringOutput());
 
       // check server has received all the requests
       String serverOutput = serverCmd.getStringOutput();
@@ -86,7 +86,7 @@ public class TestHelixAgent extends ZkUnitTestBase {
     final int n = 1;
     final String zkAddr = ZK_ADDR;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, zkAddr, 12918, // participant port
         "localhost", // participant name prefix
@@ -187,7 +187,7 @@ public class TestHelixAgent extends ZkUnitTestBase {
     // String name = ManagementFactory.getRuntimeMXBean().getName();
     // String currentPid = name.substring(0,name.indexOf("@"));
 
-    // System.out.println("read-pid: " + readPid + ", current-pid: " + currentPid);
+    // LOG.debug("read-pid: " + readPid + ", current-pid: " + currentPid);
 
     // drop resource will trigger M->S and S->O transitions
     ClusterSetup.processCommandLineArgs(new String[] {
@@ -203,7 +203,7 @@ public class TestHelixAgent extends ZkUnitTestBase {
     for (Thread agentThread : agents.values()) {
       agentThread.interrupt();
     }
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
   }
 }

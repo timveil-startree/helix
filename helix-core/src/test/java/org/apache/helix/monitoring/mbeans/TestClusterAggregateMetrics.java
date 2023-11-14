@@ -83,7 +83,7 @@ public class TestClusterAggregateMetrics extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     _setupTool = new ClusterSetup(ZK_ADDR);
     // setup storage cluster
@@ -139,7 +139,7 @@ public class TestClusterAggregateMetrics extends ZkTestBase {
       _manager.disconnect();
     }
     deleteCluster(CLUSTER_NAME);
-    System.out.println("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test

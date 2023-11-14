@@ -74,7 +74,7 @@ public class TestStateModelParser {
                 Message.class, NotificationContext.class
             });
 
-    // System.out.println("method-name: " + method.getName());
+    // LOG.debug("method-name: " + method.getName());
     Assert.assertNotNull(method);
     Assert.assertEquals(method.getName(), "onBecomeSlaveFromOffline");
   }
@@ -90,7 +90,7 @@ public class TestStateModelParser {
                 Message.class, NotificationContext.class
             });
 
-    // System.out.println("method-name: " + method.getName());
+    // LOG.debug("method-name: " + method.getName());
     Assert.assertNotNull(method);
     Assert.assertEquals(method.getName(), "derivedOnBecomeSlaveFromOffline");
 
@@ -100,7 +100,7 @@ public class TestStateModelParser {
                 Message.class, NotificationContext.class
             });
 
-    // System.out.println("method: " + method);
+    // LOG.debug("method: " + method);
     Assert.assertNotNull(method);
     Assert.assertEquals(method.getName(), "onBecomeDroppedFromError");
 

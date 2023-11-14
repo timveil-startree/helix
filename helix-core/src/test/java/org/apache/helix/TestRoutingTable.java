@@ -272,7 +272,7 @@ public class TestRoutingTable {
               List<InstanceConfig> instancesList =
                   routingTable.getInstances("TESTDB", "TESTDB_0", "MASTER");
               AssertJUnit.assertEquals(instancesList.size(), 1);
-              // System.out.println(System.currentTimeMillis() + "-->"
+              // LOG.debug(System.currentTimeMillis() + "-->"
               // + instancesList.size());
 
               Thread.sleep(5);

@@ -42,7 +42,7 @@ import org.testng.annotations.Test;
 public class TestBestPossibleCalcStageCompatibility extends BaseStageTest {
   @Test
   public void testSemiAutoModeCompatibility() {
-    System.out.println("START TestBestPossibleStateCalcStage at "
+    LOG.debug("START TestBestPossibleStateCalcStage at "
         + new Date(System.currentTimeMillis()));
 
     String[] resources = new String[] {
@@ -72,13 +72,13 @@ public class TestBestPossibleCalcStageCompatibility extends BaseStageTest {
       AssertJUnit.assertEquals("MASTER", output.getInstanceStateMap("testResourceName", resource)
           .get("localhost_" + (p + 1) % 5));
     }
-    System.out.println("END TestBestPossibleStateCalcStage at "
+    LOG.debug("END TestBestPossibleStateCalcStage at "
         + new Date(System.currentTimeMillis()));
   }
 
   @Test
   public void testCustomModeCompatibility() {
-    System.out.println("START TestBestPossibleStateCalcStage at "
+    LOG.debug("START TestBestPossibleStateCalcStage at "
         + new Date(System.currentTimeMillis()));
 
     String[] resources = new String[] {
@@ -108,7 +108,7 @@ public class TestBestPossibleCalcStageCompatibility extends BaseStageTest {
       AssertJUnit.assertNull(output.getInstanceStateMap("testResourceName", resource).get(
           "localhost_" + (p + 1) % 5));
     }
-    System.out.println("END TestBestPossibleStateCalcStage at "
+    LOG.debug("END TestBestPossibleStateCalcStage at "
         + new Date(System.currentTimeMillis()));
   }
 
@@ -136,7 +136,7 @@ public class TestBestPossibleCalcStageCompatibility extends BaseStageTest {
       idealState.setNumPartitions(partitions);
       idealStates.add(idealState);
 
-      // System.out.println(idealState);
+      // LOG.debug(idealState);
 
       Builder keyBuilder = accessor.keyBuilder();
 

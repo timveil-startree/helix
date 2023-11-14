@@ -189,7 +189,7 @@ public class TestMultiThreadStressZKClient extends ZkMetaClientTestBase {
     AtomicInteger globalChildChangeCounter = new AtomicInteger();
     ChildChangeListener childChangeListener = (changedPath, changeType) -> {
       globalChildChangeCounter.addAndGet(1);
-      System.out.println("-------------- Child change detected: " + changeType + " at path: " + changedPath + ". Number of total changes: " + globalChildChangeCounter.get());
+      LOG.debug("-------------- Child change detected: " + changeType + " at path: " + changedPath + ". Number of total changes: " + globalChildChangeCounter.get());
     };
 
     _zkMetaClient.subscribeChildChanges(zkParentKey, childChangeListener, false);
@@ -217,7 +217,7 @@ public class TestMultiThreadStressZKClient extends ZkMetaClientTestBase {
     AtomicInteger globalChildChangeCounter = new AtomicInteger();
     ChildChangeListener childChangeListener = (changedPath, changeType) -> {
       globalChildChangeCounter.addAndGet(1);
-      System.out.println("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + globalChildChangeCounter.get());
+      LOG.debug("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + globalChildChangeCounter.get());
     };
     _zkMetaClient.subscribeChildChanges(zkParentKey, childChangeListener, false);
 
@@ -270,21 +270,21 @@ public class TestMultiThreadStressZKClient extends ZkMetaClientTestBase {
     AtomicInteger childChangeCounter0 = new AtomicInteger();
     ChildChangeListener childChangeListener0 = (changedPath, changeType) -> {
       childChangeCounter0.addAndGet(1);
-      System.out.println("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + childChangeCounter0.get());
+      LOG.debug("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + childChangeCounter0.get());
     };
     _zkMetaClient.subscribeChildChanges("/test/0", childChangeListener0, false);
 
     AtomicInteger childChangeCounter1 = new AtomicInteger();
     ChildChangeListener childChangeListener1 = (changedPath, changeType) -> {
       childChangeCounter1.addAndGet(1);
-      System.out.println("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + childChangeCounter1.get());
+      LOG.debug("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + childChangeCounter1.get());
     };
     _zkMetaClient.subscribeChildChanges("/test/1", childChangeListener1, false);
 
     AtomicInteger childChangeCounter2 = new AtomicInteger();
     ChildChangeListener childChangeListener2 = (changedPath, changeType) -> {
       childChangeCounter2.addAndGet(1);
-      System.out.println("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + childChangeCounter2.get());
+      LOG.debug("-------------- Child change detected: " + changeType + " at path: " + changedPath + " number of changes: " + childChangeCounter2.get());
     };
     _zkMetaClient.subscribeChildChanges("/test/2", childChangeListener2, false);
 
@@ -305,10 +305,10 @@ public class TestMultiThreadStressZKClient extends ZkMetaClientTestBase {
       });
     }
 
-    System.out.println("Merged event change counter map: " + mergedEventChangeCounterMap);
-    System.out.println("Child change counter 0: " + childChangeCounter0);
-    System.out.println("Child change counter 1: " + childChangeCounter1);
-    System.out.println("Child change counter 2: " + childChangeCounter2);
+    LOG.debug("Merged event change counter map: " + mergedEventChangeCounterMap);
+    LOG.debug("Child change counter 0: " + childChangeCounter0);
+    LOG.debug("Child change counter 1: " + childChangeCounter1);
+    LOG.debug("Child change counter 2: " + childChangeCounter2);
     Assert.assertEquals(childChangeCounter0.get(), mergedEventChangeCounterMap.getOrDefault("0", 0).intValue());
     Assert.assertEquals(childChangeCounter1.get(), mergedEventChangeCounterMap.getOrDefault("1", 0).intValue());
     Assert.assertEquals(childChangeCounter2.get(), mergedEventChangeCounterMap.getOrDefault("2", 0).intValue());
@@ -332,8 +332,8 @@ public class TestMultiThreadStressZKClient extends ZkMetaClientTestBase {
         totalHandledErrors.addAndGet(value);
       });
 
-      System.out.println("Change counter: " + totalHandledErrors + " for " + puppy.getClass());
-      System.out.println("Error counter: " + puppy._unhandledErrorCounter + " for " + puppy.getClass());
+      LOG.debug("Change counter: " + totalHandledErrors + " for " + puppy.getClass());
+      LOG.debug("Error counter: " + puppy._unhandledErrorCounter + " for " + puppy.getClass());
       totalUnhandledErrors += puppy._unhandledErrorCounter;
       totalEventChanges += totalHandledErrors.get();
     }

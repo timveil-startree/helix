@@ -39,7 +39,7 @@ public class TestDefaultControllerMsgHandlerFactory {
 
   @Test()
   public void testDefaultControllerMsgHandlerFactory() {
-    System.out.println("START TestDefaultControllerMsgHandlerFactory at "
+    LOG.debug("START TestDefaultControllerMsgHandlerFactory at "
         + new Date(System.currentTimeMillis()));
 
     DefaultControllerMessageHandlerFactory facotry = new DefaultControllerMessageHandlerFactory();
@@ -88,7 +88,7 @@ public class TestDefaultControllerMsgHandlerFactory {
       LOG.error("Interrupted handling message", e);
     }
     AssertJUnit.assertFalse(exceptionCaught);
-    System.out.println("END TestDefaultControllerMsgHandlerFactory at "
+    LOG.debug("END TestDefaultControllerMsgHandlerFactory at "
         + new Date(System.currentTimeMillis()));
   }
 

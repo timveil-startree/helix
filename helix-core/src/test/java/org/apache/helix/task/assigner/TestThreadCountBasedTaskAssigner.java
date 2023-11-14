@@ -143,7 +143,7 @@ public class TestThreadCountBasedTaskAssigner extends AssignerTestBase {
     int instanceCount = 1000;
     int taskCount = 50000;
     for (int batchSize : new int[] {10000, 5000, 2000, 1000, 500, 100}) {
-      System.out.println("testing batch size: " + batchSize);
+      LOG.debug("testing batch size: " + batchSize);
       profileAssigner(batchSize, instanceCount, taskCount);
     }
   }
@@ -214,7 +214,7 @@ public class TestThreadCountBasedTaskAssigner extends AssignerTestBase {
         }
       }
     }
-    System.out.println("Average time: " + totalTime / trail + "ms");
+    LOG.debug("Average time: " + totalTime / trail + "ms");
   }
 
   private void assertAssignmentResults(Iterable<TaskAssignResult> results, boolean expected) {

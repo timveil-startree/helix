@@ -24,10 +24,14 @@ import java.util.Date;
 import org.apache.helix.ExternalCommand;
 import org.apache.helix.ScriptTestHelper;
 import org.apache.helix.TestHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestExternalCmd {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(TestExternalCmd.class);
 
   @Test
   public void testExternalCmd() throws Exception {
@@ -37,14 +41,14 @@ public class TestExternalCmd {
     String methodName = TestHelper.getTestMethodName();
     String testName = className + "_" + methodName;
 
-    System.out.println("START " + testName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + testName + " at " + new Date(System.currentTimeMillis()));
 
     ExternalCommand cmd = ScriptTestHelper.runCommandLineTest("dummy.sh");
     String output = cmd.getStringOutput("UTF8");
     int idx = output.indexOf("this is a dummy test for verify ExternalCommand works");
     Assert.assertNotSame(idx, -1);
 
-    System.out.println("END " + testName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + testName + " at " + new Date(System.currentTimeMillis()));
 
   }
 }

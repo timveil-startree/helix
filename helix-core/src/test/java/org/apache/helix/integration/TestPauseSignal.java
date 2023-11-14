@@ -42,7 +42,7 @@ public class TestPauseSignal extends ZkTestBase {
     String methodName = TestHelper.getTestMethodName();
     final String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     MockParticipantManager[] participants = new MockParticipantManager[5];
 
@@ -112,6 +112,6 @@ public class TestPauseSignal extends ZkTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 }

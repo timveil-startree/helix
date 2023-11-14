@@ -21,12 +21,18 @@ package org.apache.helix.zookeeper.zkclient.util;
 
 import java.util.Date;
 
+import org.apache.helix.zookeeper.impl.ZkTestBase;
 import org.apache.helix.zookeeper.zkclient.RecursivePersistListener;
 import org.apache.zookeeper.Watcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 
 public class TestZkPathRecursiveWatcherTrie {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(TestZkPathRecursiveWatcherTrie.class);
+
   ZkPathRecursiveWatcherTrie _recursiveWatcherTrie = new ZkPathRecursiveWatcherTrie();
 
   /**
@@ -50,7 +56,7 @@ public class TestZkPathRecursiveWatcherTrie {
    */
   @org.testng.annotations.Test
   public void testAddRemoveGetWatcher() {
-    System.out.println("START testAddRemoveWatcher at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testAddRemoveWatcher at " + new Date(System.currentTimeMillis()));
     _recursiveWatcherTrie.addRecursiveListener("/a/b/c/d", new Test());
     _recursiveWatcherTrie.addRecursiveListener("/a/b/c/d1", new Test());
     _recursiveWatcherTrie.addRecursiveListener("/a/b/c/d2", new Test());

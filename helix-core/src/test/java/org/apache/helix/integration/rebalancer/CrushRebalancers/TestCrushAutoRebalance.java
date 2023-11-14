@@ -72,7 +72,7 @@ public class TestCrushAutoRebalance extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     _gSetupTool.addCluster(CLUSTER_NAME, true);
 
@@ -120,7 +120,7 @@ public class TestCrushAutoRebalance extends ZkTestBase {
   @Test(dataProvider = "rebalanceStrategies")
   public void testZoneIsolation(String rebalanceStrategyName, String rebalanceStrategyClass)
       throws Exception {
-    System.out.println("testZoneIsolation " + rebalanceStrategyName);
+    LOG.debug("testZoneIsolation " + rebalanceStrategyName);
     int i = 0;
     for (String stateModel : _testModels) {
       String db = "Test-DB-" + rebalanceStrategyName + "-" + i++;
@@ -184,7 +184,7 @@ public class TestCrushAutoRebalance extends ZkTestBase {
       "testZoneIsolation", "testZoneIsolationWithInstanceTag"
   })
   public void testLackEnoughLiveRacks() throws Exception {
-    System.out.println("TestLackEnoughInstances");
+    LOG.debug("TestLackEnoughInstances");
     enablePersistBestPossibleAssignment(_gZkClient, CLUSTER_NAME, true);
 
     // shutdown participants within one zone
@@ -224,7 +224,7 @@ public class TestCrushAutoRebalance extends ZkTestBase {
       "testLackEnoughLiveRacks"
   })
   public void testLackEnoughRacks() throws Exception {
-    System.out.println("TestLackEnoughInstances ");
+    LOG.debug("TestLackEnoughInstances ");
     enablePersistBestPossibleAssignment(_gZkClient, CLUSTER_NAME, true);
 
     // shutdown participants within one zone
@@ -328,6 +328,6 @@ public class TestCrushAutoRebalance extends ZkTestBase {
       }
     }
     deleteCluster(CLUSTER_NAME);
-    System.out.println("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
   }
 }

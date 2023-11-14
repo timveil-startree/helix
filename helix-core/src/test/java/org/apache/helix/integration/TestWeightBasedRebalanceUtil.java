@@ -79,7 +79,7 @@ public class TestWeightBasedRebalanceUtil extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() {
-    System.out.println(
+    LOG.debug(
         "START " + getClass().getSimpleName() + " at " + new Date(System.currentTimeMillis()));
 
     CLUSTER_NAME = "MockCluster" + getShortClassName();

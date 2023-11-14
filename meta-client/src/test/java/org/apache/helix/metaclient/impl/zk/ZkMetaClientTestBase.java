@@ -26,11 +26,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.helix.metaclient.impl.zk.factory.ZkMetaClientConfig;
 import org.apache.helix.zookeeper.zkclient.IDefaultNameSpace;
 import org.apache.helix.zookeeper.zkclient.ZkServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 
 public abstract class ZkMetaClientTestBase {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(ZkMetaClientTestBase.class);
 
   protected static final String ZK_ADDR = "localhost:2183";
   protected static final int DEFAULT_TIMEOUT_MS = 1000;
@@ -49,7 +53,7 @@ public abstract class ZkMetaClientTestBase {
    */
   @BeforeSuite
   public void prepare() {
-    System.out.println("ZkMetaClientTestBase start ");
+    LOG.debug("ZkMetaClientTestBase start ");
     // Enable extended types and create a ZkClient
     System.setProperty("zookeeper.extendedTypesEnabled", "true");
     // start local zookeeper server
@@ -58,7 +62,7 @@ public abstract class ZkMetaClientTestBase {
 
   @AfterSuite
   public void cleanUp() {
-    System.out.println("ZkMetaClientTestBase shut down");
+    LOG.debug("ZkMetaClientTestBase shut down");
     _zkServer.shutdown();
   }
 
@@ -87,7 +91,7 @@ public abstract class ZkMetaClientTestBase {
     };
 
     int port = Integer.parseInt(zkAddress.substring(zkAddress.lastIndexOf(':') + 1));
-    System.out.println("Starting ZK server at " + zkAddress);
+    LOG.debug("Starting ZK server at " + zkAddress);
     ZkServer zkServer = new ZkServer(dataDir, logDir, defaultNameSpace, port);
     zkServer.start();
     return zkServer;

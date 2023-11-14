@@ -33,12 +33,17 @@ import org.apache.helix.tools.IdealStateCalculatorByRush;
 import org.apache.helix.tools.IdealStateCalculatorByShuffling;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.zookeeper.introspect.CodehausJacksonIntrospector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 
 public class TestShuffledIdealState {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(TestShuffledIdealState.class);
+
   @Test()
   public void testInvocation() throws Exception {
     int partitions = 6, replicas = 2;
@@ -65,38 +70,35 @@ public class TestShuffledIdealState {
     IdealCalculatorByConsistentHashing.printIdealStateStats(result3, "");
     IdealCalculatorByConsistentHashing.printNodeOfflineOverhead(result3);
 
-    // System.out.println(result);
+    // LOG.debug(result);
     ObjectMapper mapper =
         new ObjectMapper().setAnnotationIntrospector(new CodehausJacksonIntrospector());
 
     // ByteArrayOutputStream baos = new ByteArrayOutputStream();
     StringWriter sw = new StringWriter();
     mapper.writeValue(sw, result);
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     ZNRecord zn = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
-    System.out.println(result.toString());
-    System.out.println(zn.toString());
+    LOG.debug(result.toString());
+    LOG.debug(zn.toString());
     AssertJUnit.assertTrue(zn.toString().equalsIgnoreCase(result.toString()));
-    System.out.println();
 
     sw = new StringWriter();
     mapper.writeValue(sw, result2);
 
     ZNRecord zn2 = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
-    System.out.println(result2.toString());
-    System.out.println(zn2.toString());
+    LOG.debug(result2.toString());
+    LOG.debug(zn2.toString());
     AssertJUnit.assertTrue(zn2.toString().equalsIgnoreCase(result2.toString()));
 
     sw = new StringWriter();
     mapper.writeValue(sw, result3);
-    System.out.println();
 
     ZNRecord zn3 = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
-    System.out.println(result3.toString());
-    System.out.println(zn3.toString());
+    LOG.debug(result3.toString());
+    LOG.debug(zn3.toString());
     AssertJUnit.assertTrue(zn3.toString().equalsIgnoreCase(result3.toString()));
-    System.out.println();
   }
 
   @Test

@@ -109,7 +109,7 @@ public class TestRoutingTableProvider extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println(
+    LOG.debug(
         "START " + getShortClassName() + " at " + new Date(System.currentTimeMillis()));
 
     // setup storage cluster

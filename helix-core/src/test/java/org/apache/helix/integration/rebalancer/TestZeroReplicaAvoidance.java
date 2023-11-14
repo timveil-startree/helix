@@ -107,7 +107,7 @@ public class TestZeroReplicaAvoidance extends ZkTestBase
 
   @Test
   public void testDelayedRebalancer() throws Exception {
-    System.out.println("START testDelayedRebalancer at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testDelayedRebalancer at " + new Date(System.currentTimeMillis()));
     HelixManager manager =
         HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, null, InstanceType.SPECTATOR, ZK_ADDR);
     manager.connect();
@@ -143,12 +143,12 @@ public class TestZeroReplicaAvoidance extends ZkTestBase
     if (manager.isConnected()) {
       manager.disconnect();
     }
-    System.out.println("END testDelayedRebalancer at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testDelayedRebalancer at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
   public void testWagedRebalancer() throws Exception {
-    System.out.println("START testWagedRebalancer at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testWagedRebalancer at " + new Date(System.currentTimeMillis()));
     HelixManager manager =
         HelixManagerFactory.getZKHelixManager(CLUSTER_NAME, null, InstanceType.SPECTATOR, ZK_ADDR);
     manager.connect();
@@ -184,7 +184,7 @@ public class TestZeroReplicaAvoidance extends ZkTestBase
     if (manager.isConnected()) {
       manager.disconnect();
     }
-    System.out.println("END testWagedRebalancer at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testWagedRebalancer at " + new Date(System.currentTimeMillis()));
   }
 
   /**

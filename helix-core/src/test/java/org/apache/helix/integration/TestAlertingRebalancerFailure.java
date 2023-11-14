@@ -71,7 +71,7 @@ public class TestAlertingRebalancerFailure extends ZkStandAloneCMTestBase {
   @Override
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     // Clean up all JMX objects
     for (ObjectName mbean : _server.queryNames(null, null)) {

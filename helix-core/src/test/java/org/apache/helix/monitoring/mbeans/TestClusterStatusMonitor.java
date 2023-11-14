@@ -62,6 +62,8 @@ import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.tools.DefaultIdealStateCalculator;
 import org.apache.helix.tools.StateModelConfigGenerator;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.collections.Sets;
@@ -70,6 +72,9 @@ import static org.mockito.Mockito.when;
 
 
 public class TestClusterStatusMonitor {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(TestClusterStatusMonitor.class);
+
   private static final MBeanServerConnection _server = ManagementFactory.getPlatformMBeanServer();
   private String testDB = "TestDB";
   private String testDB_0 = testDB + "_0";
@@ -81,7 +86,7 @@ public class TestClusterStatusMonitor {
     String clusterName = className + "_" + methodName;
     int n = 5;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     ClusterStatusMonitor monitor = new ClusterStatusMonitor(clusterName);
     monitor.active();
@@ -173,7 +178,7 @@ public class TestClusterStatusMonitor {
     Assert.assertFalse(_server.isRegistered(clusterMonitorObjName),
         "Failed to unregister ClusterStatusMonitor.");
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test()
@@ -183,7 +188,7 @@ public class TestClusterStatusMonitor {
     String clusterName = className + "_" + methodName;
     int n = 5;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     ClusterStatusMonitor monitor = new ClusterStatusMonitor(clusterName);
     monitor.active();
@@ -252,7 +257,7 @@ public class TestClusterStatusMonitor {
       Assert.assertEquals((long) pastdueMsgCount, 15L);
     }
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -261,7 +266,7 @@ public class TestClusterStatusMonitor {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     ClusterStatusMonitor monitor = new ClusterStatusMonitor(clusterName);
     monitor.active();

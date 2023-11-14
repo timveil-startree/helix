@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
 public class TestHelixRestServer extends AbstractTestClass {
   @Test
   public void testInvalidHelixRestServerInitialization() {
-    System.out.println("Start test :" + TestHelper.getTestMethodName());
+    LOG.debug("Start test :" + TestHelper.getTestMethodName());
     // Namespace manifests has invalid metadata store type should generate failure
     try {
       List<HelixRestNamespace> invalidManifest1 = new ArrayList<>();
@@ -84,7 +84,7 @@ public class TestHelixRestServer extends AbstractTestClass {
         new HelixRestNamespace("test4-2", HelixRestNamespace.HelixMetadataStoreType.ZOOKEEPER, ZK_ADDR, true));
     HelixRestServer svr = new HelixRestServer(invalidManifest4, 10250, "/", Collections.<AuditLogger>emptyList());
     svr.start();
-    System.out.println("End test :" + TestHelper.getTestMethodName());
+    LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
 }

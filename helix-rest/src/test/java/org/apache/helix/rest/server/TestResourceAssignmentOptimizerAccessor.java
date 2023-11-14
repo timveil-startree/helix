@@ -100,7 +100,7 @@ public class TestResourceAssignmentOptimizerAccessor extends AbstractTestClass {
 
   @Test
   public void testComputePartitionAssignment() throws IOException {
-    System.out.println("Start test :" + TestHelper.getTestMethodName());
+    LOG.debug("Start test :" + TestHelper.getTestMethodName());
 
     // Test AddInstances, RemoveInstances and SwapInstances
     String payload = "{\"InstanceChange\" : {  \"ActivateInstances\" : [\"" + toEnabledInstance + "\"],"
@@ -220,12 +220,12 @@ public class TestResourceAssignmentOptimizerAccessor extends AbstractTestClass {
                     + "], returnFormat=CurrentStateFormat}"),
         partitionAssignmentMetadata4.get(0).toString());
 
-    System.out.println("End test :" + TestHelper.getTestMethodName());
+    LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
   @Test(dependsOnMethods = "testComputePartitionAssignment")
   public void testComputePartitionAssignmentWaged() throws IOException {
-    System.out.println("Start test :" + TestHelper.getTestMethodName());
+    LOG.debug("Start test :" + TestHelper.getTestMethodName());
 
     // Use Waged for following tests
     for (String resource : resources) {
@@ -311,12 +311,12 @@ public class TestResourceAssignmentOptimizerAccessor extends AbstractTestClass {
     Assert.assertEquals(resourceAssignments3.size(), 2);
     Assert.assertTrue(resourceAssignments3.containsKey(resources.get(0)));
     Assert.assertTrue(resourceAssignments3.containsKey(resources.get(1)));
-    System.out.println("End test :" + TestHelper.getTestMethodName());
+    LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
   @Test(dependsOnMethods = "testComputePartitionAssignmentWaged")
   public void testComputePartitionAssignmentNegativeInput() throws IOException {
-    System.out.println("Start test :" + TestHelper.getTestMethodName());
+    LOG.debug("Start test :" + TestHelper.getTestMethodName());
 
     // Test negative input
     String payload4 = "{\"InstanceChange\" : { \"ActivateInstances\" : [\" nonExistInstanceName \"] }} ";
@@ -336,6 +336,6 @@ public class TestResourceAssignmentOptimizerAccessor extends AbstractTestClass {
     post(urlBase, null, Entity.entity(payload6, MediaType.APPLICATION_JSON_TYPE),
         Response.Status.BAD_REQUEST.getStatusCode(), true);
 
-    System.out.println("End test :" + TestHelper.getTestMethodName());
+    LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 }

@@ -71,7 +71,7 @@ public class TestFullAutoNodeTagging extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     final String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     // Set up cluster
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
@@ -170,7 +170,7 @@ public class TestFullAutoNodeTagging extends ZkUnitTestBase {
     }
     TestHelper.dropCluster(clusterName, _gZkClient);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   /**
@@ -187,7 +187,7 @@ public class TestFullAutoNodeTagging extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     // Set up cluster
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
@@ -255,7 +255,7 @@ public class TestFullAutoNodeTagging extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     // Set up cluster
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
@@ -324,7 +324,7 @@ public class TestFullAutoNodeTagging extends ZkUnitTestBase {
     }
     controller.syncStop();
     TestHelper.dropCluster(clusterName, _gZkClient);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   /**

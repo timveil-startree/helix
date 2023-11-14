@@ -55,7 +55,7 @@ public class TestStateTransitionThrottle extends ZkTestBase {
     String clusterName = getShortClassName() + "testRecoveryPartition";
     MockParticipantManager[] participants = new MockParticipantManager[participantCount];
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     final ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
@@ -113,7 +113,7 @@ public class TestStateTransitionThrottle extends ZkTestBase {
     }
     deleteCluster(clusterName);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -121,7 +121,7 @@ public class TestStateTransitionThrottle extends ZkTestBase {
     String clusterName = getShortClassName() + "testMaxErrorPartition";
     MockParticipantManager[] participants = new MockParticipantManager[participantCount];
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     final ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
@@ -190,7 +190,7 @@ public class TestStateTransitionThrottle extends ZkTestBase {
     }
     deleteCluster(clusterName);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private void setupCluster(String clusterName, ZKHelixDataAccessor accessor) throws Exception {

@@ -297,7 +297,7 @@ public class TestHelixViewAggregator extends ViewAggregatorIntegrationTestBase {
    * Create same sets of resources for each cluster
    */
   private void createResources() {
-    System.out.println("Creating resources ...");
+    LOG.debug("Creating resources ...");
     for (String sourceClusterName : _allSourceClusters) {
       for (int i = 0; i < numResourcePerSourceCluster; i++) {
         String resourceName = resourceNamePrefix + i;
@@ -312,7 +312,7 @@ public class TestHelixViewAggregator extends ViewAggregatorIntegrationTestBase {
    * Rebalance all resources on each cluster
    */
   private void rebalanceResources() {
-    System.out.println("Rebalancing resources ...");
+    LOG.debug("Rebalancing resources ...");
     for (String sourceClusterName : _allSourceClusters) {
       for (String resourceName : _allResources) {
         // We always rebalance all resources, even if it would be deleted during test

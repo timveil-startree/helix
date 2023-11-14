@@ -59,7 +59,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -96,7 +96,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     Assert.assertEquals(record.getSimpleField("key"), "value");
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -105,7 +105,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -143,7 +143,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     Assert.assertEquals(record.getSimpleField("key"), "value");
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -152,7 +152,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -198,7 +198,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -207,7 +207,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -265,7 +265,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -274,7 +274,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -306,7 +306,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     Assert.assertEquals(record.getId(), "new0");
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -315,7 +315,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -356,7 +356,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -365,7 +365,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -401,7 +401,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
         "Should not exist under new location after get");
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -410,7 +410,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -460,7 +460,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -469,7 +469,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -496,7 +496,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     Assert.assertNull(record);
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -505,7 +505,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -572,7 +572,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -581,7 +581,7 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     String root = String.format("/%s/%s", clusterName, PropertyType.PROPERTYSTORE.name());
     String fallbackRoot = String.format("/%s/%s", clusterName, "HELIX_PROPERTYSTORE");
     ZkBaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
@@ -639,6 +639,6 @@ public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 }

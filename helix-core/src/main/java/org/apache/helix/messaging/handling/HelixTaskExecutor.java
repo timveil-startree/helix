@@ -123,7 +123,7 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
     }
   }
 
-  private static Logger LOG = LoggerFactory.getLogger(HelixTaskExecutor.class);
+  protected static Logger LOG = LoggerFactory.getLogger(HelixTaskExecutor.class);
 
   private static AtomicLong thread_uid = new AtomicLong(0);
   // TODO: we need to further design how to throttle this.

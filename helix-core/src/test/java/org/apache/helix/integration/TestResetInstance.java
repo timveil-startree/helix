@@ -43,7 +43,7 @@ public class TestResetInstance extends ZkTestBase {
     String clusterName = className + "_" + methodName;
     final int n = 5;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant port
         "localhost", // participant name prefix
@@ -109,7 +109,7 @@ public class TestResetInstance extends ZkTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
   }
 }

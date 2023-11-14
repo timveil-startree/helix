@@ -50,7 +50,7 @@ public class TestRenamePartition extends ZkTestBase {
   @Test()
   public void testRenamePartitionAutoIS() throws Exception {
     String clusterName = "CLUSTER_" + getShortClassName() + "_auto";
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant start port
         "localhost", // participant name prefix
@@ -79,14 +79,14 @@ public class TestRenamePartition extends ZkTestBase {
     Assert.assertTrue(result);
 
     stop(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test()
   public void testRenamePartitionCustomIS() throws Exception {
 
     String clusterName = "CLUSTER_" + getShortClassName() + "_custom";
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(clusterName, ZK_ADDR, 12918, // participant start port
         "localhost", // participant name prefix
@@ -124,7 +124,7 @@ public class TestRenamePartition extends ZkTestBase {
     Assert.assertTrue(result);
 
     stop(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private void startAndVerify(String clusterName) {

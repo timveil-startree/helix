@@ -22,15 +22,19 @@ package org.apache.helix.store;
 import java.util.Date;
 
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 public class TestJsonComparator {
+  protected static final Logger LOG = LoggerFactory.getLogger(TestJsonComparator.class);
+
   @Test(groups = {
     "unitTest"
   })
   public void testJsonComparator() {
-    System.out.println("START TestJsonComparator at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START TestJsonComparator at " + new Date(System.currentTimeMillis()));
 
     ZNRecord record = new ZNRecord("id1");
     PropertyJsonComparator<ZNRecord> comparator =
@@ -38,6 +42,6 @@ public class TestJsonComparator {
     AssertJUnit.assertTrue(comparator.compare(null, null) == 0);
     AssertJUnit.assertTrue(comparator.compare(null, record) == -1);
     AssertJUnit.assertTrue(comparator.compare(record, null) == 1);
-    System.out.println("END TestJsonComparator at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END TestJsonComparator at " + new Date(System.currentTimeMillis()));
   }
 }

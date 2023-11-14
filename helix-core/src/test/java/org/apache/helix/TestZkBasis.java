@@ -72,7 +72,7 @@ public class TestZkBasis extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     ZkClient client = new ZkClient(ZK_ADDR, HelixZkClient.DEFAULT_SESSION_TIMEOUT,
         HelixZkClient.DEFAULT_CONNECTION_TIMEOUT, new ZNRecordSerializer());
@@ -85,7 +85,7 @@ public class TestZkBasis extends ZkUnitTestBase {
     Assert.assertNotSame(newSessionId, oldSessionId);
     Assert.assertFalse(client.exists(path), "Ephemeral znode should be gone after session expiry");
     client.close();
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -93,7 +93,7 @@ public class TestZkBasis extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     ZkClient client = new ZkClient(ZK_ADDR, HelixZkClient.DEFAULT_SESSION_TIMEOUT,
         HelixZkClient.DEFAULT_CONNECTION_TIMEOUT, new ZNRecordSerializer());
@@ -103,7 +103,7 @@ public class TestZkBasis extends ZkUnitTestBase {
     client.close();
     Assert.assertFalse(_gZkClient.exists(path),
         "Ephemeral node: " + path + " should be removed after ZkClient#close()");
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -111,7 +111,7 @@ public class TestZkBasis extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     final CountDownLatch waitCallback = new CountDownLatch(1);
     final ZkClient client = new ZkClient(ZK_ADDR, HelixZkClient.DEFAULT_SESSION_TIMEOUT,
@@ -136,7 +136,7 @@ public class TestZkBasis extends ZkUnitTestBase {
     Assert.assertFalse(_gZkClient.exists(path), "Ephemeral node: " + path
         + " should be removed after ZkClient#close() in its own event-thread");
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
   }
 
@@ -230,7 +230,7 @@ public class TestZkBasis extends ZkUnitTestBase {
 
     // watch should be in ZooKeeper#watchManager#XXXWatches
     Map<String, List<String>> watchMap = ZkTestHelper.getZkWatch(client);
-    // System.out.println("watchMap1: " + watchMap);
+    // LOG.debug("watchMap1: " + watchMap);
     List<String> dataWatch = watchMap.get("dataWatches");
     Assert.assertNotNull(dataWatch,
         "ZooKeeper#watchManager#dataWatches should have 1 data watch on path: " + path);
@@ -249,12 +249,12 @@ public class TestZkBasis extends ZkUnitTestBase {
 
     client.unsubscribeDataChanges(path, listener);
     client.unsubscribeChildChanges(path, listener);
-    // System.out.println("watchMap2: " + watchMap);
+    // LOG.debug("watchMap2: " + watchMap);
     ZkTestHelper.expireSession(client);
 
     // after session expiry, those watches should be removed
     watchMap = ZkTestHelper.getZkWatch(client);
-    // System.out.println("watchMap3: " + watchMap);
+    // LOG.debug("watchMap3: " + watchMap);
     dataWatch = watchMap.get("dataWatches");
     Assert.assertTrue(dataWatch.isEmpty(), "ZooKeeper#watchManager#dataWatches should be empty");
     childWatch = watchMap.get("childWatches");

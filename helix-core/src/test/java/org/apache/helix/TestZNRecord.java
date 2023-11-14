@@ -67,7 +67,7 @@ public class TestZNRecord {
     Map<String, String> map1 = new HashMap<String, String>();
     map1.put("map1Key1", "map1Value1");
     record.setMapField("mapKey1", map1);
-    // System.out.println(record);
+    // LOG.debug(record);
 
     ZNRecord updateRecord = new ZNRecord("updateRecord");
 
@@ -95,10 +95,10 @@ public class TestZNRecord {
     Map<String, String> map2 = new HashMap<String, String>();
     map2.put("map2Key1", "map2Value1");
     updateRecord.setMapField("mapKey2", map2);
-    // System.out.println(updateRecord);
+    // LOG.debug(updateRecord);
 
     record.merge(updateRecord);
-    // System.out.println(record);
+    // LOG.debug(record);
 
     ZNRecord expectRecord = new ZNRecord("record1");
     expectRecord.setSimpleField("simpleKey1", "simpleValue1");

@@ -50,7 +50,7 @@ public class TestHelper {
   static public void stopZkServer(ZkServer zkServer) {
     if (zkServer != null) {
       zkServer.shutdown();
-      System.out.println(
+      LOG.debug(
           "Shut down zookeeper at port " + zkServer.getPort() + " in thread " + Thread
               .currentThread().getName());
     }

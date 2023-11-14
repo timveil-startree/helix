@@ -129,7 +129,7 @@ public class TestZkReconnect {
         controller.getHelixPropertyStore();
       } catch (HelixException e) {
         // Expected exception
-        System.out.println(e.getMessage());
+        LOG.debug(e.getMessage());
       }
     } finally {
       controller.disconnect();

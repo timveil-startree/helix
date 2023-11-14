@@ -36,7 +36,7 @@ import org.testng.annotations.Test;
 public class TestCarryOverBadCurState extends ZkTestBase {
   @Test
   public void testCarryOverBadCurState() throws Exception {
-    System.out.println("START testCarryOverBadCurState at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testCarryOverBadCurState at " + new Date(System.currentTimeMillis()));
 
     String clusterName = getShortClassName();
     MockParticipantManager[] participants = new MockParticipantManager[5];
@@ -84,6 +84,6 @@ public class TestCarryOverBadCurState extends ZkTestBase {
       participants[i].syncStop();
     }
     deleteCluster(clusterName);
-    System.out.println("END testCarryOverBadCurState at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testCarryOverBadCurState at " + new Date(System.currentTimeMillis()));
   }
 }

@@ -273,7 +273,7 @@ public class ZkTestHelper {
             String expectState = expectInstanceStateMap.get(expectInstance);
             boolean equals = expectState.equals(actualState);
             if (op.equals("==") && !equals || op.equals("!=") && equals) {
-              System.out.println(
+              LOG.debug(
                   partition + "/" + instance + " state mismatch. actual state: " + actualState
                       + ", but expect: " + expectState + ", op: " + op);
               result = false;
@@ -447,12 +447,12 @@ public class ZkTestHelper {
     java.lang.reflect.Field field = getField(zkclient.getClass(), "_eventThread");
     field.setAccessible(true);
     Object eventThread = field.get(zkclient);
-    // System.out.println("field: " + eventThread);
+    // LOG.debug("field: " + eventThread);
 
     java.lang.reflect.Field field2 = getField(eventThread.getClass(), "_events");
     field2.setAccessible(true);
     BlockingQueue queue = (BlockingQueue) field2.get(eventThread);
-    // System.out.println("field2: " + queue + ", " + queue.size());
+    // LOG.debug("field2: " + queue + ", " + queue.size());
 
     if (queue == null) {
       LOG.error("fail to get event-queue from zkclient. skip waiting");
@@ -464,7 +464,7 @@ public class ZkTestHelper {
         return true;
       }
       Thread.sleep(100);
-      System.out.println("pending zk-events in queue: " + queue);
+      LOG.debug("pending zk-events in queue: " + queue);
     }
     return false;
   }

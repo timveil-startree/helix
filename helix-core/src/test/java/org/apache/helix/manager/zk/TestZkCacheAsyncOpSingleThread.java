@@ -130,7 +130,7 @@ public class TestZkCacheAsyncOpSingleThread extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     // init external base data accessor
     HelixZkClient extZkclient = SharedZkClientFactory.getInstance()
@@ -254,7 +254,7 @@ public class TestZkCacheAsyncOpSingleThread extends ZkUnitTestBase {
     // clean up
     extZkclient.close();
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -262,7 +262,7 @@ public class TestZkCacheAsyncOpSingleThread extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     // init zkCacheDataAccessor
     String curStatePath = PropertyPathBuilder.instanceCurrentState(clusterName, "localhost_8901");
@@ -328,7 +328,7 @@ public class TestZkCacheAsyncOpSingleThread extends ZkUnitTestBase {
     ret = TestHelper.verifyZkCache(zkCacheInitPaths, zkCacheInitPaths, accessor._zkCache._cache,
         _gZkClient, true);
     // ret = TestHelper.verifyZkCache(zkCacheInitPaths, accessor, _gZkClient, true);
-    // System.out.println("ret: " + ret);
+    // LOG.debug("ret: " + ret);
     Assert.assertTrue(ret, "zkCache doesn't match data on Zk");
 
     // set 10 external views 10 times by this accessor
@@ -352,7 +352,7 @@ public class TestZkCacheAsyncOpSingleThread extends ZkUnitTestBase {
     // verify cache
     // TestHelper.printCache(accessor._zkCache._cache);
     ret = TestHelper.verifyZkCache(zkCacheInitPaths, accessor._zkCache._cache, _gZkClient, true);
-    // System.out.println("ret: " + ret);
+    // LOG.debug("ret: " + ret);
     Assert.assertTrue(ret, "zkCache doesn't match data on Zk");
 
     // get 10 external views
@@ -392,6 +392,6 @@ public class TestZkCacheAsyncOpSingleThread extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 }

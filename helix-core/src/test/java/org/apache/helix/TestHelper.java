@@ -109,7 +109,7 @@ public class TestHelper {
 
   static public ZkServer startZkServer(final String zkAddress, final List<String> rootNamespaces,
       boolean overwrite) throws Exception {
-    System.out.println(
+    LOG.debug(
         "Start zookeeper at " + zkAddress + " in thread " + Thread.currentThread().getName());
 
     String zkDir = zkAddress.replace(':', '_');
@@ -148,7 +148,7 @@ public class TestHelper {
   static public void stopZkServer(ZkServer zkServer) {
     if (zkServer != null) {
       zkServer.shutdown();
-      System.out.println(
+      LOG.debug(
           "Shut down zookeeper at port " + zkServer.getPort() + " in thread " + Thread
               .currentThread().getName());
     }
@@ -530,7 +530,7 @@ public class TestHelper {
   }
 
   public static void printCache(Map<String, ZNode> cache) {
-    System.out.println("START:Print cache");
+    LOG.debug("START:Print cache");
     TreeMap<String, ZNode> map = new TreeMap<String, ZNode>();
     map.putAll(cache);
 
@@ -542,7 +542,7 @@ public class TestHelper {
           key + "=" + node.getData() + ", " + childSet + ", " + (node.getStat() == null ? "null\n"
               : node.getStat()));
     }
-    System.out.println("END:Print cache");
+    LOG.debug("END:Print cache");
   }
 
   public static void readZkRecursive(String path, Map<String, ZNode> map, HelixZkClient zkclient) {
@@ -569,7 +569,7 @@ public class TestHelper {
       Stat stat = new Stat();
       ZNRecord record = zkAccessor.get(path, stat, 0);
       List<String> childNames = zkAccessor.getChildNames(path, 0);
-      // System.out.println("childNames: " + childNames);
+      // LOG.debug("childNames: " + childNames);
       ZNode node = new ZNode(path, record, stat);
       node.addChildren(childNames);
       map.put(path, node);
@@ -622,10 +622,10 @@ public class TestHelper {
     if (zkMap.size() != cache.size()) {
       System.err
           .println("size mismatch: cacheSize: " + cache.size() + ", zkMapSize: " + zkMap.size());
-      System.out.println("cache: (" + cache.size() + ")");
+      LOG.debug("cache: (" + cache.size() + ")");
       TestHelper.printCache(cache);
 
-      System.out.println("zkMap: (" + zkMap.size() + ")");
+      LOG.debug("zkMap: (" + zkMap.size() + ")");
       TestHelper.printCache(zkMap);
 
       return false;
@@ -842,26 +842,26 @@ public class TestHelper {
     Map<String, Set<IZkDataListener>> datalisteners = ZkTestHelper.getZkDataListener(client);
     Map<String, Set<IZkChildListener>> childListeners = ZkTestHelper.getZkChildListener(client);
 
-    System.out.println("dataListeners {");
+    LOG.debug("dataListeners {");
     for (String path : datalisteners.keySet()) {
-      System.out.println("\t" + path + ": ");
+      LOG.debug("\t" + path + ": ");
       Set<IZkDataListener> set = datalisteners.get(path);
       for (IZkDataListener listener : set) {
         CallbackHandler handler = (CallbackHandler) listener;
-        System.out.println("\t\t" + handler.getListener());
+        LOG.debug("\t\t" + handler.getListener());
       }
     }
-    System.out.println("}");
+    LOG.debug("}");
 
-    System.out.println("childListeners {");
+    LOG.debug("childListeners {");
     for (String path : childListeners.keySet()) {
-      System.out.println("\t" + path + ": ");
+      LOG.debug("\t" + path + ": ");
       Set<IZkChildListener> set = childListeners.get(path);
       for (IZkChildListener listener : set) {
         CallbackHandler handler = (CallbackHandler) listener;
-        System.out.println("\t\t" + handler.getListener());
+        LOG.debug("\t\t" + handler.getListener());
       }
     }
-    System.out.println("}");
+    LOG.debug("}");
   }
 }

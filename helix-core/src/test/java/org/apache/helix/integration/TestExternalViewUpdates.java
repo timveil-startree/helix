@@ -41,7 +41,7 @@ import org.testng.annotations.Test;
 public class TestExternalViewUpdates extends ZkTestBase {
   @Test
   public void testExternalViewUpdates() throws Exception {
-    System.out.println("START testExternalViewUpdates at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testExternalViewUpdates at " + new Date(System.currentTimeMillis()));
 
     String clusterName = getShortClassName();
     int numResource = 10;
@@ -108,6 +108,6 @@ public class TestExternalViewUpdates extends ZkTestBase {
       participants[i].syncStop();
     }
     deleteCluster(clusterName);
-    System.out.println("END testExternalViewUpdates at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testExternalViewUpdates at " + new Date(System.currentTimeMillis()));
   }
 }

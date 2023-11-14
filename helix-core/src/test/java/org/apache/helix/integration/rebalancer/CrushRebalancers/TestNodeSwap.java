@@ -69,7 +69,7 @@ public class TestNodeSwap extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     _gSetupTool.addCluster(CLUSTER_NAME, true);
 
@@ -135,7 +135,7 @@ public class TestNodeSwap extends ZkTestBase {
   @Test(dataProvider = "rebalanceStrategies")
   public void testNodeSwap(String rebalanceStrategyName, String rebalanceStrategyClass)
       throws Exception {
-    System.out.println("Test testNodeSwap for " + rebalanceStrategyName);
+    LOG.debug("Test testNodeSwap for " + rebalanceStrategyName);
 
     int i = 0;
     for (String stateModel : _testModels) {

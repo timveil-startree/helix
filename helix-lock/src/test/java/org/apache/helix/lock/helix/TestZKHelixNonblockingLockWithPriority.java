@@ -56,7 +56,7 @@ public class TestZKHelixNonblockingLockWithPriority extends ZkTestBase {
 
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + _clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + _clusterName + " at " + new Date(System.currentTimeMillis()));
 
     TestHelper.setupCluster(_clusterName, ZK_ADDR, 12918, "localhost", "TestDB", 1, 10, 5, 3,
         "MasterSlave", true);

@@ -62,7 +62,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
 
     verifyEnableCluster();
 
-    System.out.println("Test passed!!");
+    LOG.debug("Test passed!!");
   }
 
   /*
@@ -109,7 +109,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     AssertJUnit.assertTrue(sw.toString().contains("Test"));
   }
@@ -134,7 +134,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     StringWriter sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     ObjectMapper mapper = new ObjectMapper();
     ZNRecord zn = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
@@ -165,7 +165,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     StringWriter sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     ObjectMapper mapper = new ObjectMapper();
     ZNRecord zn = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
@@ -184,7 +184,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
   }
 
   void verifyAddInstance() throws JsonGenerationException, JsonMappingException, IOException {
@@ -208,7 +208,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     StringWriter sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -249,7 +249,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     mapper = new ObjectMapper();
 
@@ -291,7 +291,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     StringWriter sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     ObjectMapper mapper = new ObjectMapper();
     ZNRecord r = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
@@ -335,7 +335,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     StringWriter sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     ObjectMapper mapper = new ObjectMapper();
     ZNRecord r = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
@@ -355,7 +355,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     mapper = new ObjectMapper();
     r = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
@@ -377,7 +377,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     StringWriter sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     ObjectMapper mapper = new ObjectMapper();
     ZNRecord r = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
@@ -401,7 +401,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     sw = new StringWriter();
     result.write(sw);
 
-    // System.out.println(sw.toString());
+    // LOG.debug(sw.toString());
 
     mapper = new ObjectMapper();
     ZNRecord r2 = mapper.readValue(new StringReader(sw.toString()), ZNRecord.class);
@@ -537,7 +537,7 @@ public class TestClusterManagementWebapp extends AdminTestBase {
   }
 
   void verifyEnableCluster() throws Exception {
-    System.out.println("START: verifyEnableCluster()");
+    LOG.debug("START: verifyEnableCluster()");
     String httpUrlBase =
         "http://localhost:" + ADMIN_PORT + "/clusters/" + clusterName + "/Controller";
     Map<String, String> paramMap = new HashMap<String, String>();
@@ -558,11 +558,11 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     StringWriter sw = new StringWriter();
     result.write(sw);
 
-    System.out.println(sw.toString());
+    LOG.debug(sw.toString());
 
     // verify pause znode exists
     String pausePath = PropertyPathBuilder.pause(clusterName);
-    System.out.println("pausePath: " + pausePath);
+    LOG.debug("pausePath: " + pausePath);
     boolean exists = _gZkClient.exists(pausePath);
     Assert.assertTrue(exists, pausePath + " should exist");
 
@@ -579,13 +579,13 @@ public class TestClusterManagementWebapp extends AdminTestBase {
     sw = new StringWriter();
     result.write(sw);
 
-    System.out.println(sw.toString());
+    LOG.debug(sw.toString());
 
     // verify pause znode doesn't exist
     exists = _gZkClient.exists(pausePath);
     Assert.assertFalse(exists, pausePath + " should be removed");
 
-    System.out.println("END: verifyEnableCluster()");
+    LOG.debug("END: verifyEnableCluster()");
   }
 
   private boolean contains(List<String> list, String... items) {

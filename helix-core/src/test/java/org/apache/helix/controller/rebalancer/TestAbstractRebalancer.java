@@ -30,6 +30,8 @@ import org.apache.helix.model.ClusterConfig;
 import org.apache.helix.model.IdealState;
 import org.apache.helix.model.Partition;
 import org.apache.helix.util.TestInputLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -37,11 +39,13 @@ import org.testng.annotations.Test;
 
 public class TestAbstractRebalancer {
 
+  protected static final Logger LOG = LoggerFactory.getLogger(TestAbstractRebalancer.class);
+
   @Test(dataProvider = "TestComputeBestPossibleStateInput")
   public void testComputeBestPossibleState(String comment, String stateModelName, List<String> liveInstances,
       List<String> preferenceList, Map<String, String> currentStateMap, List<String> disabledInstancesForPartition,
       Map<String, String> expectedBestPossibleMap) {
-    System.out.println("Test case comment: " + comment);
+    LOG.debug("Test case comment: " + comment);
     AutoRebalancer rebalancer = new AutoRebalancer();
     Partition partition = new Partition("testPartition");
     CurrentStateOutput currentStateOutput = new CurrentStateOutput();

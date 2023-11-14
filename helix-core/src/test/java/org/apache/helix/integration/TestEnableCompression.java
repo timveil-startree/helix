@@ -62,7 +62,7 @@ public class TestEnableCompression extends ZkTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     MockParticipantManager[] participants = new MockParticipantManager[5];
     // ClusterSetup setupTool = new ClusterSetup(ZK_ADDR);
@@ -131,7 +131,7 @@ public class TestEnableCompression extends ZkTestBase {
     List<String> compressedPaths = new ArrayList<>();
     findCompressedZNodes(zkClient, "/" + clusterName, compressedPaths);
 
-    System.out.println("compressed paths:" + compressedPaths);
+    LOG.debug("compressed paths:" + compressedPaths);
     // ONLY IDEALSTATE and EXTERNAL VIEW must be compressed
     Assert.assertEquals(compressedPaths.size(), 2);
     String idealstatePath = PropertyPathBuilder.idealState(clusterName, resourceName);
@@ -158,7 +158,7 @@ public class TestEnableCompression extends ZkTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private void findCompressedZNodes(HelixZkClient zkClient, String path,

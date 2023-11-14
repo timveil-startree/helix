@@ -64,7 +64,7 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
   @Override
   @BeforeClass
   public void beforeClass() throws Exception {
-    System.out.println("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
 
     // setup storage cluster
     _gSetupTool.addCluster(CLUSTER_NAME, true);
@@ -305,7 +305,7 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
       Assert.assertTrue(TestHelper.verify(() -> dataAccessor.getChildNames(dataAccessor.keyBuilder().liveInstances()).isEmpty(), 1000));
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println("There're live instances not cleaned up yet");
+      LOG.debug("There're live instances not cleaned up yet");
       assert false;
     }
     DelayedTransition.clearThrottleRecord();
@@ -359,7 +359,7 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
     for (String db : _dbs) {
       int maxInParallel =
           getMaxParallelTransitionCount(DelayedTransition.getResourcePatitionTransitionTimes(), db);
-      System.out.println("MaxInParallel: " + maxInParallel + " maxPendingTransition: " + 2);
+      LOG.debug("MaxInParallel: " + maxInParallel + " maxPendingTransition: " + 2);
       Assert.assertTrue(maxInParallel <= 2, "Throttle condition does not meet for " + db);
     }
   }
@@ -374,7 +374,7 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
     List<Long> startEndPoints = new ArrayList<>();
 
     if (pTimeList == null) {
-      System.out.println("no throttle result for :" + throttledItemName);
+      LOG.debug("no throttle result for :" + throttledItemName);
       return -1;
     }
     pTimeList.sort((o1, o2) -> (int) (o1.start - o2.start));

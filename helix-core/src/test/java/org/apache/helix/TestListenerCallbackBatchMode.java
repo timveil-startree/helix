@@ -127,7 +127,7 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
   @Test
   public void testNonBatchedListener() throws Exception {
     String methodName = TestHelper.getTestMethodName();
-    System.out.println("START " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + methodName + " at " + new Date(System.currentTimeMillis()));
 
     final Listener listener = new Listener();
     addListeners(listener);
@@ -135,13 +135,13 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
     verifyNonbatchedListeners(listener);
     removeListeners(listener);
 
-    System.out.println("END " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + methodName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test (dependsOnMethods = {"testNonBatchedListener", "testBatchedListener", "testMixedListener"})
   public void testEnableBatchedListenerByJavaProperty() throws Exception {
     String methodName = TestHelper.getTestMethodName();
-    System.out.println("START " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + methodName + " at " + new Date(System.currentTimeMillis()));
 
     System.setProperty("isAsyncBatchModeEnabled", "true");
 
@@ -163,13 +163,13 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
     System.setProperty("helix.callbackhandler.isAsyncBatchModeEnabled", "false");
     removeListeners(listener);
 
-    System.out.println("END " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + methodName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test (dependsOnMethods = {"testNonBatchedListener", "testBatchedListener", "testMixedListener"})
   public void testDisableBatchedListenerByAnnotation() throws Exception {
     String methodName = TestHelper.getTestMethodName();
-    System.out.println("START " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + methodName + " at " + new Date(System.currentTimeMillis()));
 
     System.setProperty("isAsyncBatchModeEnabled", "true");
 
@@ -181,13 +181,13 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
     System.setProperty("isAsyncBatchModeEnabled", "false");
     removeListeners(listener);
 
-    System.out.println("END " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + methodName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
   public void testBatchedListener() throws Exception {
     String methodName = TestHelper.getTestMethodName();
-    System.out.println("START " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + methodName + " at " + new Date(System.currentTimeMillis()));
 
     final BatchedListener batchListener = new BatchedListener();
     addListeners(batchListener);
@@ -195,13 +195,13 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
     verifyBatchedListeners(batchListener);
     removeListeners(batchListener);
 
-    System.out.println("END " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + methodName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
   public void testMixedListener() throws Exception {
     String methodName = TestHelper.getTestMethodName();
-    System.out.println("START " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + methodName + " at " + new Date(System.currentTimeMillis()));
 
     final MixedListener mixedListener = new MixedListener();
     addListeners(mixedListener);
@@ -217,7 +217,7 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
 
     removeListeners(mixedListener);
 
-    System.out.println("END " + methodName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + methodName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private void verifyNonbatchedListeners(final Listener listener) throws Exception {

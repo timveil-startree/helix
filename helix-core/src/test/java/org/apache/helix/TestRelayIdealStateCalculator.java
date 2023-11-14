@@ -75,8 +75,7 @@ public class TestRelayIdealStateCalculator {
     }
     for (String nodeName : countMap.keySet()) {
       Assert.assertTrue(countMap.get(nodeName) <= partitions * replica / nodes + 1);
-      // System.out.println(nodeName + " " + countMap.get(nodeName));
+      // LOG.debug(nodeName + " " + countMap.get(nodeName));
     }
-    System.out.println();
   }
 }

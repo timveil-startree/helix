@@ -45,9 +45,14 @@ import org.apache.helix.model.Message.MessageType;
 import org.apache.helix.zookeeper.api.client.HelixZkClient;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.zookeeper.impl.factory.DedicatedZkClientFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class MockController {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(MockController.class);
+
   private final HelixZkClient client;
   private final String srcName;
   private final String clusterName;
@@ -77,7 +82,7 @@ public class MockController {
     ObjectMapper mapper = new ObjectMapper();
     StringWriter sw = new StringWriter();
     mapper.writeValue(sw, message);
-    System.out.println(sw.toString());
+    LOG.debug(sw.toString());
     client.delete(path);
 
     Thread.sleep(10000);

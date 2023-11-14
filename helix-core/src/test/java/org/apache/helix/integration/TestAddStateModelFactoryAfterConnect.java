@@ -48,7 +48,7 @@ public class TestAddStateModelFactoryAfterConnect extends ZkTestBase {
     String clusterName = className + "_" + methodName;
     final int n = 5;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     MockParticipantManager[] participants = new MockParticipantManager[n];
 
@@ -132,7 +132,7 @@ public class TestAddStateModelFactoryAfterConnect extends ZkTestBase {
     }
     deleteCluster(clusterName);
 
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
   }
 }

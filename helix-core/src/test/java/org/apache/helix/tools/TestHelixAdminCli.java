@@ -489,7 +489,7 @@ public class TestHelixAdminCli extends ZkTestBase {
   public void testExpandCluster() throws Exception {
     final int n = 6;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     MockParticipantManager[] participants = new MockParticipantManager[n];
     ClusterDistributedController[] controllers = new ClusterDistributedController[2];
@@ -549,7 +549,7 @@ public class TestHelixAdminCli extends ZkTestBase {
   public void testDeactivateCluster() throws Exception {
     final int n = 6;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     MockParticipantManager[] participants = new MockParticipantManager[n];
     ClusterDistributedController[] controllers = new ClusterDistributedController[2];

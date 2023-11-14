@@ -75,7 +75,7 @@ public class TestMessageThrottle2 extends ZkTestBase {
 
   @Test
   public void test() throws Exception {
-    System.out.println("START " + _clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + _clusterName + " at " + new Date(System.currentTimeMillis()));
 
     // Keep mock participant references so that they could be shut down after testing
     Set<MyProcess> participants = new HashSet<>();
@@ -118,12 +118,12 @@ public class TestMessageThrottle2 extends ZkTestBase {
     _helixController.disconnect();
     participants.forEach(MyProcess::stop);
     deleteCluster(_clusterName);
-    System.out.println("END " + _clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + _clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private void startController() throws Exception {
     // start _helixController
-    System.out.println(String.format("Starting Controller{Cluster:%s, Port:%s, Zookeeper:%s}",
+    LOG.debug(String.format("Starting Controller{Cluster:%s, Port:%s, Zookeeper:%s}",
         _clusterName, 12000, ZK_ADDR));
     _helixController = HelixControllerMain.startHelixController(ZK_ADDR, _clusterName,
         "localhost_" + 12000, HelixControllerMain.STANDALONE);
@@ -136,7 +136,7 @@ public class TestMessageThrottle2 extends ZkTestBase {
     HelixAdmin admin = new ZKHelixAdmin(ZK_ADDR);
 
     // create cluster
-    System.out.println("Creating cluster: " + _clusterName);
+    LOG.debug("Creating cluster: " + _clusterName);
     admin.addCluster(_clusterName, true);
 
     // add MasterSlave state mode definition
@@ -407,7 +407,7 @@ public class TestMessageThrottle2 extends ZkTestBase {
 
     @Override
     public void onControllerChange(NotificationContext changeContext) {
-      System.out.println("StatusPrinter.onControllerChange:" + changeContext);
+      LOG.debug("StatusPrinter.onControllerChange:" + changeContext);
     }
 
     // --------------------- Interface ExternalViewChangeListener
@@ -428,7 +428,7 @@ public class TestMessageThrottle2 extends ZkTestBase {
     @Override
     public void onIdealStateChange(List<IdealState> idealState, NotificationContext changeContext) {
       for (IdealState state : idealState) {
-        System.out.println("StatusPrinter.onIdealStateChange:" + "state = " + state);
+        LOG.debug("StatusPrinter.onIdealStateChange:" + "state = " + state);
       }
     }
 
@@ -439,7 +439,7 @@ public class TestMessageThrottle2 extends ZkTestBase {
     public void onInstanceConfigChange(List<InstanceConfig> instanceConfigs,
         NotificationContext context) {
       for (InstanceConfig instanceConfig : instanceConfigs) {
-        System.out.println(
+        LOG.debug(
             "StatusPrinter.onInstanceConfigChange:" + "instanceConfig = " + instanceConfig);
       }
     }

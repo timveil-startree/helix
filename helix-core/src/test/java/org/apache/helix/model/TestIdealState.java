@@ -31,17 +31,22 @@ import java.util.Set;
 import org.apache.helix.TestHelper;
 import org.apache.helix.model.IdealState.IdealStateModeProperty;
 import org.apache.helix.model.IdealState.RebalanceMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("deprecation")
 public class TestIdealState {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(TestIdealState.class);
+
   @Test
   public void testGetInstanceSet() {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String testName = className + "_" + methodName;
-    System.out.println("START " + testName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + testName + " at " + new Date(System.currentTimeMillis()));
 
     IdealState idealState = new IdealState("idealState");
     idealState.getRecord().setListField("TestDB_0", Arrays.asList("node_1", "node_2"));
@@ -53,7 +58,7 @@ public class TestIdealState {
     // test SEMI_AUTO mode
     idealState.setRebalanceMode(RebalanceMode.SEMI_AUTO);
     Set<String> instances = idealState.getInstanceSet("TestDB_0");
-    // System.out.println("instances: " + instances);
+    // LOG.debug("instances: " + instances);
     Assert.assertEquals(instances.size(), 2, "Should contain node_1 and node_2");
     Assert.assertTrue(instances.contains("node_1"), "Should contain node_1 and node_2");
     Assert.assertTrue(instances.contains("node_2"), "Should contain node_1 and node_2");
@@ -64,7 +69,7 @@ public class TestIdealState {
     // test CUSTOMIZED mode
     idealState.setRebalanceMode(RebalanceMode.CUSTOMIZED);
     instances = idealState.getInstanceSet("TestDB_1");
-    // System.out.println("instances: " + instances);
+    // LOG.debug("instances: " + instances);
     Assert.assertEquals(instances.size(), 2, "Should contain node_3 and node_4");
     Assert.assertTrue(instances.contains("node_3"), "Should contain node_3 and node_4");
     Assert.assertTrue(instances.contains("node_4"), "Should contain node_3 and node_4");
@@ -72,7 +77,7 @@ public class TestIdealState {
     instances = idealState.getInstanceSet("TestDB_nonExist_custom");
     Assert.assertEquals(instances, Collections.emptySet(), "Should get empty set");
 
-    System.out.println("END " + testName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + testName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test

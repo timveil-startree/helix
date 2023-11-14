@@ -31,7 +31,7 @@ public class TestZkConnectionCount extends ZkUnitTestBase {
 
     // ZkClient zkClient;
     // int nrOfConn = ZkClient.getNumberOfConnections();
-    // System.out.println("Number of zk connections made " + nrOfConn);
+    // LOG.debug("Number of zk connections made " + nrOfConn);
     //
     // ZkConnection zkConn = new ZkConnection(ZK_ADDR);
     //

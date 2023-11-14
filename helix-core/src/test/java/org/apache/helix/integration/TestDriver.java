@@ -360,12 +360,12 @@ public class TestDriver {
       // LOG.info("initIS:" + initIS);
       // LOG.info("destIS:" + destIS);
       // LOG.info("totalSteps from initIS to destIS:" + totalStep);
-      // System.out.println("initIS:" + initIS);
-      // System.out.println("destIS:" + destIS);
+      // LOG.debug("initIS:" + initIS);
+      // LOG.debug("destIS:" + destIS);
 
       ZNRecord nextIS;
       int step = totalStep * percentage / 100;
-      System.out.println("Resource:" + dbName + ", totalSteps from initIS to destIS:" + totalStep
+      LOG.debug("Resource:" + dbName + ", totalSteps from initIS to destIS:" + totalStep
           + ", walk " + step + " steps(" + percentage + "%)");
       nextIS = nextIdealState(initIS, destIS, step);
       // testInfo._idealStateMap.put(dbName, nextIS);

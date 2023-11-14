@@ -109,7 +109,7 @@ public class TestSemiAutoRebalance extends ZkTestBase {
       p.syncStop();
     }
     deleteCluster(CLUSTER_NAME);
-    System.out.println("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + CLASS_NAME + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test

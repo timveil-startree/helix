@@ -53,7 +53,7 @@ public class TestZKCallback extends ZkUnitTestBase {
 
   private static String[] createArgs(String str) {
     String[] split = str.split("[ ]+");
-    System.out.println(Arrays.toString(split));
+    LOG.debug(Arrays.toString(split));
     return split;
   }
 

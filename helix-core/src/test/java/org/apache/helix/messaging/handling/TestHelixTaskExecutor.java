@@ -58,6 +58,8 @@ import org.apache.helix.participant.StateMachineEngine;
 import org.apache.helix.participant.statemachine.StateModel;
 import org.apache.helix.participant.statemachine.StateModelFactory;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
@@ -68,14 +70,16 @@ import static org.mockito.Mockito.*;
 
 
 public class TestHelixTaskExecutor {
+  protected static final Logger LOG = LoggerFactory.getLogger(TestHelixTaskExecutor.class);
+
   @BeforeClass
   public void beforeClass() {
-    System.out.println("START " + TestHelper.getTestClassName());
+    LOG.debug("START " + TestHelper.getTestClassName());
   }
 
   @AfterClass
   public void afterClass() {
-    System.out.println("End " + TestHelper.getTestClassName());
+    LOG.debug("End " + TestHelper.getTestClassName());
   }
 
   public static class MockClusterManager extends MockManager {
@@ -259,7 +263,7 @@ public class TestHelixTaskExecutor {
         HelixTaskResult result = new HelixTaskResult();
         _processedMsgIds.put(_message.getMsgId(), _message.getMsgId());
         if (_delay > 0) {
-          System.out.println("Sleeping..." + _delay);
+          LOG.debug("Sleeping..." + _delay);
           try {
             Thread.sleep(_delay);
           } catch (Exception e) {
@@ -306,7 +310,7 @@ public class TestHelixTaskExecutor {
 
   @Test()
   public void testNormalMsgExecution() throws InterruptedException {
-    System.out.println("START TestCMTaskExecutor.testNormalMsgExecution()");
+    LOG.debug("START TestCMTaskExecutor.testNormalMsgExecution()");
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -359,12 +363,12 @@ public class TestHelixTaskExecutor {
           && factory2._processedMsgIds.containsKey(record.getId()));
 
     }
-    System.out.println("END TestCMTaskExecutor.testNormalMsgExecution()");
+    LOG.debug("END TestCMTaskExecutor.testNormalMsgExecution()");
   }
 
   @Test()
   public void testDuplicatedMessage() throws InterruptedException {
-    System.out.println("START TestHelixTaskExecutor.testDuplicatedMessage()");
+    LOG.debug("START TestHelixTaskExecutor.testDuplicatedMessage()");
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
     HelixDataAccessor dataAccessor = manager.getHelixDataAccessor();
@@ -423,12 +427,12 @@ public class TestHelixTaskExecutor {
     Thread.sleep(1000);
     Assert.assertEquals(dataAccessor.getChildValues(keyBuilder.messages(instanceName), true).size(),
         0);
-    System.out.println("END TestHelixTaskExecutor.testDuplicatedMessage()");
+    LOG.debug("END TestHelixTaskExecutor.testDuplicatedMessage()");
   }
 
   @Test()
   public void testStaledMessage() throws InterruptedException {
-    System.out.println("START TestHelixTaskExecutor.testStaledMessage()");
+    LOG.debug("START TestHelixTaskExecutor.testStaledMessage()");
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
     HelixDataAccessor dataAccessor = manager.getHelixDataAccessor();
@@ -472,12 +476,12 @@ public class TestHelixTaskExecutor {
     Assert.assertEquals(dataAccessor.getChildValues(keyBuilder.messages(instanceName), true).size(),
         0);
 
-    System.out.println("END TestHelixTaskExecutor.testStaledMessage()");
+    LOG.debug("END TestHelixTaskExecutor.testStaledMessage()");
   }
 
   @Test()
   public void testUnknownTypeMsgExecution() throws InterruptedException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -523,12 +527,12 @@ public class TestHelixTaskExecutor {
         AssertJUnit.assertTrue(factory._processedMsgIds.containsKey(message.getId()));
       }
     }
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test()
   public void testMsgSessionId() throws InterruptedException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -575,12 +579,12 @@ public class TestHelixTaskExecutor {
         AssertJUnit.assertTrue(factory._processedMsgIds.containsKey(message.getId()));
       }
     }
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test()
   public void testCreateHandlerException() throws Exception {
-    System.out.println("START TestCMTaskExecutor.testCreateHandlerException()");
+    LOG.debug("START TestCMTaskExecutor.testCreateHandlerException()");
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
     HelixDataAccessor dataAccessor = manager.getHelixDataAccessor();
@@ -656,12 +660,12 @@ public class TestHelixTaskExecutor {
     Assert.assertEquals(factory._processedMsgIds.size(), nMsgs1);
     Assert.assertEquals(factory._handlersCreated, nMsgs1);
 
-    System.out.println("END TestCMTaskExecutor.testCreateHandlerException()");
+    LOG.debug("END TestCMTaskExecutor.testCreateHandlerException()");
   }
 
   @Test()
   public void testTaskCancellation() throws InterruptedException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -711,12 +715,12 @@ public class TestHelixTaskExecutor {
         AssertJUnit.assertTrue(factory._processingMsgIds.containsKey(message.getId()));
       }
     }
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test()
   public void testShutdown() throws InterruptedException {
-    System.out.println("START TestCMTaskExecutor.testShutdown()");
+    LOG.debug("START TestCMTaskExecutor.testShutdown()");
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -773,12 +777,12 @@ public class TestHelixTaskExecutor {
     for (ExecutorService svc : executor._executorMap.values()) {
       Assert.assertTrue(svc.isShutdown());
     }
-    System.out.println("END TestCMTaskExecutor.testShutdown()");
+    LOG.debug("END TestCMTaskExecutor.testShutdown()");
   }
 
   @Test(dependsOnMethods = "testShutdown")
   public void testHandlerResetTimeout() throws Exception {
-    System.out.println("START TestCMTaskExecutor.testHandlerResetTimeout()");
+    LOG.debug("START TestCMTaskExecutor.testHandlerResetTimeout()");
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -825,7 +829,7 @@ public class TestHelixTaskExecutor {
     Assert.assertEquals(factory._completedMsgIds.size(), 1);
     Assert.assertTrue(factory._completedMsgIds.contains(msg2.getMsgId()));
 
-    System.out.println("END TestCMTaskExecutor.testHandlerResetTimeout()");
+    LOG.debug("END TestCMTaskExecutor.testHandlerResetTimeout()");
   }
 
   @Test
@@ -853,7 +857,7 @@ public class TestHelixTaskExecutor {
 
   @Test()
   public void testNoRetry() throws InterruptedException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -889,12 +893,12 @@ public class TestHelixTaskExecutor {
         AssertJUnit.assertTrue(factory._timedOutMsgIds.containsKey(msgList.get(i).getId()));
       }
     }
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test()
   public void testRetryOnce() throws InterruptedException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -925,12 +929,12 @@ public class TestHelixTaskExecutor {
     AssertJUnit.assertTrue(msgList.get(1).getRecord().getSimpleField("Cancelcount").equals("1"));
     AssertJUnit.assertEquals(factory._timedOutMsgIds.size(), 2);
     AssertJUnit.assertTrue(executor._taskMap.size() == 0);
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test
   public void testStateTransitionCancellationMsg() throws InterruptedException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -970,12 +974,12 @@ public class TestHelixTaskExecutor {
     Thread.sleep(3000);
     AssertJUnit.assertEquals(cancelFactory._processedMsgIds.size(), 0);
     AssertJUnit.assertEquals(stateTransitionFactory._processedMsgIds.size(), 0);
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test
   public void testMessageReadOptimization() throws InterruptedException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
 
@@ -1015,13 +1019,13 @@ public class TestHelixTaskExecutor {
     AssertJUnit.assertEquals(nMsgs1, factory._processedMsgIds.size());
     // After all messages are processed, _knownMessageIds should be empty.
     Assert.assertTrue(executor._knownMessageIds.isEmpty());
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test
   public void testNoWriteReadStateForRemovedMessage()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     HelixTaskExecutor executor = new HelixTaskExecutor();
     HelixManager manager = new MockClusterManager();
     TestMessageHandlerFactory factory = new TestMessageHandlerFactory();
@@ -1060,7 +1064,7 @@ public class TestHelixTaskExecutor {
     Assert.assertEquals(accessor.getChildNames(keyBuilder.messages(instanceName)).size(), nMsgs1);
 
     accessor.removeProperty(keyBuilder.message(instanceName, messageIds.get(0)));
-    System.out.println(accessor.getChildNames(keyBuilder.messages(instanceName)).size());
+    LOG.debug("size {}", accessor.getChildNames(keyBuilder.messages(instanceName)).size());
 
     for (Message message : messages) {
       // Mock a change to ensure there will be some delta on the message node after update
@@ -1069,12 +1073,12 @@ public class TestHelixTaskExecutor {
     updateMessageState.invoke(executor, messages, accessor, instanceName);
     Assert
         .assertEquals(accessor.getChildNames(keyBuilder.messages(instanceName)).size(), nMsgs1 - 1);
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test(dependsOnMethods = "testStateTransitionCancellationMsg")
   public void testStateTransitionMsgScheduleFailure() {
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
 
     // Create a mock executor that fails the task scheduling.
     HelixTaskExecutor executor = new HelixTaskExecutor() {
@@ -1117,7 +1121,7 @@ public class TestHelixTaskExecutor {
     Assert.assertNotNull(currentState);
     Assert.assertEquals(currentState.getState(msg.getPartitionName()),
         HelixDefinedState.ERROR.toString());
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 
   @Test
@@ -1154,7 +1158,7 @@ public class TestHelixTaskExecutor {
       }
     }
 
-    System.out.println("START " + TestHelper.getTestMethodName());
+    LOG.debug("START " + TestHelper.getTestMethodName());
     String sessionId = UUID.randomUUID().toString();
     String resourceName = "testDB";
     String msgId = "testMsgId";
@@ -1196,7 +1200,7 @@ public class TestHelixTaskExecutor {
     Assert.assertTrue(TestHelper.verify(() -> {
       return executor1.getTaskCount() == 1;
     }, TestHelper.WAIT_DURATION));
-    System.out.println(TestHelper.getTestMethodName() + ": State transition based test passed.");
+    LOG.debug(TestHelper.getTestMethodName() + ": State transition based test passed.");
 
     // Resource name based
     executor = new HelixTaskExecutor(); // Re-initialize it because if the message exists in _taskMap, it won't be assigned again
@@ -1211,7 +1215,7 @@ public class TestHelixTaskExecutor {
     Assert.assertTrue(TestHelper.verify(() -> {
       return executor0.getTaskCount() == 1;
     }, TestHelper.WAIT_DURATION));
-    System.out.println(TestHelper.getTestMethodName() + ": Resource name based test passed.");
+    LOG.debug(TestHelper.getTestMethodName() + ": Resource name based test passed.");
 
     // Message Info based
     executor = new HelixTaskExecutor();
@@ -1226,8 +1230,8 @@ public class TestHelixTaskExecutor {
     Assert.assertTrue(TestHelper.verify(() -> {
       return executor2.getTaskCount() == 1;
     }, TestHelper.WAIT_DURATION));
-    System.out.println(TestHelper.getTestMethodName() + ": Message Info based test passed.");
+    LOG.debug(TestHelper.getTestMethodName() + ": Message Info based test passed.");
 
-    System.out.println("END " + TestHelper.getTestMethodName());
+    LOG.debug("END " + TestHelper.getTestMethodName());
   }
 }

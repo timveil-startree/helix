@@ -26,15 +26,19 @@ import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.zookeeper.impl.client.ZkClient;
 import org.apache.helix.zookeeper.zkclient.ZkServer;
 import org.apache.helix.zookeeper.zkclient.exception.ZkNoNodeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestZKClientPool {
 
+  protected static final Logger LOG = LoggerFactory.getLogger(TestZKClientPool.class);
+
   @Test
   public void test() throws Exception {
     String testName = "TestZKClientPool";
-    System.out.println("START " + testName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + testName + " at " + new Date(System.currentTimeMillis()));
 
     String zkAddr = "localhost:21891";
     ZkServer zkServer = TestHelper.startZkServer(zkAddr);
@@ -64,6 +68,6 @@ public class TestZKClientPool {
 
     zkClient.close();
     TestHelper.stopZkServer(zkServer);
-    System.out.println("END " + testName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + testName + " at " + new Date(System.currentTimeMillis()));
   }
 }

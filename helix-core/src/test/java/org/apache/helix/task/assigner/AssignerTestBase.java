@@ -24,8 +24,12 @@ import java.util.Map;
 
 import org.apache.helix.model.ClusterConfig;
 import org.apache.helix.model.LiveInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /* package */ class AssignerTestBase {
+
+  protected static final Logger LOG = LoggerFactory.getLogger(AssignerTestBase.class);
 
   public static final String testClusterName = "testCluster";
   static final String testInstanceName = "testInstance";

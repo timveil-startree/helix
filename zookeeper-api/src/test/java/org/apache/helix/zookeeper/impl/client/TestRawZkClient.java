@@ -253,17 +253,17 @@ public class TestRawZkClient extends ZkTestBase {
       IZkStateListener listener = new IZkStateListener() {
         @Override
         public void handleStateChanged(KeeperState state) {
-          System.out.println("Handle new state: " + state);
+          LOG.debug("Handle new state: " + state);
         }
 
         @Override
         public void handleNewSession(final String sessionId) {
-          System.out.println("Handle new session: " + sessionId);
+          LOG.debug("Handle new session: " + sessionId);
         }
 
         @Override
         public void handleSessionEstablishmentError(Throwable error) {
-          System.out.println("Handle session establishment error: " + error);
+          LOG.debug("Handle session establishment error: " + error);
         }
       };
 
@@ -297,17 +297,17 @@ public class TestRawZkClient extends ZkTestBase {
           new org.apache.helix.zookeeper.zkclient.deprecated.IZkStateListener() {
             @Override
             public void handleStateChanged(KeeperState state) {
-              System.out.println("Handle new state: " + state);
+              LOG.debug("Handle new state: " + state);
             }
 
             @Override
             public void handleNewSession() {
-              System.out.println("Handle new session: ");
+              LOG.debug("Handle new session: ");
             }
 
             @Override
             public void handleSessionEstablishmentError(Throwable error) {
-              System.out.println("Handle session establishment error: " + error);
+              LOG.debug("Handle session establishment error: " + error);
             }
           };
 
@@ -342,12 +342,12 @@ public class TestRawZkClient extends ZkTestBase {
 
           @Override
           public void handleStateChanged(KeeperState state) {
-            System.out.println("In Old connection New state " + state);
+            LOG.debug("In Old connection New state " + state);
           }
 
           @Override
           public void handleNewSession() {
-            System.out.println("In Old connection New session");
+            LOG.debug("In Old connection New session");
           }
 
           @Override
@@ -359,20 +359,20 @@ public class TestRawZkClient extends ZkTestBase {
     ZkConnection connection = ((ZkConnection) _zkClient.getConnection());
     ZooKeeper zookeeper = connection.getZookeeper();
     long oldSessionId = zookeeper.getSessionId();
-    System.out.println("old sessionId= " + oldSessionId);
-    Watcher watcher = event -> System.out.println("In New connection In process event:" + event);
+    LOG.debug("old sessionId= " + oldSessionId);
+    Watcher watcher = event -> LOG.debug("In New connection In process event:" + event);
     ZooKeeper newZookeeper =
         new ZooKeeper(connection.getServers(), zookeeper.getSessionTimeout(), watcher,
             zookeeper.getSessionId(), zookeeper.getSessionPasswd());
     Thread.sleep(3000);
-    System.out.println("New sessionId= " + newZookeeper.getSessionId());
+    LOG.debug("New sessionId= " + newZookeeper.getSessionId());
     Thread.sleep(3000);
     newZookeeper.close();
     Thread.sleep(10000);
     connection = ((ZkConnection) _zkClient.getConnection());
     zookeeper = connection.getZookeeper();
     long newSessionId = zookeeper.getSessionId();
-    System.out.println("After session expiry sessionId= " + newSessionId);
+    LOG.debug("After session expiry sessionId= " + newSessionId);
     _zkClient.unsubscribeStateChanges(listener);
   }
 
@@ -873,9 +873,9 @@ public class TestRawZkClient extends ZkTestBase {
     final Thread creationThread = new Thread(() -> {
       while (running.get()) {
         // Create ephemeral node in the expected session id.
-        System.out.println("Trying to create ephemeral node...");
+        LOG.debug("Trying to create ephemeral node...");
         _zkClient.createEphemeral(path, data, expectedSessionId);
-        System.out.println("Ephemeral node created.");
+        LOG.debug("Ephemeral node created.");
         running.set(false);
       }
       countDownLatch.countDown();
@@ -883,10 +883,10 @@ public class TestRawZkClient extends ZkTestBase {
 
     creationThread.start();
     // Keep creation thread retrying to connect for 10 seconds.
-    System.out.println("Keep creation thread retrying to connect for 10 seconds...");
+    LOG.debug("Keep creation thread retrying to connect for 10 seconds...");
     TimeUnit.SECONDS.sleep(10);
 
-    System.out.println("Restarting zk server...");
+    LOG.debug("Restarting zk server...");
     _zkServerMap.get(ZK_ADDR).start();
 
     // Wait for creating ephemeral node successfully.
@@ -946,9 +946,9 @@ public class TestRawZkClient extends ZkTestBase {
     final Thread creationThread = new Thread(() -> {
       while (running.get()) {
         // Create ephemeral node in the expected session id.
-        System.out.println("Trying to create ephemeral node...");
+        LOG.debug("Trying to create ephemeral node...");
         _zkClient.createEphemeral(path, data, expectedSessionId);
-        System.out.println("Ephemeral node created.");
+        LOG.debug("Ephemeral node created.");
         running.set(false);
       }
       countDownLatch.countDown();
@@ -956,10 +956,10 @@ public class TestRawZkClient extends ZkTestBase {
 
     creationThread.start();
     // Keep creation thread retrying to connect for 10 seconds.
-    System.out.println("Keep creation thread retrying to connect for 10 seconds...");
+    LOG.debug("Keep creation thread retrying to connect for 10 seconds...");
     TimeUnit.SECONDS.sleep(10);
 
-    System.out.println("Restarting zk server...");
+    LOG.debug("Restarting zk server...");
     _zkServerMap.get(ZK_ADDR).start();
 
     // Wait for creating ephemeral node successfully.
@@ -1139,7 +1139,7 @@ public class TestRawZkClient extends ZkTestBase {
   @Test
   public void testGetChildrenOnLargeNumChildren() throws Exception {
     final String methodName = TestHelper.getTestMethodName();
-    System.out.println("Start test: " + methodName);
+    LOG.debug("Start test: " + methodName);
     // Create 110K children to make packet length of children exceed 4 MB
     // and cause connection loss for getChildren() operation
     String path = "/" + methodName;
@@ -1187,7 +1187,7 @@ public class TestRawZkClient extends ZkTestBase {
         return true;
       }, TestHelper.WAIT_DURATION));
     }
-    System.out.println("End test: " + methodName);
+    LOG.debug("End test: " + methodName);
   }
 
   @Test(expectedExceptions = ZkClientException.class,

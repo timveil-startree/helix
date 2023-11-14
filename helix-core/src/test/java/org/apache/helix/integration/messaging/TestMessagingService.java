@@ -70,7 +70,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBase {
         HelixTaskResult result = new HelixTaskResult();
         result.setSuccess(true);
         Thread.sleep(1000);
-        System.out.println("TestMessagingHandler " + _message.getMsgId());
+        LOG.debug("TestMessagingHandler " + _message.getMsgId());
         _processedMsgIds.add(_message.getRecord().getSimpleField("TestMessagingPara"));
         result.getTaskResultMap().put("ReplyMessage", "TestReplyMessage");
         return result;
@@ -164,7 +164,7 @@ public class TestMessagingService extends ZkStandAloneCMTestBase {
     @Override
     public void onReplyMessage(Message message) {
       // TODO Auto-generated method stub
-      System.out.println("OnreplyMessage: "
+      LOG.debug("OnreplyMessage: "
           + message.getRecord().getMapField(Message.Attributes.MESSAGE_RESULT.toString())
               .get("ReplyMessage"));
       if (message.getRecord().getMapField(Message.Attributes.MESSAGE_RESULT.toString())

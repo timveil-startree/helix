@@ -100,7 +100,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
   @Test()
   public void testZkHelixAdmin() {
     // TODO refactor this test into small test cases and use @before annotations
-    System.out.println("START testZkHelixAdmin at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START testZkHelixAdmin at " + new Date(System.currentTimeMillis()));
 
     final String clusterName = getShortClassName();
     String rootPath = "/" + clusterName;
@@ -345,7 +345,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     }
 
     deleteCluster(clusterName);
-    System.out.println("END testZkHelixAdmin at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END testZkHelixAdmin at " + new Date(System.currentTimeMillis()));
   }
 
   private HelixManager initializeHelixManager(String clusterName, String instanceName) {
@@ -366,7 +366,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     HelixAdmin tool = new ZKHelixAdmin(_gZkClient);
     tool.addCluster(clusterName, true);
@@ -393,7 +393,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
         "test-db resource config should be dropped");
 
     tool.dropCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   // test add/remove message constraint
@@ -403,7 +403,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     HelixAdmin tool = new ZKHelixAdmin(_gZkClient);
     tool.addCluster(clusterName, true);
@@ -457,7 +457,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     Assert.assertNull(item, "message-constraint for constraint1 should NOT exist");
 
     tool.dropCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -465,7 +465,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     String className = TestHelper.getTestClassName();
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     HelixAdmin admin = new ZKHelixAdmin(_gZkClient);
     admin.addCluster(clusterName, true);
     Assert.assertTrue(ZKUtil.isClusterSetup(clusterName, _gZkClient), "Cluster should be setup");
@@ -484,7 +484,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     Assert.assertTrue(idealState.isEnabled());
 
     admin.dropCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   @Test
@@ -546,7 +546,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     String clusterName = className + "_" + methodName;
     String instanceName = "TestInstance";
     String testResourcePrefix = "TestResource";
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     HelixAdmin admin = new ZKHelixAdmin(_gZkClient);
     admin.addCluster(clusterName, true);
     admin.addInstance(clusterName, new InstanceConfig(instanceName));
@@ -598,7 +598,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     String testResource = "TestResource";
     String wrongTestInstance = "WrongTestInstance";
     String wrongTestResource = "WrongTestResource";
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
     HelixAdmin admin = new ZKHelixAdmin(_gZkClient);
     admin.addCluster(clusterName, true);
     admin.addInstance(clusterName, new InstanceConfig(instanceName));
@@ -674,7 +674,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
       Assert.assertTrue(TestHelper.verify(() -> dataAccessor.getChildNames(dataAccessor.keyBuilder().liveInstances()).isEmpty(), 1000));
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println("There're live instances not cleaned up yet");
+      LOG.debug("There're live instances not cleaned up yet");
       assert false;
     }
 
@@ -682,7 +682,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
       Assert.assertTrue(TestHelper.verify(() -> dataAccessor.getChildNames(dataAccessor.keyBuilder().clusterConfig()).isEmpty(), 1000));
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println("The cluster is not cleaned up yet");
+      LOG.debug("The cluster is not cleaned up yet");
       assert false;
     }
   }
@@ -1035,7 +1035,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     String methodName = TestHelper.getTestMethodName();
     String clusterName = className + "_" + methodName;
 
-    System.out.println("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
 
     HelixAdmin tool = new ZKHelixAdmin(_gZkClient);
     tool.addCluster(clusterName, true);
@@ -1096,7 +1096,7 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
         "Instance should still be there");
 
     tool.dropCluster(clusterName);
-    System.out.println("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
+    LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));
   }
 
   private void assertInstanceDropped(PropertyKey.Builder keyBuilder, String instanceName) {
