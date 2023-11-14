@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * 3. provides public methods for reading routing data from various sources (configurable)
  */
 public class RoutingDataManager {
-  private static Logger LOG = LoggerFactory.getLogger(RoutingDataManager.class);
+  private static final Logger LOG = LoggerFactory.getLogger(RoutingDataManager.class);
 
   /** HTTP call to MSDS is used to fetch routing data by default */
   private String _defaultMsdsEndpoint =
@@ -205,14 +205,14 @@ public class RoutingDataManager {
   public void parseRoutingDataUpdateInterval() {
     try {
       _routingDataUpdateInterval =
-          Long.parseLong(System.getProperty(RoutingSystemPropertyKeys.ROUTING_DATA_UPDATE_INTERVAL_MS));
+          Long.parseLong(System.getProperty(RoutingSystemPropertyKeys.ROUTING_DATA_UPDATE_INTERVAL_MS, Long.toString(RoutingDataConstants.DEFAULT_ROUTING_DATA_UPDATE_INTERVAL_MS)));
       if (_routingDataUpdateInterval < 0) {
-        LOG.warn("FederatedZkClient::shouldThrottleRead(): invalid value: {} given for "
+        LOG.warn("RoutingDataManager::parseRoutingDataUpdateInterval(): invalid value: {} given for "
             + "ROUTING_DATA_UPDATE_INTERVAL_MS, using the default value (5 sec) instead!", _routingDataUpdateInterval);
         _routingDataUpdateInterval = RoutingDataConstants.DEFAULT_ROUTING_DATA_UPDATE_INTERVAL_MS;
       }
     } catch (NumberFormatException e) {
-      LOG.warn("FederatedZkClient::shouldThrottleRead(): failed to parse "
+      LOG.warn("RoutingDataManager::parseRoutingDataUpdateInterval(): failed to parse "
           + "ROUTING_DATA_UPDATE_INTERVAL_MS, using the default value (5 sec) instead!", e);
       _routingDataUpdateInterval = RoutingDataConstants.DEFAULT_ROUTING_DATA_UPDATE_INTERVAL_MS;
     }
