@@ -138,7 +138,7 @@ public class TestZNRecordStreamingSerializer {
     serializedBytes = serializer.serialize(record);
     int compressedSize = serializedBytes.length;
     LOG.debug("compressed serialized data length = " + serializedBytes.length);
-    System.out.printf("compression ratio: %.2f \n", (uncompressedSize * 1.0 / compressedSize));
+    LOG.debug("compression ratio: {} \n", (uncompressedSize * 1.0 / compressedSize));
     ZNRecord result = (ZNRecord) serializer.deserialize(serializedBytes);
     Assert.assertEquals(result, record);
   }
