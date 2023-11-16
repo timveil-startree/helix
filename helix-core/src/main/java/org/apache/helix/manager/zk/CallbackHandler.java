@@ -299,7 +299,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
     // async mode only applicable to CALLBACK from ZK, During INIT and FINALIZE invoke the
     // callback's immediately.
     if (_batchModeEnabled && changeContext.getType() == NotificationContext.Type.CALLBACK) {
-      logger.debug("Callbackhandler {}, Enqueuing callback", _uid );
+      logger.debug("CallbackHandler {}, Enqueuing callback", _uid );
       if (!isReady()) {
         logger.info("CallbackHandler {} is not ready, ignore change callback from path: {}, for "
             + "listener: {}", _uid, _path, _listener);
@@ -332,7 +332,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
 
     synchronized (this) {
       if (!_expectTypes.contains(type)) {
-        logger.warn("Callback handler {} received event in wrong order. Listener: {}, path: {}, "
+        logger.warn("CallbackHandler {} received event in wrong order. Listener: {}, path: {}, "
             + "expected types: {}, but was {}", _uid, _listener, _path, _expectTypes, type);
         return;
       }
@@ -462,7 +462,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
         ControllerChangeListener controllerChangelistener = (ControllerChangeListener) _listener;
         controllerChangelistener.onControllerChange(changeContext);
       } else {
-        logger.warn("Callbackhandler {}, Unknown change type: {}", _uid, _changeType);
+        logger.warn("CallbackHandler {}, Unknown change type: {}", _uid, _changeType);
       }
 
       long end = System.currentTimeMillis();
@@ -515,7 +515,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
       // getChildren() might be null: when path doesn't exist.
       return childrenSubscribeResult.getChildren();
     } else if (callbackType == NotificationContext.Type.FINALIZE) {
-      logger.info("CallbackHandler{}, {} unsubscribe child-change. path: {}, listener: {}",
+      logger.info("CallbackHandler {}, {} unsubscribe child-change. path: {}, listener: {}",
           _uid ,_manager.getInstanceName(), path, _listener);
 
       _zkClient.unsubscribeChildChanges(path, this);
@@ -540,7 +540,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
         logger.info("CallbackHandler {} subscribe data path {} failed!", _uid, path);
       }
     } else if (callbackType == NotificationContext.Type.FINALIZE) {
-      logger.info("CallbackHandler{}, {} unsubscribe data-change. path: {}, listener: {}",
+      logger.info("CallbackHandler {}, {} unsubscribe data-change. path: {}, listener: {}",
           _uid, _manager.getInstanceName(), path, _listener);
 
       _zkClient.unsubscribeDataChanges(path, this);
@@ -626,7 +626,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
     }
 
     long end = System.currentTimeMillis();
-    logger.info("CallbackHandler{}, Subscribing to path: {} took: {}", _uid, path, (end - start));
+    logger.info("CallbackHandler {}, Subscribing to path: {} took: {}", _uid, path, (end - start));
   }
 
   public EventType[] getEventTypes() {
@@ -665,7 +665,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
 
   @Override
   public void handleDataChange(String dataPath, Object data) {
-    logger.debug("Data change callbackhandler {}: paths changed: {}", _uid, dataPath);
+    logger.debug("Data change CallbackHandler {}: paths changed: {}", _uid, dataPath);
 
     try {
       updateNotificationTime(System.nanoTime());
@@ -686,7 +686,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
 
   @Override
   public void handleDataDeleted(String dataPath) {
-    logger.debug("Data change callbackhandler {}: path deleted: {}", _uid, dataPath);
+    logger.debug("Data change CallbackHandler {}: path deleted: {}", _uid, dataPath);
 
     try {
       updateNotificationTime(System.nanoTime());
@@ -725,7 +725,7 @@ public class CallbackHandler implements IZkChildListener, IZkDataListener {
         } else {
           if (!isReady()) {
             // avoid leaking CallbackHandler
-            logger.info("Callbackhandler {} with path {} is in reset state. Stop subscription to ZK client to avoid leaking",
+            logger.info("CallbackHandler {} with path {} is in reset state. Stop subscription to ZK client to avoid leaking",
                 this, parentPath);
             return;
           }
