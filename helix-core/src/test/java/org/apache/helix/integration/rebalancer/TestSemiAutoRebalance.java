@@ -94,11 +94,14 @@ public class TestSemiAutoRebalance extends ZkTestBase {
     _controller = new ClusterControllerManager(ZK_ADDR, CLUSTER_NAME, controllerName);
     _controller.syncStart();
 
-    ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
+    try(ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
         .setZkClient(_gZkClient)
         .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+        .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   @AfterClass

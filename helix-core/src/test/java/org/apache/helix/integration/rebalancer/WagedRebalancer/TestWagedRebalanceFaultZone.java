@@ -304,11 +304,14 @@ public class TestWagedRebalanceFaultZone extends ZkTestBase {
   }
 
   private void validate(int expectedReplica) {
-    ZkHelixClusterVerifier _clusterVerifier =
+    try (ZkHelixClusterVerifier _clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     for (String db : _allDBs) {
       IdealState is =
@@ -350,11 +353,14 @@ public class TestWagedRebalanceFaultZone extends ZkTestBase {
     }
     _allDBs.clear();
     // waiting for all DB be dropped.
-    ZkHelixClusterVerifier _clusterVerifier =
+    try (ZkHelixClusterVerifier _clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   @AfterClass

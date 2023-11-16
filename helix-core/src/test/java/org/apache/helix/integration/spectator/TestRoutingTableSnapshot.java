@@ -105,44 +105,48 @@ public class TestRoutingTableSnapshot extends ZkTestBase {
           IdealState.RebalanceMode.FULL_AUTO.name(), CrushEdRebalanceStrategy.class.getName());
       _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, db1, NUM_REPLICAS);
 
-      ZkHelixClusterVerifier clusterVerifier =
+      try (ZkHelixClusterVerifier clusterVerifier =
           new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
               .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-              .build();
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
+              .build()) {
+        Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-      IdealState idealState1 =
-          _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db1);
 
-      RoutingTableSnapshot routingTableSnapshot = routingTableProvider.getRoutingTableSnapshot();
-      validateMapping(idealState1, routingTableSnapshot);
+        IdealState idealState1 =
+                _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db1);
 
-      Assert.assertEquals(routingTableSnapshot.getInstanceConfigs().size(), NUM_NODES);
-      Assert.assertEquals(routingTableSnapshot.getResources().size(), 1);
-      Assert.assertEquals(routingTableSnapshot.getLiveInstances().size(), NUM_NODES);
-      Assert.assertEquals(routingTableSnapshot.getExternalViews().size(), 1); // 1 DB
+        RoutingTableSnapshot routingTableSnapshot = routingTableProvider.getRoutingTableSnapshot();
+        validateMapping(idealState1, routingTableSnapshot);
 
-      // add new DB and shutdown an instance
-      String db2 = "TestDB-2";
-      _gSetupTool.addResourceToCluster(CLUSTER_NAME, db2, NUM_PARTITIONS, "MasterSlave",
-          IdealState.RebalanceMode.FULL_AUTO.name(), CrushEdRebalanceStrategy.class.getName());
-      _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, db2, NUM_REPLICAS);
+        Assert.assertEquals(routingTableSnapshot.getInstanceConfigs().size(), NUM_NODES);
+        Assert.assertEquals(routingTableSnapshot.getResources().size(), 1);
+        Assert.assertEquals(routingTableSnapshot.getLiveInstances().size(), NUM_NODES);
+        Assert.assertEquals(routingTableSnapshot.getExternalViews().size(), 1); // 1 DB
 
-      // shutdown an instance
-      _participants[0].syncStop();
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
+        // add new DB and shutdown an instance
+        String db2 = "TestDB-2";
+        _gSetupTool.addResourceToCluster(CLUSTER_NAME, db2, NUM_PARTITIONS, "MasterSlave",
+                IdealState.RebalanceMode.FULL_AUTO.name(), CrushEdRebalanceStrategy.class.getName());
+        _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, db2, NUM_REPLICAS);
 
-      // the original snapshot should not change
-      Assert.assertEquals(routingTableSnapshot.getInstanceConfigs().size(), NUM_NODES);
-      Assert.assertEquals(routingTableSnapshot.getResources().size(), 1);
-      Assert.assertEquals(routingTableSnapshot.getLiveInstances().size(), NUM_NODES);
+        // shutdown an instance
+        _participants[0].syncStop();
+        Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-      RoutingTableSnapshot newRoutingTableSnapshot = routingTableProvider.getRoutingTableSnapshot();
+        // the original snapshot should not change
+        Assert.assertEquals(routingTableSnapshot.getInstanceConfigs().size(), NUM_NODES);
+        Assert.assertEquals(routingTableSnapshot.getResources().size(), 1);
+        Assert.assertEquals(routingTableSnapshot.getLiveInstances().size(), NUM_NODES);
 
-      Assert.assertEquals(newRoutingTableSnapshot.getInstanceConfigs().size(), NUM_NODES);
-      Assert.assertEquals(newRoutingTableSnapshot.getResources().size(), 2);
-      Assert.assertEquals(newRoutingTableSnapshot.getLiveInstances().size(), NUM_NODES - 1);
-      Assert.assertEquals(newRoutingTableSnapshot.getExternalViews().size(), 2); // 2 DBs
+        RoutingTableSnapshot newRoutingTableSnapshot = routingTableProvider.getRoutingTableSnapshot();
+
+        Assert.assertEquals(newRoutingTableSnapshot.getInstanceConfigs().size(), NUM_NODES);
+        Assert.assertEquals(newRoutingTableSnapshot.getResources().size(), 2);
+        Assert.assertEquals(newRoutingTableSnapshot.getLiveInstances().size(), NUM_NODES - 1);
+        Assert.assertEquals(newRoutingTableSnapshot.getExternalViews().size(), 2); // 2 DBs
+      } catch (Exception e) {
+        Assert.fail(e.getMessage(), e);
+      }
     } finally {
       routingTableProvider.shutdown();
     }

@@ -57,11 +57,15 @@ public class TestCrossClusterMessagingService extends TestMessagingService {
     _adminController = new ClusterControllerManager(ZK_ADDR, ADMIN_CLUSTER_NAME, controllerName);
     _adminController.syncStart();
 
-    ZkHelixClusterVerifier adminClusterVerifier =
+    try (ZkHelixClusterVerifier adminClusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(ADMIN_CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(adminClusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(adminClusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
   }
 
   @AfterClass

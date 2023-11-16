@@ -111,12 +111,15 @@ public class TestBatchMessageWrapper extends ZkUnitTestBase {
           TestHelper.WAIT_DURATION);
 
       // wait for each participant to complete state transitions, so we have deterministic results
-      ZkHelixClusterVerifier _clusterVerifier =
+      try (ZkHelixClusterVerifier _clusterVerifier =
           new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
               .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-              .build();
-      Assert.assertTrue(_clusterVerifier.verifyByPolling(),
-          "participant: " + instanceName + " fails to complete all transitions");
+              .build()) {
+        Assert.assertTrue(_clusterVerifier.verifyByPolling(),
+                "participant: " + instanceName + " fails to complete all transitions");
+      } catch (Exception e) {
+        Assert.fail(e.getMessage(), e);
+      }
     }
 
     // check batch-msg-wrapper counts

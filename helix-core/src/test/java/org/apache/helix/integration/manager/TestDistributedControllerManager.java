@@ -72,33 +72,37 @@ public class TestDistributedControllerManager extends ZkTestBase {
           new MockMSModelFactory());
       distributedControllers[i].connect();
     }
-    BestPossibleExternalViewVerifier verifier = new BestPossibleExternalViewVerifier
-        .Builder(clusterName).setZkAddress(ZK_ADDR).build();
+    try (BestPossibleExternalViewVerifier verifier = new BestPossibleExternalViewVerifier
+        .Builder(clusterName).setZkAddress(ZK_ADDR).build()) {
 
-    boolean result = verifier.verifyByZkCallback();
-    Assert.assertTrue(result);
+      boolean result = verifier.verifyByZkCallback();
+      Assert.assertTrue(result);
 
-    // disconnect first distributed-controller, and verify second takes leadership
-    distributedControllers[0].disconnect();
+      // disconnect first distributed-controller, and verify second takes leadership
+      distributedControllers[0].disconnect();
 
-    Thread.sleep(100);
+      Thread.sleep(100);
 
-    // verify leader changes to localhost_12919
-    result = verifier.verifyByZkCallback();
-    Assert.assertTrue(result);
+      // verify leader changes to localhost_12919
+      result = verifier.verifyByZkCallback();
+      Assert.assertTrue(result);
 
-    ZKHelixDataAccessor accessor =
-        new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
-    Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance("localhost_12918")));
-    LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
-    Assert.assertNotNull(leader);
-    Assert.assertEquals(leader.getId(), "localhost_12919");
+      ZKHelixDataAccessor accessor =
+              new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
+      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance("localhost_12918")));
+      LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
+      Assert.assertNotNull(leader);
+      Assert.assertEquals(leader.getId(), "localhost_12919");
 
-    // clean up
-    distributedControllers[1].disconnect();
-    Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance("localhost_12919")));
-    Assert.assertNull(accessor.getProperty(keyBuilder.controllerLeader()));
+
+      // clean up
+      distributedControllers[1].disconnect();
+      Assert.assertNull(accessor.getProperty(keyBuilder.liveInstance("localhost_12919")));
+      Assert.assertNull(accessor.getProperty(keyBuilder.controllerLeader()));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     deleteCluster(clusterName);
     LOG.debug("START " + clusterName + " at " + new Date(System.currentTimeMillis()));
@@ -122,29 +126,33 @@ public class TestDistributedControllerManager extends ZkTestBase {
     LOG.debug("Expired distributedController: " + expireController.getInstanceName()
         + ", oldSessionId: " + oldSessionId + ", newSessionId: " + newSessionId);
 
-    BestPossibleExternalViewVerifier verifier = new BestPossibleExternalViewVerifier
-        .Builder(clusterName).setZkAddress(ZK_ADDR).build();
-    boolean result = verifier.verifyByPolling();
-    Assert.assertTrue(result);
+    try (BestPossibleExternalViewVerifier verifier = new BestPossibleExternalViewVerifier
+        .Builder(clusterName).setZkAddress(ZK_ADDR).build()) {
+      boolean result = verifier.verifyByPolling();
+      Assert.assertTrue(result);
 
-    // verify leader changes to localhost_12919
-    ZKHelixDataAccessor accessor =
-        new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
-    Assert.assertNotNull(
-        accessor.getProperty(keyBuilder.liveInstance(expireController.getInstanceName())));
-    LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
-    Assert.assertNotNull(leader);
-    Assert.assertEquals(leader.getId(), newController.getInstanceName());
+      // verify leader changes to localhost_12919
+      ZKHelixDataAccessor accessor =
+              new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
+      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      Assert.assertNotNull(
+              accessor.getProperty(keyBuilder.liveInstance(expireController.getInstanceName())));
+      LiveInstance leader = accessor.getProperty(keyBuilder.controllerLeader());
+      Assert.assertNotNull(leader);
+      Assert.assertEquals(leader.getId(), newController.getInstanceName());
 
-    // check expired-controller has 2 handlers: message and data-accessor
-    LOG.debug(expireController.getInstanceName() + " handlers: "
-        + TestHelper.printHandlers(expireController));
+      // check expired-controller has 2 handlers: message and data-accessor
+      LOG.debug(expireController.getInstanceName() + " handlers: "
+              + TestHelper.printHandlers(expireController));
 
-    List<CallbackHandler> handlers = expireController.getHandlers();
-    Assert.assertEquals(handlers.size(), 1,
-        "Distributed controller should have 1 handler (message) after lose leadership, but was "
-            + handlers.size());
+      List<CallbackHandler> handlers = expireController.getHandlers();
+      Assert.assertEquals(handlers.size(), 1,
+              "Distributed controller should have 1 handler (message) after lose leadership, but was "
+                      + handlers.size());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
   }
 
   @Test
@@ -175,28 +183,33 @@ public class TestDistributedControllerManager extends ZkTestBase {
           new MockMSModelFactory());
       distributedControllers[i].connect();
     }
-    BestPossibleExternalViewVerifier verifier = new BestPossibleExternalViewVerifier
-        .Builder(clusterName).setZkAddress(ZK_ADDR).build();
-    boolean result = verifier.verifyByZkCallback();
-    Assert.assertTrue(result);
 
-    // expire localhost_12918
-    expireController(distributedControllers[0], distributedControllers[1]);
+    try (BestPossibleExternalViewVerifier verifier = new BestPossibleExternalViewVerifier
+        .Builder(clusterName).setZkAddress(ZK_ADDR).build()) {
+      boolean result = verifier.verifyByZkCallback();
+      Assert.assertTrue(result);
 
-    // expire localhost_12919
-    expireController(distributedControllers[1], distributedControllers[0]);
+      // expire localhost_12918
+      expireController(distributedControllers[0], distributedControllers[1]);
 
-    // clean up
-    ZKHelixDataAccessor accessor =
-        new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      // expire localhost_12919
+      expireController(distributedControllers[1], distributedControllers[0]);
 
-    for (int i = 0; i < n; i++) {
-      distributedControllers[i].disconnect();
-      Assert.assertNull(accessor
-          .getProperty(keyBuilder.liveInstance(distributedControllers[i].getInstanceName())));
+      // clean up
+      ZKHelixDataAccessor accessor =
+              new ZKHelixDataAccessor(clusterName, new ZkBaseDataAccessor<>(_gZkClient));
+      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+
+      for (int i = 0; i < n; i++) {
+        distributedControllers[i].disconnect();
+        Assert.assertNull(accessor
+                .getProperty(keyBuilder.liveInstance(distributedControllers[i].getInstanceName())));
+      }
+      Assert.assertNull(accessor.getProperty(keyBuilder.controllerLeader()));
+
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
     }
-    Assert.assertNull(accessor.getProperty(keyBuilder.controllerLeader()));
 
     deleteCluster(clusterName);
     LOG.debug("END " + clusterName + " at " + new Date(System.currentTimeMillis()));

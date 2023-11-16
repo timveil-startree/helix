@@ -259,12 +259,15 @@ public final class TestRebalanceRunningTask extends TaskSynchronizedTestBase {
     // Add a new instance, partition is rebalanced
     LOG.debug("Start new participant");
     startParticipant(_initialNumNodes);
-    ZkHelixClusterVerifier clusterVerifier =
+    try (ZkHelixClusterVerifier clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setResources(Sets.newHashSet(DATABASE))
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(clusterVerifier.verify(10 * 1000));
+            .build()) {
+      Assert.assertTrue(clusterVerifier.verify(10 * 1000));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // Wait until master is switched to new instance and two masters exist on two different instances
     boolean isMasterOnTwoDifferentNodes = TestHelper.verify(() -> {
@@ -323,12 +326,15 @@ public final class TestRebalanceRunningTask extends TaskSynchronizedTestBase {
 
     // Add a new instance, partition is rebalanced
     startParticipant(_initialNumNodes);
-    ZkHelixClusterVerifier clusterVerifier =
+    try (ZkHelixClusterVerifier clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setResources(Sets.newHashSet(DATABASE))
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(clusterVerifier.verify(10 * 1000));
+            .build()) {
+      Assert.assertTrue(clusterVerifier.verify(10 * 1000));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // Running tasks are also rebalanced
     Assert.assertTrue(checkTasksOnDifferentInstances());

@@ -98,7 +98,11 @@ public class TestRebalancerPersistAssignments extends ZkStandAloneCMTestBase {
             .setResources(new HashSet<>(Collections.singleton(testDb)))
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME);
 
-    Assert.assertTrue(verifierBuilder.build().verifyByPolling());
+    try (BestPossibleExternalViewVerifier verifier = verifierBuilder.build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // kill 1 node
     _participants[0].syncStop();
@@ -106,7 +110,11 @@ public class TestRebalancerPersistAssignments extends ZkStandAloneCMTestBase {
     Set<String> liveInstances = new HashSet<>(_instanceNames);
     liveInstances.remove(_participants[0].getInstanceName());
     verifierBuilder.setExpectLiveInstances(liveInstances);
-    Assert.assertTrue(verifierBuilder.build().verifyByPolling());
+    try (BestPossibleExternalViewVerifier verifier = verifierBuilder.build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     IdealState idealState =
         _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, testDb);
@@ -140,7 +148,9 @@ public class TestRebalancerPersistAssignments extends ZkStandAloneCMTestBase {
             .setResources(new HashSet<>(Collections.singleton(testDb)))
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME);
 
-    Assert.assertTrue(verifierBuilder.build().verifyByPolling());
+    try (BestPossibleExternalViewVerifier verifier = verifierBuilder.build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    }
 
     IdealState idealState =
         _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, testDb);
@@ -152,7 +162,11 @@ public class TestRebalancerPersistAssignments extends ZkStandAloneCMTestBase {
     Set<String> liveInstances = new HashSet<>(_instanceNames);
     liveInstances.remove(_participants[0].getInstanceName());
     verifierBuilder.setExpectLiveInstances(liveInstances);
-    Assert.assertTrue(verifierBuilder.build().verifyByPolling());
+    try (BestPossibleExternalViewVerifier verifier = verifierBuilder.build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     idealState = _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, testDb);
     // verify that IdealState contains updated assignment in it map fields.
@@ -188,7 +202,11 @@ public class TestRebalancerPersistAssignments extends ZkStandAloneCMTestBase {
             .setResources(new HashSet<>(Collections.singleton(testDb)))
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME);
 
-    Assert.assertTrue(verifierBuilder.build().verifyByPolling());
+    try (BestPossibleExternalViewVerifier verifier = verifierBuilder.build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     IdealState idealState =
         _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, testDb);
@@ -200,7 +218,12 @@ public class TestRebalancerPersistAssignments extends ZkStandAloneCMTestBase {
     Set<String> liveInstances = new HashSet<>(_instanceNames);
     liveInstances.remove(_participants[0].getInstanceName());
     verifierBuilder.setExpectLiveInstances(liveInstances);
-    Assert.assertTrue(verifierBuilder.build().verifyByPolling());
+
+    try (BestPossibleExternalViewVerifier verifier = verifierBuilder.build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     idealState = _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, testDb);
     verifySemiAutoMasterSlaveAssignment(idealState);

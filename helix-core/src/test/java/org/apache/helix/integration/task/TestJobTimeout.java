@@ -141,11 +141,15 @@ public final class TestJobTimeout extends TaskSynchronizedTestBase {
         .addJob(SECOND_JOB, secondJobBuilder).addParentChildDependency(FIRST_JOB, SECOND_JOB);
 
     // Check that there are no SLAVE replicas
-    BestPossibleExternalViewVerifier verifier =
+    try(BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     ExternalView view =
         _gSetupTool.getClusterManagementTool().getResourceExternalView(CLUSTER_NAME, DB_NAME);
     view.getPartitionSet().forEach(partition -> {

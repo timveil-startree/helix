@@ -119,37 +119,40 @@ public class TestEnableCompression extends ZkTestBase {
       expectedLiveInstances.add(instanceName);
     }
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
             .setExpectLiveInstances(expectedLiveInstances).setResources(expectedResources)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
+            .build()) {
 
-    boolean reuslt = verifier.verifyByPolling(ENABLE_COMPRESSION_WAIT, ENABLE_COMPRESSION_POLL_INTERVAL);
-    Assert.assertTrue((reuslt));
+      boolean reuslt = verifier.verifyByPolling(ENABLE_COMPRESSION_WAIT, ENABLE_COMPRESSION_POLL_INTERVAL);
+      Assert.assertTrue((reuslt));
 
-    List<String> compressedPaths = new ArrayList<>();
-    findCompressedZNodes(zkClient, "/" + clusterName, compressedPaths);
+      List<String> compressedPaths = new ArrayList<>();
+      findCompressedZNodes(zkClient, "/" + clusterName, compressedPaths);
 
-    LOG.debug("compressed paths:" + compressedPaths);
-    // ONLY IDEALSTATE and EXTERNAL VIEW must be compressed
-    Assert.assertEquals(compressedPaths.size(), 2);
-    String idealstatePath = PropertyPathBuilder.idealState(clusterName, resourceName);
-    String externalViewPath = PropertyPathBuilder.externalView(clusterName, resourceName);
-    Assert.assertTrue(compressedPaths.contains(idealstatePath));
-    Assert.assertTrue(compressedPaths.contains(externalViewPath));
+      LOG.debug("compressed paths:" + compressedPaths);
+      // ONLY IDEALSTATE and EXTERNAL VIEW must be compressed
+      Assert.assertEquals(compressedPaths.size(), 2);
+      String idealstatePath = PropertyPathBuilder.idealState(clusterName, resourceName);
+      String externalViewPath = PropertyPathBuilder.externalView(clusterName, resourceName);
+      Assert.assertTrue(compressedPaths.contains(idealstatePath));
+      Assert.assertTrue(compressedPaths.contains(externalViewPath));
 
-    // Validate the compressed ZK nodes count == external view nodes
-    MBeanServer beanServer = ManagementFactory.getPlatformMBeanServer();
-    ObjectName name =
-        MBeanRegistrar.buildObjectName(MonitorDomainNames.HelixZkClient.name(), ZkClientMonitor.MONITOR_TYPE,
-            InstanceType.CONTROLLER.name(), ZkClientMonitor.MONITOR_KEY,
-            clusterName + "." + controller.getInstanceName());
-    // The controller ZkClient only writes one compressed node, which is the External View node.
-    long compressCount = (long) beanServer.getAttribute(name, "CompressedZnodeWriteCounter");
-    // Note since external view node is updated in every controller pipeline, there would be multiple compressed writes.
-    // However, the total count won't exceed the external view node version (starts from 0).
-    Assert.assertTrue(compressCount >= 1 && compressCount <= zkClient.getStat(externalViewPath).getVersion() + 1);
+      // Validate the compressed ZK nodes count == external view nodes
+      MBeanServer beanServer = ManagementFactory.getPlatformMBeanServer();
+      ObjectName name =
+              MBeanRegistrar.buildObjectName(MonitorDomainNames.HelixZkClient.name(), ZkClientMonitor.MONITOR_TYPE,
+                      InstanceType.CONTROLLER.name(), ZkClientMonitor.MONITOR_KEY,
+                      clusterName + "." + controller.getInstanceName());
+      // The controller ZkClient only writes one compressed node, which is the External View node.
+      long compressCount = (long) beanServer.getAttribute(name, "CompressedZnodeWriteCounter");
+      // Note since external view node is updated in every controller pipeline, there would be multiple compressed writes.
+      // However, the total count won't exceed the external view node version (starts from 0).
+      Assert.assertTrue(compressCount >= 1 && compressCount <= zkClient.getStat(externalViewPath).getVersion() + 1);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // clean up
     controller.syncStop();

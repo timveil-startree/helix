@@ -116,17 +116,20 @@ public class TestErrorReplicaPersist extends ZkStandAloneCMTestBase {
       participant.syncStart();
       _participants[i] = participant;
     }
-    HelixClusterVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(((BestPossibleExternalViewVerifier) verifier).verifyByPolling());
-    for (int i = 0; i < (NODE_NR + 1) / 2; i++) {
-      _gSetupTool.getClusterManagementTool()
-          .enableInstance(CLUSTER_NAME, _participants[i].getInstanceName(), false);
-    }
+            .build()) {
+      Assert.assertTrue(((BestPossibleExternalViewVerifier) verifier).verifyByPolling());
+      for (int i = 0; i < (NODE_NR + 1) / 2; i++) {
+        _gSetupTool.getClusterManagementTool()
+                .enableInstance(CLUSTER_NAME, _participants[i].getInstanceName(), false);
+      }
 
-    Assert.assertTrue(((BestPossibleExternalViewVerifier) verifier).verifyByPolling());
+      Assert.assertTrue(((BestPossibleExternalViewVerifier) verifier).verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
 

@@ -74,7 +74,7 @@ public class IntegrationTestUtil {
 
   public void verifyExternalView(String[] args) {
     if (args == null || args.length == 0) {
-      System.err.println("Illegal arguments for " + verifyExternalView);
+      LOG.error("Illegal arguments for " + verifyExternalView);
       return;
     }
 
@@ -87,7 +87,7 @@ public class IntegrationTestUtil {
     ClusterExternalViewVerifier verifier =
         new ClusterExternalViewVerifier(_zkclient, clusterName, liveNodes);
     boolean success = verifier.verifyByPolling(_timeoutValue);
-    System.out.println(success ? "Successful" : "Failed");
+    LOG.debug(success ? "Successful" : "Failed");
 
     if (!success) {
       System.exit(1);
@@ -97,15 +97,15 @@ public class IntegrationTestUtil {
 
   public void verifyClusterState(String[] args) {
     if (args == null || args.length == 0) {
-      System.err.println("Illegal arguments for " + verifyExternalView);
+      LOG.error("Illegal arguments for " + verifyExternalView);
       return;
     }
     String clusterName = args[0];
-    ZkHelixClusterVerifier clusterVerifier =
-        new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_zkclient).build();
-
-    boolean success = clusterVerifier.verify(_timeoutValue);
-    System.out.println(success ? "Successful" : "Failed");
+    boolean success;
+    try (ZkHelixClusterVerifier clusterVerifier = new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_zkclient).build()) {
+      success = clusterVerifier.verify(_timeoutValue);
+    }
+    LOG.debug(success ? "Successful" : "Failed");
 
     if (!success) {
       System.exit(1);
@@ -114,7 +114,7 @@ public class IntegrationTestUtil {
 
   public void verifyLiveNodes(String[] args) {
     if (args == null || args.length == 0) {
-      System.err.println("Illegal arguments for " + verifyLiveNodes);
+      LOG.error("Illegal arguments for " + verifyLiveNodes);
       return;
     }
 
@@ -124,10 +124,11 @@ public class IntegrationTestUtil {
       liveNodes.add(args[i]);
     }
 
-    ClusterLiveNodesVerifier verifier =
-        new ClusterLiveNodesVerifier(_zkclient, clusterName, liveNodes);
-    boolean success = verifier.verify(_timeoutValue);
-    System.out.println(success ? "Successful" : "Failed");
+    boolean success;
+    try (ClusterLiveNodesVerifier verifier = new ClusterLiveNodesVerifier(_zkclient, clusterName, liveNodes)) {
+      success = verifier.verify(_timeoutValue);
+    }
+    LOG.debug(success ? "Successful" : "Failed");
 
     if (!success) {
       System.exit(1);
@@ -137,9 +138,9 @@ public class IntegrationTestUtil {
   public void readZNode(String path) {
     ZNRecord record = _zkclient.readData(path, true);
     if (record == null) {
-      System.out.println("null");
+      LOG.debug("ZNRecord for path {} is null", path);
     } else {
-      System.out.println(new String(_serializer.serialize(record)));
+      LOG.debug("ZNRecord for path {} is {}}", path, new String(_serializer.serialize(record)));
     }
   }
 
@@ -207,7 +208,7 @@ public class IntegrationTestUtil {
     try {
       cmd = cliParser.parse(cliOptions, cliArgs);
     } catch (ParseException pe) {
-      System.err.println("failed to parse command-line args: " + Arrays.asList(cliArgs)
+      LOG.error("failed to parse command-line args: " + Arrays.asList(cliArgs)
           + ", exception: " + pe.toString());
       printUsage(cliOptions);
       System.exit(1);
@@ -224,7 +225,7 @@ public class IntegrationTestUtil {
       try {
         timeoutValue = Long.valueOf(timeoutStr);
       } catch (NumberFormatException ex) {
-        System.err.println(
+       LOG.error(
             "Invalid timeout value " + timeoutStr + ". Using default value: " + timeoutValue);
       }
     }

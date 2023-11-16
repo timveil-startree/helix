@@ -268,13 +268,12 @@ public class ZkTestHelper {
       throws Exception {
     String splits[] = zkAddr.split(":");
     Map<String, Set<String>> listenerMap = new TreeMap<>();
-    Socket sock = null;
     int retry = 5;
 
     while (retry > 0) {
-      try {
-        sock = new Socket(splits[0], Integer.parseInt(splits[1]));
-        PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+      try (
+        Socket sock = new Socket(splits[0], Integer.parseInt(splits[1]));
+        PrintWriter out = new PrintWriter(sock.getOutputStream(), true)) {
         BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
         out.println("wchp");
@@ -307,10 +306,6 @@ public class ZkTestHelper {
         // sometimes in test, we see connection-reset exceptions when in.readLine()
         // so add this retry logic
         retry--;
-      } finally {
-        if (sock != null) {
-          sock.close();
-        }
       }
     }
     return listenerMap;

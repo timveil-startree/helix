@@ -32,8 +32,7 @@ public class SerializableSerializer implements ZkSerializer {
 
     @Override
     public Object deserialize(byte[] bytes) throws ZkMarshallingError {
-        try {
-            ObjectInputStream inputStream = new TcclAwareObjectIputStream(new ByteArrayInputStream(bytes));
+        try (ObjectInputStream inputStream = new TcclAwareObjectIputStream(new ByteArrayInputStream(bytes))) {
             Object object = inputStream.readObject();
             return object;
         } catch (ClassNotFoundException e) {

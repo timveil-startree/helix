@@ -152,12 +152,13 @@ public class TestDeleteWorkflow extends TaskTestBase {
     accessor.removeProperty(keyBuild.resourceConfig(jobQueueName));
     accessor.removeProperty(keyBuild.workflowContext(jobQueueName));
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
       new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
         .setZkClient(_gZkClient)
         .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+        .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    }
 
     // Sometimes it's a ZK write fail - delete one more time to lower test failure rate
     if (_driver.getWorkflowConfig(jobQueueName) != null

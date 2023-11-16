@@ -156,40 +156,43 @@ public class TestPartitionLevelTransitionConstraint extends ZkTestBase {
         new BootstrapStateModelFactory());
     participants[0].syncStart();
 
-    ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
+    try (ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
         .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    boolean result = verifier.verify();
-    Assert.assertTrue(result);
+        .build()) {
+      boolean result = verifier.verify();
+      Assert.assertTrue(result);
 
-    // start 2nd participant which will be the master for Test0_0
-    String instanceName2 = "localhost_12919";
-    participants[1] = new MockParticipantManager(ZK_ADDR, clusterName, instanceName2);
-    participants[1].getStateMachineEngine().registerStateModelFactory("Bootstrap",
-        new BootstrapStateModelFactory());
-    participants[1].syncStart();
+      // start 2nd participant which will be the master for Test0_0
+      String instanceName2 = "localhost_12919";
+      participants[1] = new MockParticipantManager(ZK_ADDR, clusterName, instanceName2);
+      participants[1].getStateMachineEngine().registerStateModelFactory("Bootstrap",
+              new BootstrapStateModelFactory());
+      participants[1].syncStart();
 
-    result = verifier.verify();
-    Assert.assertTrue(result);
+      result = verifier.verify();
+      Assert.assertTrue(result);
 
-    // check we received the message in the right order
-    Assert.assertEquals(_msgOrderList.size(), 7, "_msgOrderList is:" + _msgOrderList.toString());
+      // check we received the message in the right order
+      Assert.assertEquals(_msgOrderList.size(), 7, "_msgOrderList is:" + _msgOrderList.toString());
 
-    Message[] _msgOrderArray = _msgOrderList.toArray(new Message[0]);
-    assertMessage(_msgOrderArray[0], "OFFLINE", "BOOTSTRAP", instanceName1);
-    assertMessage(_msgOrderArray[1], "BOOTSTRAP", "SLAVE", instanceName1);
-    assertMessage(_msgOrderArray[2], "SLAVE", "MASTER", instanceName1);
+      Message[] _msgOrderArray = _msgOrderList.toArray(new Message[0]);
+      assertMessage(_msgOrderArray[0], "OFFLINE", "BOOTSTRAP", instanceName1);
+      assertMessage(_msgOrderArray[1], "BOOTSTRAP", "SLAVE", instanceName1);
+      assertMessage(_msgOrderArray[2], "SLAVE", "MASTER", instanceName1);
 
-    // after we start the 2nd instance, the messages should be received in the following order:
-    // 1) offline->bootstrap for localhost_12919
-    // 2) bootstrap->slave for localhost_12919
-    // 3) master->slave for localhost_12918
-    // 4) slave->master for localhost_12919
-    assertMessage(_msgOrderArray[3], "OFFLINE", "BOOTSTRAP", instanceName2);
-    assertMessage(_msgOrderArray[4], "BOOTSTRAP", "SLAVE", instanceName2);
-    assertMessage(_msgOrderArray[5], "MASTER", "SLAVE", instanceName1);
-    assertMessage(_msgOrderArray[6], "SLAVE", "MASTER", instanceName2);
+      // after we start the 2nd instance, the messages should be received in the following order:
+      // 1) offline->bootstrap for localhost_12919
+      // 2) bootstrap->slave for localhost_12919
+      // 3) master->slave for localhost_12918
+      // 4) slave->master for localhost_12919
+      assertMessage(_msgOrderArray[3], "OFFLINE", "BOOTSTRAP", instanceName2);
+      assertMessage(_msgOrderArray[4], "BOOTSTRAP", "SLAVE", instanceName2);
+      assertMessage(_msgOrderArray[5], "MASTER", "SLAVE", instanceName1);
+      assertMessage(_msgOrderArray[6], "SLAVE", "MASTER", instanceName2);
 
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     // clean up
     // wait for all zk callbacks done
     controller.syncStop();

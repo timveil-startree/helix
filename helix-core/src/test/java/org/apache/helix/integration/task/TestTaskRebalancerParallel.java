@@ -90,9 +90,12 @@ public class TestTaskRebalancerParallel extends TaskTestBase {
     for (int i = 1; i < _numNodes; i++) {
       _participants[i].syncStop();
     }
-    ClusterLiveNodesVerifier verifier = new ClusterLiveNodesVerifier(_gZkClient, CLUSTER_NAME,
-        Collections.singletonList(_participants[0].getInstanceName()));
-    Assert.assertTrue(verifier.verifyByPolling());
+    try (ClusterLiveNodesVerifier verifier = new ClusterLiveNodesVerifier(_gZkClient, CLUSTER_NAME,
+        Collections.singletonList(_participants[0].getInstanceName()))) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     String queueName = TestHelper.getTestMethodName();
 

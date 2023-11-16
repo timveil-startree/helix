@@ -40,99 +40,106 @@ public class TestSourceClusterDataProvider extends ViewAggregatorIntegrationTest
   @Test
   public void testSourceClusterDataProviderWatchAndRefresh() throws Exception {
     String clusterName = _allSourceClusters.get(0);
-    ZkHelixClusterVerifier clusterVerifier = new BestPossibleExternalViewVerifier.Builder(clusterName)
+    try (ZkHelixClusterVerifier clusterVerifier = new BestPossibleExternalViewVerifier.Builder(clusterName)
         .setZkAddress(ZK_ADDR)
-        .build();
+        .build()) {
 
-    List<PropertyType> properties = Arrays.asList(
-        PropertyType.LIVEINSTANCES, PropertyType.EXTERNALVIEW, PropertyType.INSTANCES);
+      List<PropertyType> properties = Arrays.asList(
+              PropertyType.LIVEINSTANCES, PropertyType.EXTERNALVIEW, PropertyType.INSTANCES);
 
-    ViewClusterSourceConfig sourceClusterConfig = new ViewClusterSourceConfig(clusterName, ZK_ADDR, properties);
+      ViewClusterSourceConfig sourceClusterConfig = new ViewClusterSourceConfig(clusterName, ZK_ADDR, properties);
 
-    MockClusterEventProcessor processor = new MockClusterEventProcessor(clusterName);
-    processor.start();
+      MockClusterEventProcessor processor = new MockClusterEventProcessor(clusterName);
+      processor.start();
 
-    SourceClusterDataProvider dataProvider = new SourceClusterDataProvider(sourceClusterConfig, processor);
+      SourceClusterDataProvider dataProvider = new SourceClusterDataProvider(sourceClusterConfig, processor);
 
-    // setup can be re-called
-    dataProvider.setup();
-    dataProvider.setup();
+      // setup can be re-called
+      dataProvider.setup();
+      dataProvider.setup();
 
-    Assert.assertTrue(clusterVerifier.verify(1000));
-    Assert.assertEquals(new HashSet<>(dataProvider.getPropertiesToAggregate()), new HashSet<>(properties));
+      Assert.assertTrue(clusterVerifier.verify(1000));
+      Assert.assertEquals(new HashSet<>(dataProvider.getPropertiesToAggregate()), new HashSet<>(properties));
 
-    // When first connected, data provider will have some initial events
-    Assert.assertEquals(processor.getHandledExternalViewChangeCount(), 1);
-    Assert.assertEquals(processor.getHandledInstanceConfigChangeCount(), 1);
-    Assert.assertEquals(processor.getHandledLiveInstancesChangeCount(), 1);
-    processor.resetHandledEventCount();
+      // When first connected, data provider will have some initial events
+      Assert.assertEquals(processor.getHandledExternalViewChangeCount(), 1);
+      Assert.assertEquals(processor.getHandledInstanceConfigChangeCount(), 1);
+      Assert.assertEquals(processor.getHandledLiveInstancesChangeCount(), 1);
+      processor.resetHandledEventCount();
 
-    // ListNames should work
-    Assert.assertEquals(dataProvider.getInstanceConfigNames().size(), numParticipant);
-    Assert.assertEquals(dataProvider.getLiveInstanceNames().size(), numParticipant);
-    Assert.assertEquals(dataProvider.getExternalViewNames().size(), 0);
+      // ListNames should work
+      Assert.assertEquals(dataProvider.getInstanceConfigNames().size(), numParticipant);
+      Assert.assertEquals(dataProvider.getLiveInstanceNames().size(), numParticipant);
+      Assert.assertEquals(dataProvider.getExternalViewNames().size(), 0);
 
-    processor.resetHandledEventCount();
+      processor.resetHandledEventCount();
 
-    // rebalance resource to check external view related events
-    _gSetupTool.addResourceToCluster(clusterName, testResource, numParticipant, stateModel);
-    _gSetupTool.rebalanceResource(clusterName, testResource, 3);
-    Assert.assertTrue(clusterVerifier.verify(1000));
-    Assert.assertTrue(processor.getHandledExternalViewChangeCount() > 0);
-    Assert.assertEquals(dataProvider.getExternalViewNames().size(), 1);
+      // rebalance resource to check external view related events
+      _gSetupTool.addResourceToCluster(clusterName, testResource, numParticipant, stateModel);
+      _gSetupTool.rebalanceResource(clusterName, testResource, 3);
+      Assert.assertTrue(clusterVerifier.verify(1000));
+      Assert.assertTrue(processor.getHandledExternalViewChangeCount() > 0);
+      Assert.assertEquals(dataProvider.getExternalViewNames().size(), 1);
 
-    // refresh data provider will have correct data loaded
-    dataProvider.refreshCache();
-    Assert.assertEquals(dataProvider.getLiveInstances().size(), numParticipant);
-    Assert.assertEquals(dataProvider.getInstanceConfigMap().size(), numParticipant);
-    Assert.assertEquals(dataProvider.getExternalViews().size(), 1);
-    processor.resetHandledEventCount();
+      // refresh data provider will have correct data loaded
+      dataProvider.refreshCache();
+      Assert.assertEquals(dataProvider.getLiveInstances().size(), numParticipant);
+      Assert.assertEquals(dataProvider.getInstanceConfigMap().size(), numParticipant);
+      Assert.assertEquals(dataProvider.getExternalViews().size(), 1);
+      processor.resetHandledEventCount();
 
-    // Add additional participant will have corresponding change
-    String testParticipantName = "testParticipant";
-    _gSetupTool.addInstanceToCluster(clusterName, testParticipantName);
-    MockParticipantManager participant = new MockParticipantManager(ZK_ADDR, clusterName, testParticipantName);
-    participant.syncStart();
+      // Add additional participant will have corresponding change
+      String testParticipantName = "testParticipant";
+      _gSetupTool.addInstanceToCluster(clusterName, testParticipantName);
+      MockParticipantManager participant = new MockParticipantManager(ZK_ADDR, clusterName, testParticipantName);
+      participant.syncStart();
 
-    Assert.assertTrue(clusterVerifier.verify(500));
-    Assert.assertEquals(processor.getHandledInstanceConfigChangeCount(), 1);
-    Assert.assertEquals(processor.getHandledLiveInstancesChangeCount(), 1);
+      Assert.assertTrue(clusterVerifier.verify(500));
+      Assert.assertEquals(processor.getHandledInstanceConfigChangeCount(), 1);
+      Assert.assertEquals(processor.getHandledLiveInstancesChangeCount(), 1);
 
-    // shutdown can be re-called
-    dataProvider.shutdown();
-    dataProvider.shutdown();
+      // shutdown can be re-called
+      dataProvider.shutdown();
+      dataProvider.shutdown();
 
-    // Verify cache is cleaned up
-    Assert.assertEquals(dataProvider.getLiveInstances().size(), 0);
-    Assert.assertEquals(dataProvider.getInstanceConfigMap().size(), 0);
-    Assert.assertEquals(dataProvider.getExternalViews().size(), 0);
+      // Verify cache is cleaned up
+      Assert.assertEquals(dataProvider.getLiveInstances().size(), 0);
+      Assert.assertEquals(dataProvider.getInstanceConfigMap().size(), 0);
+      Assert.assertEquals(dataProvider.getExternalViews().size(), 0);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   @Test
   public void testSourceClusterDataProviderPropertyFilter() throws Exception {
     String clusterName = _allSourceClusters.get(0);
-    ZkHelixClusterVerifier clusterVerifier = new BestPossibleExternalViewVerifier.Builder(clusterName)
+    try (ZkHelixClusterVerifier clusterVerifier = new BestPossibleExternalViewVerifier.Builder(clusterName)
         .setZkAddress(ZK_ADDR)
-        .build();
+        .build()) {
 
-    List<PropertyType> properties = Arrays.asList(PropertyType.LIVEINSTANCES, PropertyType.EXTERNALVIEW);
-    ViewClusterSourceConfig sourceClusterConfig = new ViewClusterSourceConfig(clusterName, ZK_ADDR, properties);
-    MockClusterEventProcessor processor = new MockClusterEventProcessor(clusterName);
-    processor.start();
+      List<PropertyType> properties = Arrays.asList(PropertyType.LIVEINSTANCES, PropertyType.EXTERNALVIEW);
+      ViewClusterSourceConfig sourceClusterConfig = new ViewClusterSourceConfig(clusterName, ZK_ADDR, properties);
+      MockClusterEventProcessor processor = new MockClusterEventProcessor(clusterName);
+      processor.start();
 
-    SourceClusterDataProvider dataProvider = new SourceClusterDataProvider(sourceClusterConfig, processor);
-    dataProvider.setup();
+      SourceClusterDataProvider dataProvider = new SourceClusterDataProvider(sourceClusterConfig, processor);
+      dataProvider.setup();
 
-    Assert.assertTrue(clusterVerifier.verify(1000));
-    Assert.assertEquals(new HashSet<>(dataProvider.getPropertiesToAggregate()), new HashSet<>(properties));
+      Assert.assertTrue(clusterVerifier.verify(1000));
+      Assert.assertEquals(new HashSet<>(dataProvider.getPropertiesToAggregate()), new HashSet<>(properties));
 
-    // When first connected, data provider will have some initial events, but InstanceConfig
-    // will be filtered out since its not in properties
-    Assert.assertEquals(processor.getHandledExternalViewChangeCount(), 1);
-    Assert.assertEquals(processor.getHandledInstanceConfigChangeCount(), 0);
-    Assert.assertEquals(processor.getHandledLiveInstancesChangeCount(), 1);
+      // When first connected, data provider will have some initial events, but InstanceConfig
+      // will be filtered out since its not in properties
+      Assert.assertEquals(processor.getHandledExternalViewChangeCount(), 1);
+      Assert.assertEquals(processor.getHandledInstanceConfigChangeCount(), 0);
+      Assert.assertEquals(processor.getHandledLiveInstancesChangeCount(), 1);
 
-    dataProvider.shutdown();
+      dataProvider.shutdown();
+
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   @Override

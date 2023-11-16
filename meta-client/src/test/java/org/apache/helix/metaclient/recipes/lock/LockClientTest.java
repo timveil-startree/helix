@@ -59,76 +59,91 @@ public class LockClientTest extends ZkMetaClientTestBase {
   @Test
   public void testAcquireLock() {
     final String key = "/TestLockClient_testAcquireLock";
-    LockClient lockClient = createLockClient();
-    LockInfo lockInfo = createLockInfo();
-    lockClient.acquireLock(key, lockInfo, MetaClientInterface.EntryMode.PERSISTENT);
-    Assert.assertNotNull(lockClient.retrieveLock(key));
-    try {
-      lockClient.acquireLock(TEST_INVALID_PATH, new LockInfo(), MetaClientInterface.EntryMode.PERSISTENT);
-      Assert.fail("Should not be able to acquire lock for key: " + key);
+    try (LockClient lockClient = createLockClient()) {
+      LockInfo lockInfo = createLockInfo();
+      lockClient.acquireLock(key, lockInfo, MetaClientInterface.EntryMode.PERSISTENT);
+      Assert.assertNotNull(lockClient.retrieveLock(key));
+      try {
+        lockClient.acquireLock(TEST_INVALID_PATH, new LockInfo(), MetaClientInterface.EntryMode.PERSISTENT);
+        Assert.fail("Should not be able to acquire lock for key: " + key);
+      } catch (Exception e) {
+        // expected
+      }
     } catch (Exception e) {
-      // expected
+      Assert.fail(e.getMessage(), e);
     }
   }
 
   @Test
   public void testReleaseLock() {
     final String key = "/TestLockClient_testReleaseLock";
-    LockClient lockClient = createLockClient();
-    LockInfo lockInfo = createLockInfo();
-    lockClient.acquireLock(key, lockInfo, MetaClientInterface.EntryMode.PERSISTENT);
-    Assert.assertNotNull(lockClient.retrieveLock(key));
+    try (LockClient lockClient = createLockClient()) {
+      LockInfo lockInfo = createLockInfo();
+      lockClient.acquireLock(key, lockInfo, MetaClientInterface.EntryMode.PERSISTENT);
+      Assert.assertNotNull(lockClient.retrieveLock(key));
 
-    lockClient.releaseLock(key);
-    Assert.assertNull(lockClient.retrieveLock(key));
-    lockClient.releaseLock(TEST_INVALID_PATH);
+      lockClient.releaseLock(key);
+      Assert.assertNull(lockClient.retrieveLock(key));
+      lockClient.releaseLock(TEST_INVALID_PATH);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   @Test
   public void testAcquireTTLLock() {
     final String key = "/TestLockClient_testAcquireTTLLock";
-    LockClient lockClient = createLockClient();
-    LockInfo lockInfo = createLockInfo();
-    lockClient.acquireLockWithTTL(key, lockInfo, 1L);
-    Assert.assertNotNull(lockClient.retrieveLock(key));
-    try {
-      lockClient.acquireLockWithTTL(TEST_INVALID_PATH, lockInfo, 1L);
-      Assert.fail("Should not be able to acquire lock for key: " + key);
+    try (LockClient lockClient = createLockClient()) {
+      LockInfo lockInfo = createLockInfo();
+      lockClient.acquireLockWithTTL(key, lockInfo, 1L);
+      Assert.assertNotNull(lockClient.retrieveLock(key));
+      try {
+        lockClient.acquireLockWithTTL(TEST_INVALID_PATH, lockInfo, 1L);
+        Assert.fail("Should not be able to acquire lock for key: " + key);
+      } catch (Exception e) {
+        // expected
+      }
     } catch (Exception e) {
-      // expected
+      Assert.fail(e.getMessage(), e);
     }
   }
 
   @Test
   public void testRetrieveLock() {
     final String key = "/TestLockClient_testRetrieveLock";
-    LockClient lockClient = createLockClient();
-    LockInfo lockInfo = createLockInfo();
-    lockClient.acquireLock(key, lockInfo, MetaClientInterface.EntryMode.PERSISTENT);
-    Assert.assertNotNull(lockClient.retrieveLock(key));
-    Assert.assertEquals(lockClient.retrieveLock(key).getOwnerId(), OWNER_ID);
-    Assert.assertEquals(lockClient.retrieveLock(key).getClientId(), CLIENT_ID);
-    Assert.assertEquals(lockClient.retrieveLock(key).getClientData(), CLIENT_DATA);
-    Assert.assertEquals(lockClient.retrieveLock(key).getLockId(), LOCK_ID);
-    Assert.assertEquals(lockClient.retrieveLock(key).getTimeout(), TIMEOUT);
-    Assert.assertNull(lockClient.retrieveLock(TEST_INVALID_PATH));
+    try (LockClient lockClient = createLockClient()) {
+      LockInfo lockInfo = createLockInfo();
+      lockClient.acquireLock(key, lockInfo, MetaClientInterface.EntryMode.PERSISTENT);
+      Assert.assertNotNull(lockClient.retrieveLock(key));
+      Assert.assertEquals(lockClient.retrieveLock(key).getOwnerId(), OWNER_ID);
+      Assert.assertEquals(lockClient.retrieveLock(key).getClientId(), CLIENT_ID);
+      Assert.assertEquals(lockClient.retrieveLock(key).getClientData(), CLIENT_DATA);
+      Assert.assertEquals(lockClient.retrieveLock(key).getLockId(), LOCK_ID);
+      Assert.assertEquals(lockClient.retrieveLock(key).getTimeout(), TIMEOUT);
+      Assert.assertNull(lockClient.retrieveLock(TEST_INVALID_PATH));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   @Test
   public void testRenewTTLLock() {
     final String key = "/TestLockClient_testRenewTTLLock";
-    LockClient lockClient = createLockClient();
-    LockInfo lockInfo = createLockInfo();
-    lockClient.acquireLockWithTTL(key, lockInfo, 1L);
-    Assert.assertNotNull(lockClient.retrieveLock(key));
+    try (LockClient lockClient = createLockClient()) {
+      LockInfo lockInfo = createLockInfo();
+      lockClient.acquireLockWithTTL(key, lockInfo, 1L);
+      Assert.assertNotNull(lockClient.retrieveLock(key));
 
-    lockClient.renewTTLLock(key);
-    Assert.assertNotSame(lockClient.retrieveLock(key).getGrantedAt(), lockClient.retrieveLock(key).getLastRenewedAt());
-    try {
-      lockClient.renewTTLLock(TEST_INVALID_PATH);
-      Assert.fail("Should not be able to renew lock for key: " + key);
+      lockClient.renewTTLLock(key);
+      Assert.assertNotSame(lockClient.retrieveLock(key).getGrantedAt(), lockClient.retrieveLock(key).getLastRenewedAt());
+      try {
+        lockClient.renewTTLLock(TEST_INVALID_PATH);
+        Assert.fail("Should not be able to renew lock for key: " + key);
+      } catch (Exception e) {
+        // expected
+      }
     } catch (Exception e) {
-      // expected
+      Assert.fail(e.getMessage(), e);
     }
   }
 }

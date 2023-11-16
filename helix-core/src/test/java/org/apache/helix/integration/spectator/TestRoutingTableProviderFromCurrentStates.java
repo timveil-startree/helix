@@ -179,11 +179,14 @@ public class TestRoutingTableProviderFromCurrentStates extends ZkTestBase {
           IdealState.RebalanceMode.FULL_AUTO.name(), CrushEdRebalanceStrategy.class.getName());
       _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, dbName, NUM_REPLICAS);
 
-      ZkHelixClusterVerifier clusterVerifier =
+      try (ZkHelixClusterVerifier clusterVerifier =
           new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
               .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-              .build();
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
+              .build()) {
+        Assert.assertTrue(clusterVerifier.verifyByPolling());
+      } catch (Exception e) {
+        Assert.fail(e.getMessage(), e);
+      }
       Assert.assertTrue(routingTableCurrentStates.isOnStateChangeTriggered());
       _gSetupTool.dropResourceFromCluster(CLUSTER_NAME, dbName);
     } finally {
@@ -205,42 +208,46 @@ public class TestRoutingTableProviderFromCurrentStates extends ZkTestBase {
       long startTime = System.currentTimeMillis();
       _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, db1, NUM_REPLICAS);
 
-      ZkHelixClusterVerifier clusterVerifier =
+      try (ZkHelixClusterVerifier clusterVerifier =
           new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
               .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-              .build();
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
-      validatePropagationLatency(PropertyType.CURRENTSTATES,
-          System.currentTimeMillis() - startTime);
+              .build()) {
+        Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-      IdealState idealState1 =
-          _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db1);
-      validate(idealState1, routingTableEV, routingTableCurrentStates, 0);
+        validatePropagationLatency(PropertyType.CURRENTSTATES,
+                System.currentTimeMillis() - startTime);
 
-      // add new DB
-      String db2 = "TestDB-2";
-      _gSetupTool.addResourceToCluster(CLUSTER_NAME, db2, NUM_PARTITIONS, "MasterSlave",
-          IdealState.RebalanceMode.FULL_AUTO.name(), CrushEdRebalanceStrategy.class.getName());
-      startTime = System.currentTimeMillis();
-      _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, db2, NUM_REPLICAS);
+        IdealState idealState1 =
+                _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db1);
+        validate(idealState1, routingTableEV, routingTableCurrentStates, 0);
 
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
-      validatePropagationLatency(PropertyType.CURRENTSTATES,
-          System.currentTimeMillis() - startTime);
+        // add new DB
+        String db2 = "TestDB-2";
+        _gSetupTool.addResourceToCluster(CLUSTER_NAME, db2, NUM_PARTITIONS, "MasterSlave",
+                IdealState.RebalanceMode.FULL_AUTO.name(), CrushEdRebalanceStrategy.class.getName());
+        startTime = System.currentTimeMillis();
+        _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, db2, NUM_REPLICAS);
 
-      IdealState idealState2 =
-          _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db2);
-      validate(idealState2, routingTableEV, routingTableCurrentStates, 0);
+        Assert.assertTrue(clusterVerifier.verifyByPolling());
+        validatePropagationLatency(PropertyType.CURRENTSTATES,
+                System.currentTimeMillis() - startTime);
 
-      // shutdown an instance
-      startTime = System.currentTimeMillis();
-      _participants[0].syncStop();
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
-      validatePropagationLatency(PropertyType.CURRENTSTATES,
-          System.currentTimeMillis() - startTime);
+        IdealState idealState2 =
+                _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db2);
+        validate(idealState2, routingTableEV, routingTableCurrentStates, 0);
 
-      validate(idealState1, routingTableEV, routingTableCurrentStates, 0);
-      validate(idealState2, routingTableEV, routingTableCurrentStates, 0);
+        // shutdown an instance
+        startTime = System.currentTimeMillis();
+        _participants[0].syncStop();
+        Assert.assertTrue(clusterVerifier.verifyByPolling());
+        validatePropagationLatency(PropertyType.CURRENTSTATES,
+                System.currentTimeMillis() - startTime);
+
+        validate(idealState1, routingTableEV, routingTableCurrentStates, 0);
+        validate(idealState2, routingTableEV, routingTableCurrentStates, 0);
+      } catch (Exception e) {
+        Assert.fail(e.getMessage(), e);
+      }
     } finally {
       routingTableEV.shutdown();
       routingTableCurrentStates.shutdown();
@@ -295,44 +302,48 @@ public class TestRoutingTableProviderFromCurrentStates extends ZkTestBase {
       _gSetupTool.addResourceToCluster(CLUSTER_NAME, db, NUM_PARTITIONS, "MasterSlave",
           IdealState.RebalanceMode.FULL_AUTO.name(), CrushEdRebalanceStrategy.class.getName());
       _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, db, NUM_REPLICAS);
-      ZkHelixClusterVerifier clusterVerifier =
+      try (ZkHelixClusterVerifier clusterVerifier =
           new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
               .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-              .build();
-      Assert.assertTrue(clusterVerifier.verifyByPolling(5000, 500));
-      // 2. Process one event, so the current state will be refreshed with the new DB partitions
-      routingTableCS.proceedNewEventHandling();
-      IdealState idealState =
-          _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db);
-      String targetPartitionName = idealState.getPartitionSet().iterator().next();
-      // Wait until the routingtable is updated.
-      BlockingCurrentStateRoutingTableProvider finalRoutingTableCS = routingTableCS;
-      Assert.assertTrue(TestHelper.verify(
-          () -> finalRoutingTableCS.getInstances(db, targetPartitionName, "MASTER").size() > 0,
-          2000));
-      String targetNodeName =
-          routingTableCS.getInstances(db, targetPartitionName, "MASTER").get(0).getInstanceName();
-      // 3. Shutdown one of the instance that contains a master partition
-      for (int i = 0; i < _participants.length; i++) {
-        if (_participants[i].getInstanceName().equals(targetNodeName)) {
-          shutdownParticipantIndex = i;
-          _participants[i].syncStop();
+              .build()) {
+        Assert.assertTrue(clusterVerifier.verifyByPolling(5000, 500));
+
+        // 2. Process one event, so the current state will be refreshed with the new DB partitions
+        routingTableCS.proceedNewEventHandling();
+        IdealState idealState =
+                _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db);
+        String targetPartitionName = idealState.getPartitionSet().iterator().next();
+        // Wait until the routingtable is updated.
+        BlockingCurrentStateRoutingTableProvider finalRoutingTableCS = routingTableCS;
+        Assert.assertTrue(TestHelper.verify(
+                () -> finalRoutingTableCS.getInstances(db, targetPartitionName, "MASTER").size() > 0,
+                2000));
+        String targetNodeName =
+                routingTableCS.getInstances(db, targetPartitionName, "MASTER").get(0).getInstanceName();
+        // 3. Shutdown one of the instance that contains a master partition
+        for (int i = 0; i < _participants.length; i++) {
+          if (_participants[i].getInstanceName().equals(targetNodeName)) {
+            shutdownParticipantIndex = i;
+            _participants[i].syncStop();
+          }
         }
+        Assert.assertTrue(clusterVerifier.verifyByPolling());
+        // 4. Process one of the stale current state event.
+        // The expectation is that, the provider will refresh with all the latest data including the
+        // the live instance change. Even the corresponding ZK event has not been processed yet.
+        routingTableCS.proceedNewEventHandling();
+        validate(idealState, routingTableEV, routingTableCS, 3000);
+        // 5. Unblock the event processing and let the provider to process all events.
+        // The expectation is that, the eventual routing tables are still the same.
+        routingTableCS.setBlocking(false);
+        routingTableCS.proceedNewEventHandling();
+        // Wait for a short while so the router will process at least one event.
+        Thread.sleep(500);
+        // Confirm that 2 providers match eventually
+        validate(idealState, routingTableEV, routingTableCS, 2000);
+      } catch (Exception e) {
+        Assert.fail(e.getMessage(), e);
       }
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
-      // 4. Process one of the stale current state event.
-      // The expectation is that, the provider will refresh with all the latest data including the
-      // the live instance change. Even the corresponding ZK event has not been processed yet.
-      routingTableCS.proceedNewEventHandling();
-      validate(idealState, routingTableEV, routingTableCS, 3000);
-      // 5. Unblock the event processing and let the provider to process all events.
-      // The expectation is that, the eventual routing tables are still the same.
-      routingTableCS.setBlocking(false);
-      routingTableCS.proceedNewEventHandling();
-      // Wait for a short while so the router will process at least one event.
-      Thread.sleep(500);
-      // Confirm that 2 providers match eventually
-      validate(idealState, routingTableEV, routingTableCS, 2000);
     } finally {
       if (routingTableCS != null) {
         routingTableCS.setBlocking(false);

@@ -162,7 +162,6 @@ public class TestAutoRebalanceStrategy {
     private List<String> _allNodes;
     private int _maxPerNode;
     private StateModelDefinition _stateModelDef;
-    private Random _random;
 
     public AutoRebalanceTester(List<String> partitions, LinkedHashMap<String, Integer> states,
         List<String> liveNodes, Map<String, Map<String, String>> currentMapping,

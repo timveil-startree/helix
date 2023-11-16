@@ -556,64 +556,67 @@ public class TestHelixAdminCli extends ZkTestBase {
     setupCluster(clusterName, grandClusterName, n, participants, controllers);
     activateCluster();
     // wait till grand_cluster converge
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(grandClusterName).setZkClient(_gZkClient)
-            .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME).build();
+            .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME).build()) {
 
-    boolean result = verifier.verifyByPolling();
-    Assert.assertTrue(result, "grand cluster not converging.");
+      boolean result = verifier.verifyByPolling();
+      Assert.assertTrue(result, "grand cluster not converging.");
 
-    // deactivate cluster
-    String command =
-        "-zkSvr " + ZK_ADDR + " -activateCluster " + clusterName + " " + grandClusterName
-            + " false";
-    ClusterSetup.processCommandLineArgs(command.split("\\s+"));
-
-    BaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
-    HelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, baseAccessor);
-    final String path = accessor.keyBuilder().controllerLeader().getPath();
-    TestHelper.verify(() -> !_gZkClient.exists(path), 10000L);
-
-    Assert.assertFalse(_gZkClient.exists(path),
-        "leader should be gone after deactivate the cluster");
-
-    command = "-zkSvr " + ZK_ADDR + " -dropCluster " + clusterName;
-    try {
+      // deactivate cluster
+      String command =
+              "-zkSvr " + ZK_ADDR + " -activateCluster " + clusterName + " " + grandClusterName
+                      + " false";
       ClusterSetup.processCommandLineArgs(command.split("\\s+"));
-      Assert.fail("dropCluster should fail since there are still instances running");
+
+      BaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
+      HelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, baseAccessor);
+      final String path = accessor.keyBuilder().controllerLeader().getPath();
+      TestHelper.verify(() -> !_gZkClient.exists(path), 10000L);
+
+      Assert.assertFalse(_gZkClient.exists(path),
+              "leader should be gone after deactivate the cluster");
+
+      command = "-zkSvr " + ZK_ADDR + " -dropCluster " + clusterName;
+      try {
+        ClusterSetup.processCommandLineArgs(command.split("\\s+"));
+        Assert.fail("dropCluster should fail since there are still instances running");
+      } catch (Exception e) {
+        // OK
+      }
+
+      for (MockParticipantManager participant : participants) {
+        participant.syncStop();
+      }
+      for (MockParticipantManager participant : participants) {
+        if (participant.isConnected()) {
+          Thread.sleep(SLEEP_DURATION);
+        }
+      }
+
+      command = "-zkSvr localhost:2183 -dropCluster " + clusterName;
+      ClusterSetup.processCommandLineArgs(command.split("\\s"));
+
+      boolean leaderNotExists = TestHelper.verify(() -> {
+        boolean isLeaderExists = _gZkClient.exists(path);
+        return isLeaderExists == false;
+      }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(leaderNotExists, " mysterious leader out!");
+
+      for (ClusterDistributedController controller : controllers) {
+        controller.syncStop();
+      }
+      for (ClusterDistributedController controller : controllers) {
+        if (controller.isConnected()) {
+          Thread.sleep(SLEEP_DURATION);
+        }
+      }
+
+      command = "-zkSvr localhost:2183 -dropCluster " + grandClusterName;
+      ClusterSetup.processCommandLineArgs(command.split("\\s+"));
     } catch (Exception e) {
-      // OK
+      Assert.fail(e.getMessage(), e);
     }
-
-    for (MockParticipantManager participant : participants) {
-      participant.syncStop();
-    }
-    for (MockParticipantManager participant : participants) {
-      if (participant.isConnected()) {
-        Thread.sleep(SLEEP_DURATION);
-      }
-    }
-
-    command = "-zkSvr localhost:2183 -dropCluster " + clusterName;
-    ClusterSetup.processCommandLineArgs(command.split("\\s"));
-
-    boolean leaderNotExists = TestHelper.verify(() -> {
-      boolean isLeaderExists = _gZkClient.exists(path);
-      return isLeaderExists == false;
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(leaderNotExists, " mysterious leader out!");
-
-    for (ClusterDistributedController controller : controllers) {
-      controller.syncStop();
-    }
-    for (ClusterDistributedController controller : controllers) {
-      if (controller.isConnected()) {
-        Thread.sleep(SLEEP_DURATION);
-      }
-    }
-
-    command = "-zkSvr localhost:2183 -dropCluster " + grandClusterName;
-    ClusterSetup.processCommandLineArgs(command.split("\\s+"));
   }
 
   @Test(dependsOnMethods = "testDeactivateCluster")

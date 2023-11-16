@@ -119,100 +119,105 @@ public class TestDisableCustomCodeRunner extends ZkUnitTestBase {
       participants.get(instanceName).syncStart();
     }
 
-    ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(clusterName).
+    try (ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(clusterName).
         setZkClient(_gZkClient)
         .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    boolean result = verifier.verifyByPolling();
-    Assert.assertTrue(result);
+        .build()) {
+      boolean result = verifier.verifyByPolling();
+      Assert.assertTrue(result);
 
-    // Make sure callback is registered
-    BaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
-    final HelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, baseAccessor);
-    PropertyKey.Builder keyBuilder = accessor.keyBuilder();
-    final String customCodeRunnerResource =
-        customCodeRunners.get("localhost_12918").getResourceName();
+      // Make sure callback is registered
+      BaseDataAccessor<ZNRecord> baseAccessor = new ZkBaseDataAccessor<>(_gZkClient);
+      final HelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, baseAccessor);
+      PropertyKey.Builder keyBuilder = accessor.keyBuilder();
+      final String customCodeRunnerResource =
+              customCodeRunners.get("localhost_12918").getResourceName();
 
-    String leader =
-        verifyCustomCodeInvoked(callbacks, accessor, keyBuilder, customCodeRunnerResource);
+      String leader =
+              verifyCustomCodeInvoked(callbacks, accessor, keyBuilder, customCodeRunnerResource);
 
-    // Disable custom-code runner resource
-    HelixAdmin admin = new ZKHelixAdmin(_gZkClient);
-    admin.enableResource(clusterName, customCodeRunnerResource, false);
+      // Disable custom-code runner resource
+      HelixAdmin admin = new ZKHelixAdmin(_gZkClient);
+      admin.enableResource(clusterName, customCodeRunnerResource, false);
 
-    // Verify that states of custom-code runner are all OFFLINE
-    result = TestHelper.verify(() -> {
-      PropertyKey.Builder keyBuilder1 = accessor.keyBuilder();
+      // Verify that states of custom-code runner are all OFFLINE
+      result = TestHelper.verify(() -> {
+        PropertyKey.Builder keyBuilder1 = accessor.keyBuilder();
 
-      ExternalView extView1 =
-          accessor.getProperty(keyBuilder1.externalView(customCodeRunnerResource));
-      if (extView1 == null) {
-        return false;
-      }
-      Set<String> partitionSet = extView1.getPartitionSet();
-      if (partitionSet == null || partitionSet.size() != PARTITION_NUM) {
-        return false;
-      }
-      for (String partition : partitionSet) {
-        Map<String, String> instanceStates1 = extView1.getStateMap(partition);
-        for (String state : instanceStates1.values()) {
-          if (!"OFFLINE".equals(state)) {
-            return false;
+        ExternalView extView1 =
+                accessor.getProperty(keyBuilder1.externalView(customCodeRunnerResource));
+        if (extView1 == null) {
+          return false;
+        }
+        Set<String> partitionSet = extView1.getPartitionSet();
+        if (partitionSet == null || partitionSet.size() != PARTITION_NUM) {
+          return false;
+        }
+        for (String partition : partitionSet) {
+          Map<String, String> instanceStates1 = extView1.getStateMap(partition);
+          for (String state : instanceStates1.values()) {
+            if (!"OFFLINE".equals(state)) {
+              return false;
+            }
           }
         }
-      }
-      return true;
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
+        return true;
+      }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
 
-    // Change live-instance should not invoke any custom-code runner
-    String fakeInstanceName = "fakeInstance";
-    InstanceConfig instanceConfig = new InstanceConfig(fakeInstanceName);
-    instanceConfig.setHostName("localhost");
-    instanceConfig.setPort("10000");
-    instanceConfig.setInstanceEnabled(true);
-    admin.addInstance(clusterName, instanceConfig);
+      // Change live-instance should not invoke any custom-code runner
+      String fakeInstanceName = "fakeInstance";
+      InstanceConfig instanceConfig = new InstanceConfig(fakeInstanceName);
+      instanceConfig.setHostName("localhost");
+      instanceConfig.setPort("10000");
+      instanceConfig.setInstanceEnabled(true);
+      admin.addInstance(clusterName, instanceConfig);
 
-    LiveInstance fakeInstance = new LiveInstance(fakeInstanceName);
-    fakeInstance.setSessionId("fakeSessionId");
-    fakeInstance.setHelixVersion("0.6");
-    accessor.setProperty(keyBuilder.liveInstance(fakeInstanceName), fakeInstance);
-    Thread.sleep(1000);
+      LiveInstance fakeInstance = new LiveInstance(fakeInstanceName);
+      fakeInstance.setSessionId("fakeSessionId");
+      fakeInstance.setHelixVersion("0.6");
+      accessor.setProperty(keyBuilder.liveInstance(fakeInstanceName), fakeInstance);
+      Thread.sleep(1000);
 
-    for (Map.Entry<String, DummyCallback> e : callbacks.entrySet()) {
-      String instance = e.getKey();
-      DummyCallback callback = e.getValue();
-      Assert.assertFalse(callback.isInitTypeInvoked());
-      Assert.assertFalse(callback.isCallbackTypeInvoked());
-
-      // Ensure that we were told that a leader stopped being the leader
-      if (instance.equals(leader)) {
-        Assert.assertTrue(callback.isFinalizeTypeInvoked());
-      }
-      callback.reset();
-    }
-
-    // Remove fake instance
-    accessor.removeProperty(keyBuilder.liveInstance(fakeInstanceName));
-
-    // Re-enable custom-code runner
-    admin.enableResource(clusterName, customCodeRunnerResource, true);
-    Assert.assertTrue(verifier.verifyByPolling());
-
-    // Verify that custom-invoke is invoked again
-    leader = verifyCustomCodeInvoked(callbacks, accessor, keyBuilder, customCodeRunnerResource);
-
-    // Add a fake instance should invoke custom-code runner
-    accessor.setProperty(keyBuilder.liveInstance(fakeInstanceName), fakeInstance);
-    Thread.sleep(1000);
-    for (String instance : callbacks.keySet()) {
-      DummyCallback callback = callbacks.get(instance);
-      if (instance.equals(leader)) {
-        Assert.assertTrue(callback.isCallbackTypeInvoked());
-      } else {
+      for (Map.Entry<String, DummyCallback> e : callbacks.entrySet()) {
+        String instance = e.getKey();
+        DummyCallback callback = e.getValue();
+        Assert.assertFalse(callback.isInitTypeInvoked());
         Assert.assertFalse(callback.isCallbackTypeInvoked());
+
+        // Ensure that we were told that a leader stopped being the leader
+        if (instance.equals(leader)) {
+          Assert.assertTrue(callback.isFinalizeTypeInvoked());
+        }
+        callback.reset();
       }
+
+      // Remove fake instance
+      accessor.removeProperty(keyBuilder.liveInstance(fakeInstanceName));
+
+      // Re-enable custom-code runner
+      admin.enableResource(clusterName, customCodeRunnerResource, true);
+      Assert.assertTrue(verifier.verifyByPolling());
+
+      // Verify that custom-invoke is invoked again
+      leader = verifyCustomCodeInvoked(callbacks, accessor, keyBuilder, customCodeRunnerResource);
+
+      // Add a fake instance should invoke custom-code runner
+      accessor.setProperty(keyBuilder.liveInstance(fakeInstanceName), fakeInstance);
+      Thread.sleep(1000);
+      for (String instance : callbacks.keySet()) {
+        DummyCallback callback = callbacks.get(instance);
+        if (instance.equals(leader)) {
+          Assert.assertTrue(callback.isCallbackTypeInvoked());
+        } else {
+          Assert.assertFalse(callback.isCallbackTypeInvoked());
+        }
+      }
+
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
     }
+
 
     // Clean up
     controller.syncStop();

@@ -122,8 +122,9 @@ public class JerseyUriRequestBuilder {
    * @param entity
    */
   public void put(JerseyTestNg.ContainerPerClassTest container, Entity entity) {
-    final Response response = buildWebTarget(container).request().put(entity);
-    Assert.assertEquals(response.getStatus(), _expectedStatusCode);
+    try (Response response = buildWebTarget(container).request().put(entity)) {
+      Assert.assertEquals(response.getStatus(), _expectedStatusCode);
+    }
   }
 
   /**
@@ -142,8 +143,11 @@ public class JerseyUriRequestBuilder {
    * @param container
    */
   public void delete(JerseyTestNg.ContainerPerClassTest container) {
-    final Response response = buildWebTarget(container).request().delete();
-    Assert.assertEquals(response.getStatus(), _expectedStatusCode);
+    try (Response response = buildWebTarget(container).request().delete()) {
+      Assert.assertEquals(response.getStatus(), _expectedStatusCode);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   private WebTarget buildWebTarget(JerseyTestNg.ContainerPerClassTest container) {

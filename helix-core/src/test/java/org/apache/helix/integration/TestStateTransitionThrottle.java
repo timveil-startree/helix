@@ -85,12 +85,15 @@ public class TestStateTransitionThrottle extends ZkTestBase {
     ClusterControllerManager controller =
         new ClusterControllerManager(ZK_ADDR, clusterName, "controller_0");
     controller.syncStart();
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    // Won't match, since there is pending transition
-    Assert.assertFalse(verifier.verify(3000));
+            .build()) {
+      // Won't match, since there is pending transition
+      Assert.assertFalse(verifier.verify(3000));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     participants[participantCount - 1] = new MockParticipantManager(ZK_ADDR, clusterName,
         "localhost_" + (12918 + participantCount - 1));
@@ -159,11 +162,14 @@ public class TestStateTransitionThrottle extends ZkTestBase {
         new ClusterControllerManager(ZK_ADDR, clusterName, "controller_0");
     controller.syncStart();
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verify(3000));
+            .build()) {
+      Assert.assertTrue(verifier.verify(3000));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // Adding one more participant.
     participants[participantCount - 1] = new MockParticipantManager(ZK_ADDR, clusterName,

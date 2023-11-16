@@ -169,32 +169,39 @@ public class TestAutoRebalance extends ZkStandAloneCMTestBase {
     // kill 1 node
     _participants[0].syncStop();
 
-    ZkHelixClusterVerifier verifierClusterTestDb = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
+    try (ZkHelixClusterVerifier verifierClusterTestDb = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
         .setResources(new HashSet<>(Collections.singleton(TEST_DB)))
         .setZkClient(_gZkClient)
         .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    Assert.assertTrue(verifierClusterTestDb.verifyByPolling());
+        .build()) {
+      Assert.assertTrue(verifierClusterTestDb.verifyByPolling());
 
-    ZkHelixClusterVerifier verifierClusterDb2 = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
-        .setResources(new HashSet<>(Collections.singleton(db2)))
-        .setZkClient(_gZkClient)
-        .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    Assert.assertTrue(verifierClusterDb2.verifyByPolling());
+      try (ZkHelixClusterVerifier verifierClusterDb2 = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
+          .setResources(new HashSet<>(Collections.singleton(db2)))
+          .setZkClient(_gZkClient)
+          .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
+          .build()) {
+        Assert.assertTrue(verifierClusterDb2.verifyByPolling());
 
-    // add 2 nodes
-    for (int i = 0; i < 2; i++) {
-      String storageNodeName = PARTICIPANT_PREFIX + "_" + (1000 + i);
-      _gSetupTool.addInstanceToCluster(CLUSTER_NAME, storageNodeName);
 
-      MockParticipantManager participant =
-          new MockParticipantManager(ZK_ADDR, CLUSTER_NAME, storageNodeName.replace(':', '_'));
-      _extraParticipants.add(participant);
-      participant.syncStart();
+        // add 2 nodes
+        for (int i = 0; i < 2; i++) {
+          String storageNodeName = PARTICIPANT_PREFIX + "_" + (1000 + i);
+          _gSetupTool.addInstanceToCluster(CLUSTER_NAME, storageNodeName);
+
+          MockParticipantManager participant =
+                  new MockParticipantManager(ZK_ADDR, CLUSTER_NAME, storageNodeName.replace(':', '_'));
+          _extraParticipants.add(participant);
+          participant.syncStart();
+        }
+        Assert.assertTrue(verifierClusterDb2.verifyByPolling());
+      } catch (Exception e) {
+        Assert.fail(e.getMessage(), e);
+      }
+      Assert.assertTrue(verifierClusterTestDb.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
     }
-    Assert.assertTrue(verifierClusterTestDb.verifyByPolling());
-    Assert.assertTrue(verifierClusterDb2.verifyByPolling());
 
     HelixDataAccessor accessor =
         new ZKHelixDataAccessor(CLUSTER_NAME, new ZkBaseDataAccessor<>(_gZkClient));

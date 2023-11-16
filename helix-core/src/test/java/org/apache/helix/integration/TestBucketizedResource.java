@@ -94,27 +94,29 @@ public class TestBucketizedResource extends ZkTestBase {
     }
     PropertyKey evKey = accessor.keyBuilder().externalView(dbName);
 
-    BestPossibleExternalViewVerifier _clusterVerifier =
+    try (BestPossibleExternalViewVerifier _clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName)
             .setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-    ExternalView ev = accessor.getProperty(evKey);
-    int v1 = ev.getRecord().getVersion();
-    // disable the participant
-    _gSetupTool.getClusterManagementTool().enableInstance(clusterName,
-        participants[0].getInstanceName(), false);
+      ExternalView ev = accessor.getProperty(evKey);
+      int v1 = ev.getRecord().getVersion();
+      // disable the participant
+      _gSetupTool.getClusterManagementTool().enableInstance(clusterName,
+          participants[0].getInstanceName(), false);
 
-    // wait for change in EV
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      // wait for change in EV
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-
-    // read the version in EV
-    ev = accessor.getProperty(evKey);
-    int v2 = ev.getRecord().getVersion();
-    Assert.assertEquals(v2 > v1, true);
+      // read the version in EV
+      ev = accessor.getProperty(evKey);
+      int v2 = ev.getRecord().getVersion();
+      Assert.assertEquals(v2 > v1, true);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // clean up
     controller.syncStop();
@@ -150,36 +152,39 @@ public class TestBucketizedResource extends ZkTestBase {
       participants[i].syncStart();
     }
 
-    ZkHelixClusterVerifier _clusterVerifier =
+    try (ZkHelixClusterVerifier _clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-    // bounce
-    participants[0].syncStop();
-    participants[0] = new MockParticipantManager(ZK_ADDR, clusterName, instanceNames.get(0));
-    participants[0].syncStart();
+      // bounce
+      participants[0].syncStop();
+      participants[0] = new MockParticipantManager(ZK_ADDR, clusterName, instanceNames.get(0));
+      participants[0].syncStart();
 
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-    // make sure participants[0]'s current state is bucketzied correctly during carryover
-    String path =
-        keyBuilder.currentState(instanceNames.get(0), participants[0].getSessionId(), dbName)
-            .getPath();
-    ZNRecord record = _baseAccessor.get(path, null, 0);
-    Assert.assertTrue(record.getMapFields().size() == 0);
+      // make sure participants[0]'s current state is bucketzied correctly during carryover
+      String path =
+              keyBuilder.currentState(instanceNames.get(0), participants[0].getSessionId(), dbName)
+                      .getPath();
+      ZNRecord record = _baseAccessor.get(path, null, 0);
+      Assert.assertTrue(record.getMapFields().size() == 0);
 
-    // disable the bucketize resource
-    HelixAdmin admin = new ZKHelixAdmin(_gZkClient);
-    admin.enableResource(clusterName, dbName, false);
+      // disable the bucketize resource
+      HelixAdmin admin = new ZKHelixAdmin(_gZkClient);
+      admin.enableResource(clusterName, dbName, false);
 
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-    // drop the bucketize resource
-    _gSetupTool.dropResourceFromCluster(clusterName, dbName);
+      // drop the bucketize resource
+      _gSetupTool.dropResourceFromCluster(clusterName, dbName);
 
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // make sure external-view is cleaned up
     final String evPath = keyBuilder.externalView(dbName).getPath();
@@ -240,52 +245,58 @@ public class TestBucketizedResource extends ZkTestBase {
       participants[i].syncStart();
     }
 
-    ZkHelixClusterVerifier _clusterVerifier =
+    try (ZkHelixClusterVerifier _clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-    // add an external view listener
-    final TestExternalViewListener listener = new TestExternalViewListener();
-    controller.addExternalViewChangeListener(listener);
 
-    // remove "TestDB0"
-    _gSetupTool.dropResourceFromCluster(clusterName, dbName);
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      // add an external view listener
+      final TestExternalViewListener listener = new TestExternalViewListener();
+      controller.addExternalViewChangeListener(listener);
 
-    // wait callback to finish
-    TestHelper.verify(new TestHelper.Verifier() {
-      @Override public boolean verify() throws Exception {
-        return listener.cbCnt > 0;
-      }
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(listener.cbCnt > 0);
+      // remove "TestDB0"
+      _gSetupTool.dropResourceFromCluster(clusterName, dbName);
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-    listener.cbCnt = 0;
+      // wait callback to finish
+      TestHelper.verify(new TestHelper.Verifier() {
+        @Override
+        public boolean verify() throws Exception {
+          return listener.cbCnt > 0;
+        }
+      }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(listener.cbCnt > 0);
 
-    // add a new db
-    String newDbName = "TestDB1";
-    int r = 3;
-    ZNRecord idealStateRec =
-        DefaultIdealStateCalculator.calculateIdealState(instanceNames, 10, r - 1, newDbName,
-            "MASTER", "SLAVE");
-    IdealState idealState = new IdealState(idealStateRec);
-    idealState.setBucketSize(2);
-    idealState.setStateModelDefRef("MasterSlave");
-    idealState.setRebalanceMode(IdealState.RebalanceMode.CUSTOMIZED);
-    idealState.setReplicas(Integer.toString(r));
-    accessor.setProperty(keyBuilder.idealStates(newDbName), idealState);
+      listener.cbCnt = 0;
 
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      // add a new db
+      String newDbName = "TestDB1";
+      int r = 3;
+      ZNRecord idealStateRec =
+              DefaultIdealStateCalculator.calculateIdealState(instanceNames, 10, r - 1, newDbName,
+                      "MASTER", "SLAVE");
+      IdealState idealState = new IdealState(idealStateRec);
+      idealState.setBucketSize(2);
+      idealState.setStateModelDefRef("MasterSlave");
+      idealState.setRebalanceMode(IdealState.RebalanceMode.CUSTOMIZED);
+      idealState.setReplicas(Integer.toString(r));
+      accessor.setProperty(keyBuilder.idealStates(newDbName), idealState);
 
-    TestHelper.verify(new TestHelper.Verifier() {
-      @Override public boolean verify() throws Exception {
-        return listener.cbCnt > 0;
-      }
-    }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
-    Assert.assertTrue(listener.cbCnt > 0);
+      TestHelper.verify(new TestHelper.Verifier() {
+        @Override
+        public boolean verify() throws Exception {
+          return listener.cbCnt > 0;
+        }
+      }, TestHelper.WAIT_DURATION);
+
+      Assert.assertTrue(listener.cbCnt > 0);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // clean up
     controller.syncStop();

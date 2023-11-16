@@ -289,34 +289,39 @@ public class TestDisableResource extends ZkUnitTestBase {
     }, TestHelper.WAIT_DURATION);
     Assert.assertTrue(result);
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkAddr(ZK_ADDR)
-            .setZkClient(_gZkClient).build();
+            .setZkClient(_gZkClient).build()) {
 
-    // Disable TestDB0
-    enableResource(clusterName, false);
+      // Disable TestDB0
+      enableResource(clusterName, false);
 
-    // Check that the resource has been disabled
-    result =
-        TestHelper.verify(
-            () -> !_gSetupTool.getClusterManagementTool()
-                .getResourceIdealState(clusterName, "TestDB0").isEnabled(),
-            TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
-    Assert.assertTrue(verifier.verifyByPolling());
+      // Check that the resource has been disabled
+      result =
+              TestHelper.verify(
+                      () -> !_gSetupTool.getClusterManagementTool()
+                              .getResourceIdealState(clusterName, "TestDB0").isEnabled(),
+                      TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    checkExternalView(clusterName);
+      checkExternalView(clusterName);
 
-    // Re-enable TestDB0
-    enableResource(clusterName, true);
-    // Check that the resource has been enabled
-    result =
-        TestHelper.verify(
-            () -> _gSetupTool.getClusterManagementTool()
-                .getResourceIdealState(clusterName, "TestDB0").isEnabled(),
-            TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
-    Assert.assertTrue(verifier.verifyByPolling());
+      // Re-enable TestDB0
+      enableResource(clusterName, true);
+      // Check that the resource has been enabled
+      result =
+              TestHelper.verify(
+                      () -> _gSetupTool.getClusterManagementTool()
+                              .getResourceIdealState(clusterName, "TestDB0").isEnabled(),
+                      TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
+      Assert.assertTrue(verifier.verifyByPolling());
+
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
 
     // Clean up
     controller.syncStop();

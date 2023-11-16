@@ -115,11 +115,15 @@ public class TestParticipantManager extends ZkTestBase {
     verifyHelixManagerMetrics(InstanceType.CONTROLLER, MonitorLevel.DEFAULT,
         controller.getInstanceName());
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(_clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(_clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
     PropertyKey.Builder keyBuilder = accessor.keyBuilder();
@@ -160,11 +164,15 @@ public class TestParticipantManager extends ZkTestBase {
     HelixManager controller =
         new ZKHelixManager(_clusterName, "controller_0", InstanceType.CONTROLLER, ZK_ADDR);
     controller.connect();
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(_clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     ZKHelixDataAccessor accessor =
         new ZKHelixDataAccessor(_clusterName, new ZkBaseDataAccessor<ZNRecord>(_gZkClient));
     PropertyKey.Builder keyBuilder = accessor.keyBuilder();
@@ -347,23 +355,28 @@ public class TestParticipantManager extends ZkTestBase {
       participants[i].syncStart();
     }
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(_clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
-    String oldSessionId = participants[0].getSessionId();
+            .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    // expire zk-connection on localhost_12918
-    ZkTestHelper.expireSession(participants[0].getZkClient());
 
-    // wait until session expiry callback happens
-    TimeUnit.MILLISECONDS.sleep(100);
+      String oldSessionId = participants[0].getSessionId();
 
-    Assert.assertTrue(verifier.verifyByPolling());
-    String newSessionId = participants[0].getSessionId();
-    Assert.assertNotSame(newSessionId, oldSessionId);
+      // expire zk-connection on localhost_12918
+      ZkTestHelper.expireSession(participants[0].getZkClient());
 
+      // wait until session expiry callback happens
+      TimeUnit.MILLISECONDS.sleep(100);
+
+      Assert.assertTrue(verifier.verifyByPolling());
+      String newSessionId = participants[0].getSessionId();
+      Assert.assertNotSame(newSessionId, oldSessionId);
+
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     // cleanup
     controller.syncStop();
     for (int i = 0; i < n; i++) {
@@ -430,24 +443,27 @@ public class TestParticipantManager extends ZkTestBase {
     String oldSessionId = participants[0].getSessionId();
     ZkTestHelper.expireSession(participants[0].getZkClient());
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(_clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    String newSessionId = participants[0].getSessionId();
-    Assert.assertNotSame(newSessionId, oldSessionId);
+      String newSessionId = participants[0].getSessionId();
+      Assert.assertNotSame(newSessionId, oldSessionId);
 
-    // assert interrupt exception error in old session
-    String errPath = PropertyPathBuilder.instanceError(_clusterName, "localhost_12918", oldSessionId,
-        "TestDB0", "TestDB0_0");
-    ZNRecord error = _gZkClient.readData(errPath);
-    Assert.assertNotNull(error,
-        "InterruptedException should happen in old session since task is being cancelled during handleNewSession");
-    String errString = new String(new ZNRecordSerializer().serialize(error));
-    Assert.assertTrue(errString.contains("InterruptedException"));
+      // assert interrupt exception error in old session
+      String errPath = PropertyPathBuilder.instanceError(_clusterName, "localhost_12918", oldSessionId,
+              "TestDB0", "TestDB0_0");
+      ZNRecord error = _gZkClient.readData(errPath);
+      Assert.assertNotNull(error,
+              "InterruptedException should happen in old session since task is being cancelled during handleNewSession");
+      String errString = new String(new ZNRecordSerializer().serialize(error));
+      Assert.assertTrue(errString.contains("InterruptedException"));
 
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     // cleanup
     controller.syncStop();
     for (int i = 0; i < n; i++) {

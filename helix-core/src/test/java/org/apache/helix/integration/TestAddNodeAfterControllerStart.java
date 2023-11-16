@@ -109,12 +109,15 @@ public class TestAddNodeAfterControllerStart extends ZkTestBase {
     _gSetupTool.addCluster(clusterName, true);
     _gSetupTool.activateCluster(clusterName, "GRAND_" + clusterName, true); // addCluster2
 
-    BestPossibleExternalViewVerifier verifier =
+   try(BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(grandClusterName)
             .setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .build()) {
+     Assert.assertTrue(verifier.verifyByPolling());
+   } catch (Exception e) {
+     Assert.fail(e.getMessage(), e);
+   }
 
     // add node/resource, and do rebalance
     final int nodeNr = 2;
@@ -125,76 +128,80 @@ public class TestAddNodeAfterControllerStart extends ZkTestBase {
 
     _gSetupTool.addResourceToCluster(clusterName, "TestDB0", 1, "LeaderStandby");
     _gSetupTool.rebalanceStorageCluster(clusterName, "TestDB0", 1);
-    BestPossibleExternalViewVerifier verifier2 =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName)
             .setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier2.verifyByPolling());
+            .build()) {
+        Assert.assertTrue(verifier.verifyByPolling());
 
-    MockParticipantManager[] participants = new MockParticipantManager[nodeNr];
-    for (int i = 0; i < nodeNr - 1; i++) {
-      String instanceName = "localhost_" + (12918 + i);
-      participants[i] = new MockParticipantManager(ZK_ADDR, clusterName, instanceName);
-      participants[i].syncStart();
-    }
 
-    HelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, _baseAccessor);
-    // Make sure new participants are connected
-    boolean result = TestHelper.verify(() -> {
-      List<String> liveInstances = accessor.getChildNames(accessor.keyBuilder().liveInstances());
-      for (int i = 0; i < nodeNr - 1; i++) {
-        if (!participants[i].isConnected()
-            || !liveInstances.contains(participants[i].getInstanceName())) {
-          return false;
+        MockParticipantManager[] participants = new MockParticipantManager[nodeNr];
+        for (int i = 0; i < nodeNr - 1; i++) {
+            String instanceName = "localhost_" + (12918 + i);
+            participants[i] = new MockParticipantManager(ZK_ADDR, clusterName, instanceName);
+            participants[i].syncStart();
         }
-      }
-      return true;
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
-    Assert.assertTrue(verifier2.verifyByPolling());
 
-    // check if controller_0 has message listener for localhost_12918
-    String msgPath = PropertyPathBuilder.instanceMessage(clusterName, "localhost_12918");
-    int numberOfListeners = ZkTestHelper.numberOfListeners(ZK_ADDR, msgPath);
-    // LOG.debug("numberOfListeners(" + msgPath + "): " + numberOfListeners);
-    Assert.assertEquals(numberOfListeners, 2); // 1 of participant, and 1 of controller
+        HelixDataAccessor accessor = new ZKHelixDataAccessor(clusterName, _baseAccessor);
+        // Make sure new participants are connected
+        boolean result = TestHelper.verify(() -> {
+            List<String> liveInstances = accessor.getChildNames(accessor.keyBuilder().liveInstances());
+            for (int i = 0; i < nodeNr - 1; i++) {
+                if (!participants[i].isConnected()
+                        || !liveInstances.contains(participants[i].getInstanceName())) {
+                    return false;
+                }
+            }
+            return true;
+        }, TestHelper.WAIT_DURATION);
+        Assert.assertTrue(result);
+        Assert.assertTrue(verifier.verifyByPolling());
 
-    _gSetupTool.addInstanceToCluster(clusterName, "localhost_12919");
-    _gSetupTool.rebalanceStorageCluster(clusterName, "TestDB0", 2);
+        // check if controller_0 has message listener for localhost_12918
+        String msgPath = PropertyPathBuilder.instanceMessage(clusterName, "localhost_12918");
+        int numberOfListeners = ZkTestHelper.numberOfListeners(ZK_ADDR, msgPath);
+        // LOG.debug("numberOfListeners(" + msgPath + "): " + numberOfListeners);
+        Assert.assertEquals(numberOfListeners, 2); // 1 of participant, and 1 of controller
 
-    participants[nodeNr - 1] = new MockParticipantManager(ZK_ADDR, clusterName, "localhost_12919");
-    participants[nodeNr - 1].syncStart();
+        _gSetupTool.addInstanceToCluster(clusterName, "localhost_12919");
+        _gSetupTool.rebalanceStorageCluster(clusterName, "TestDB0", 2);
 
-    Assert.assertTrue(verifier2.verifyByPolling());
-    // check if controller_0 has message listener for localhost_12919
-    msgPath = PropertyPathBuilder.instanceMessage(clusterName, "localhost_12919");
-    numberOfListeners = ZkTestHelper.numberOfListeners(ZK_ADDR, msgPath);
-    // LOG.debug("numberOfListeners(" + msgPath + "): " + numberOfListeners);
-    Assert.assertEquals(numberOfListeners, 2); // 1 of participant, and 1 of controller
+        participants[nodeNr - 1] = new MockParticipantManager(ZK_ADDR, clusterName, "localhost_12919");
+        participants[nodeNr - 1].syncStart();
 
-    // clean up
-    distController.syncStop();
-    for (int i = 0; i < nodeNr; i++) {
-      participants[i].syncStop();
-    }
+        Assert.assertTrue(verifier.verifyByPolling());
+        // check if controller_0 has message listener for localhost_12919
+        msgPath = PropertyPathBuilder.instanceMessage(clusterName, "localhost_12919");
+        numberOfListeners = ZkTestHelper.numberOfListeners(ZK_ADDR, msgPath);
+        // LOG.debug("numberOfListeners(" + msgPath + "): " + numberOfListeners);
+        Assert.assertEquals(numberOfListeners, 2); // 1 of participant, and 1 of controller
 
-    // Check that things have been cleaned up
-    result = TestHelper.verify(() -> {
-      if (distController.isConnected()
-          || accessor.getPropertyStat(accessor.keyBuilder().controllerLeader()) != null) {
-        return false;
-      }
-      List<String> liveInstances = accessor.getChildNames(accessor.keyBuilder().liveInstances());
-      for (int i = 0; i < nodeNr - 1; i++) {
-        if (participants[i].isConnected()
-            || liveInstances.contains(participants[i].getInstanceName())) {
-          return false;
+        // clean up
+        distController.syncStop();
+        for (int i = 0; i < nodeNr; i++) {
+            participants[i].syncStop();
         }
-      }
-      return true;
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
+
+        // Check that things have been cleaned up
+        result = TestHelper.verify(() -> {
+            if (distController.isConnected()
+                    || accessor.getPropertyStat(accessor.keyBuilder().controllerLeader()) != null) {
+                return false;
+            }
+            List<String> liveInstances = accessor.getChildNames(accessor.keyBuilder().liveInstances());
+            for (int i = 0; i < nodeNr - 1; i++) {
+                if (participants[i].isConnected()
+                        || liveInstances.contains(participants[i].getInstanceName())) {
+                    return false;
+                }
+            }
+            return true;
+        }, TestHelper.WAIT_DURATION);
+        Assert.assertTrue(result);
+    } catch (Exception e) {
+        Assert.fail(e.getMessage(), e);
+    }
 
     deleteCluster(clusterName);
     deleteCluster(grandClusterName);

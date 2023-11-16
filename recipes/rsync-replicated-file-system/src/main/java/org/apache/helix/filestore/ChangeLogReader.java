@@ -19,6 +19,10 @@ package org.apache.helix.filestore;
  * under the License.
  */
 
+import org.apache.helix.tools.commandtools.IntegrationTestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,6 +34,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ChangeLogReader implements FileChangeWatcher {
+  private static final Logger LOG = LoggerFactory.getLogger(ChangeLogReader.class);
+
   int MAX_ENTRIES_TO_READ = 100;
   private final String changeLogDir;
   Lock lock;
@@ -66,37 +72,38 @@ public class ChangeLogReader implements FileChangeWatcher {
       while (!file.exists() || file.length() <= endOffset) {
         // wait
         try {
-          System.out.println("Waiting for new changes");
+          LOG.debug("Waiting for new changes");
           condition.await();
-          System.out.println("Detected changes");
+          LOG.debug("Detected changes");
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
       }
-      RandomAccessFile raf = new RandomAccessFile(changeLogDir + "/" + fileName, "r");
-      raf.seek(endOffset);
-      // out.writeLong(record.txid);
-      // out.writeShort(record.type);
-      // out.writeLong(record.timestamp);
-      // out.writeUTF(record.file);
+      try (RandomAccessFile raf = new RandomAccessFile(changeLogDir + "/" + fileName, "r")) {
+        raf.seek(endOffset);
+        // out.writeLong(record.txid);
+        // out.writeShort(record.type);
+        // out.writeLong(record.timestamp);
+        // out.writeUTF(record.file);
 
-      int count = 0;
-      do {
-        ChangeRecord newRecord = new ChangeRecord();
-        newRecord.changeLogFileName = fileName;
-        newRecord.startOffset = raf.getFilePointer();
-        newRecord.txid = raf.readLong();
-        newRecord.type = raf.readShort();
-        newRecord.timestamp = raf.readLong();
-        newRecord.file = raf.readUTF();
-        newRecord.endOffset = raf.getFilePointer();
-        changes.add(newRecord);
-        count++;
-      } while (count < MAX_ENTRIES_TO_READ && raf.getFilePointer() < raf.length());
+        int count = 0;
+        do {
+          ChangeRecord newRecord = new ChangeRecord();
+          newRecord.changeLogFileName = fileName;
+          newRecord.startOffset = raf.getFilePointer();
+          newRecord.txid = raf.readLong();
+          newRecord.type = raf.readShort();
+          newRecord.timestamp = raf.readLong();
+          newRecord.file = raf.readUTF();
+          newRecord.endOffset = raf.getFilePointer();
+          changes.add(newRecord);
+          count++;
+        } while (count < MAX_ENTRIES_TO_READ && raf.getFilePointer() < raf.length());
+      }
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     } finally {
       lock.unlock();
     }
@@ -109,7 +116,7 @@ public class ChangeLogReader implements FileChangeWatcher {
       lock.lock();
       condition.signalAll();
     } catch (Exception e) {
-      // TODO: handle exception
+      LOG.error(e.getMessage(), e);
     } finally {
       lock.unlock();
     }
@@ -121,7 +128,7 @@ public class ChangeLogReader implements FileChangeWatcher {
       lock.lock();
       condition.signalAll();
     } catch (Exception e) {
-      // TODO: handle exception
+      LOG.error(e.getMessage(), e);
     } finally {
       lock.unlock();
     }
@@ -133,7 +140,7 @@ public class ChangeLogReader implements FileChangeWatcher {
       lock.lock();
       condition.signalAll();
     } catch (Exception e) {
-      // TODO: handle exception
+      LOG.error(e.getMessage(), e);
     } finally {
       lock.unlock();
     }

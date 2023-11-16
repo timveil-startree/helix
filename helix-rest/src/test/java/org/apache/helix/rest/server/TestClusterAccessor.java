@@ -703,40 +703,58 @@ public class TestClusterAccessor extends AbstractTestClass {
 
     // delete one, expect success
     String deleteOneUri = urlBase + oneRecord.getId();
-    Response deleteOneRsp = target(deleteOneUri).request().delete();
-    Assert.assertEquals(deleteOneRsp.getStatus(), Response.Status.OK.getStatusCode());
+    try (Response deleteOneRsp = target(deleteOneUri).request().delete()) {
+      Assert.assertEquals(deleteOneRsp.getStatus(), Response.Status.OK.getStatusCode());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     Response queryRsp = target(oneModelUri).request().get();
     Assert.assertTrue(queryRsp.getStatus() == Response.Status.BAD_REQUEST.getStatusCode());
 
     // delete one again, expect success
-    Response deleteOneRsp2 = target(deleteOneUri).request().delete();
-    Assert.assertTrue(deleteOneRsp2.getStatus() == Response.Status.OK.getStatusCode());
+    try (Response deleteOneRsp2 = target(deleteOneUri).request().delete()) {
+      Assert.assertTrue(deleteOneRsp2.getStatus() == Response.Status.OK.getStatusCode());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // create the delete one, expect success
-    Response createOneRsp = target(oneModelUri).request()
-        .put(Entity.entity(OBJECT_MAPPER.writeValueAsString(oneRecord), MediaType.APPLICATION_JSON_TYPE));
-    Assert.assertTrue(createOneRsp.getStatus() == Response.Status.OK.getStatusCode());
+    try (Response createOneRsp = target(oneModelUri).request()
+            .put(Entity.entity(OBJECT_MAPPER.writeValueAsString(oneRecord), MediaType.APPLICATION_JSON_TYPE))) {
+      Assert.assertTrue(createOneRsp.getStatus() == Response.Status.OK.getStatusCode());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // create the delete one again, expect failure
-    Response createOneRsp2 = target(oneModelUri).request()
-        .put(Entity.entity(OBJECT_MAPPER.writeValueAsString(oneRecord), MediaType.APPLICATION_JSON_TYPE));
-    Assert.assertTrue(createOneRsp2.getStatus() == Response.Status.BAD_REQUEST.getStatusCode());
+    try (Response createOneRsp2 = target(oneModelUri).request()
+            .put(Entity.entity(OBJECT_MAPPER.writeValueAsString(oneRecord), MediaType.APPLICATION_JSON_TYPE))) {
+      Assert.assertTrue(createOneRsp2.getStatus() == Response.Status.BAD_REQUEST.getStatusCode());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // set the delete one with a modification
     ZNRecord newRecord = new ZNRecord(twoRecord, oneRecord.getId());
-    Response setOneRsp = target(oneModelUri).request()
-        .post(Entity.entity(OBJECT_MAPPER.writeValueAsString(newRecord), MediaType.APPLICATION_JSON_TYPE));
-    Assert.assertTrue(setOneRsp.getStatus() == Response.Status.OK.getStatusCode());
+    try (Response setOneRsp = target(oneModelUri).request()
+            .post(Entity.entity(OBJECT_MAPPER.writeValueAsString(newRecord), MediaType.APPLICATION_JSON_TYPE))) {
+      Assert.assertTrue(setOneRsp.getStatus() == Response.Status.OK.getStatusCode());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     String oneResult2 = get(oneModelUri, null, Response.Status.OK.getStatusCode(), true);
     ZNRecord oneRecord2 = toZNRecord(oneResult2);
     Assert.assertEquals(oneRecord2, newRecord);
 
     // set the delete one with original; namely restore the original condition
-    Response setOneRsp2 = target(oneModelUri).request()
-        .post(Entity.entity(OBJECT_MAPPER.writeValueAsString(oneRecord), MediaType.APPLICATION_JSON_TYPE));
-    Assert.assertTrue(setOneRsp2.getStatus() == Response.Status.OK.getStatusCode());
+    try (Response setOneRsp2 = target(oneModelUri).request()
+            .post(Entity.entity(OBJECT_MAPPER.writeValueAsString(oneRecord), MediaType.APPLICATION_JSON_TYPE))) {
+      Assert.assertTrue(setOneRsp2.getStatus() == Response.Status.OK.getStatusCode());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     String oneResult3 = get(oneModelUri, null, Response.Status.OK.getStatusCode(), true);
     ZNRecord oneRecord3 = toZNRecord(oneResult3);
@@ -786,10 +804,13 @@ public class TestClusterAccessor extends AbstractTestClass {
     }, 12000);
     Assert.assertTrue(result);
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(ACTIVATE_SUPER_CLUSTER).setZkAddr(ZK_ADDR)
-            .setZkClient(_gZkClient).build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .setZkClient(_gZkClient).build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     IdealState idealState = accessor.getProperty(keyBuilder.idealStates(ACTIVATE_NORM_CLUSTER));
     Assert.assertEquals(idealState.getRebalanceMode(), IdealState.RebalanceMode.FULL_AUTO);
@@ -1420,8 +1441,9 @@ public class TestClusterAccessor extends AbstractTestClass {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
     long currentTime = System.currentTimeMillis();
     String cluster = "TestCluster_1";
-    new JerseyUriRequestBuilder("clusters/{}?command=onDemandRebalance").format(cluster)
-        .post(this, Entity.entity("{}", MediaType.APPLICATION_JSON_TYPE));
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}?command=onDemandRebalance").format(cluster)
+            .post(this, Entity.entity("{}", MediaType.APPLICATION_JSON_TYPE))) {
+    }
 
     ClusterConfig config = _configAccessor.getClusterConfig(cluster);
     long lastOnDemandRebalanceTime = config.getLastOnDemandRebalanceTimestamp();

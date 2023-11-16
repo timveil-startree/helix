@@ -89,41 +89,46 @@ public class TestControllerLiveLock extends ZkUnitTestBase {
         new ClusterControllerManager(ZK_ADDR, clusterName, "controller_0");
     controller.syncStart();
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    boolean result = verifier.verifyByPolling();
-    Assert.assertTrue(result);
+            .build()) {
+      boolean result = verifier.verifyByPolling();
+      Assert.assertTrue(result);
 
-    // make sure all partitions are assigned and no partitions is assigned to STANDBY state
-    result = TestHelper.verify(new TestHelper.Verifier() {
 
-      @Override
-      public boolean verify() throws Exception {
+      // make sure all partitions are assigned and no partitions is assigned to STANDBY state
+      result = TestHelper.verify(new TestHelper.Verifier() {
+
+        @Override
+        public boolean verify() throws Exception {
+          ExternalView extView = accessor.getProperty(keyBuilder.externalView("TestDB0"));
+          for (int i = 0; i < p; i++) {
+            String partition = "TestDB0_" + i;
+            Map<String, String> map = extView.getRecord().getMapField(partition);
+            if (map == null || map.size() != 1) {
+              return false;
+            }
+          }
+          return true;
+        }
+      }, 10 * 1000);
+
+      if (!result) {
         ExternalView extView = accessor.getProperty(keyBuilder.externalView("TestDB0"));
         for (int i = 0; i < p; i++) {
           String partition = "TestDB0_" + i;
           Map<String, String> map = extView.getRecord().getMapField(partition);
           if (map == null || map.size() != 1) {
-            return false;
+            LOG.error(partition + ": " + map);
           }
         }
-        return true;
       }
-    }, 10 * 1000);
+      Assert.assertTrue(result);
 
-    if (!result) {
-      ExternalView extView = accessor.getProperty(keyBuilder.externalView("TestDB0"));
-      for (int i = 0; i < p; i++) {
-        String partition = "TestDB0_" + i;
-        Map<String, String> map = extView.getRecord().getMapField(partition);
-        if (map == null || map.size() != 1) {
-          LOG.error(partition + ": " + map);
-        }
-      }
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
     }
-    Assert.assertTrue(result);
 
     // clean up
     controller.syncStop();

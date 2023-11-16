@@ -210,12 +210,15 @@ public class TestResourceThreadpoolSize extends ZkStandAloneCMTestBase {
     // So there is no gurantee that new threads will be created for each new database
     // Assert.assertTrue(executor.getPoolSize() >= numberOfDbs);
 
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
             .setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   private void setResourceThreadPoolSize(String resourceName, int threadPoolSize) {

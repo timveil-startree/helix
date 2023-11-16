@@ -133,19 +133,22 @@ public class TestAlertingRebalancerFailure extends ZkStandAloneCMTestBase {
 
     _gSetupTool.addResourceToCluster(CLUSTER_NAME, testDb, idealState);
     _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, testDb, 3);
-    ZkHelixClusterVerifier verifier =
+    try(ZkHelixClusterVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setResources(new HashSet<>(Collections.singleton(testDb)))
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    // disable then enable the resource to ensure no rebalancing error is generated during this
-    // process
-    _gSetupTool.dropResourceFromCluster(CLUSTER_NAME, testDb);
-    _gSetupTool.addResourceToCluster(CLUSTER_NAME, testDb, idealState);
-    _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, testDb, 3);
-    Assert.assertTrue(verifier.verifyByPolling());
+      // disable then enable the resource to ensure no rebalancing error is generated during this
+      // process
+      _gSetupTool.dropResourceFromCluster(CLUSTER_NAME, testDb);
+      _gSetupTool.addResourceToCluster(CLUSTER_NAME, testDb, idealState);
+      _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, testDb, 3);
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // Verify there is no rebalance error logged
     Assert.assertNull(accessor.getProperty(errorNodeKey));
@@ -177,17 +180,21 @@ public class TestAlertingRebalancerFailure extends ZkStandAloneCMTestBase {
     _gSetupTool.addResourceToCluster(CLUSTER_NAME, testDb, 5,
         BuiltInStateModelDefinitions.MasterSlave.name(), RebalanceMode.FULL_AUTO.name(),
         CrushEdRebalanceStrategy.class.getName());
-    ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
+    try (ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
         .setZkClient(_gZkClient).setResources(new HashSet<>(Collections.singleton(testDb)))
         .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    _gSetupTool.getClusterManagementTool().rebalance(CLUSTER_NAME, testDb, 3);
-    Assert.assertTrue(verifier.verifyByPolling());
+        .build()) {
+      _gSetupTool.getClusterManagementTool().rebalance(CLUSTER_NAME, testDb, 3);
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    // Verify there is no rebalance error logged
-    Assert.assertNull(accessor.getProperty(errorNodeKey));
+      // Verify there is no rebalance error logged
+      Assert.assertNull(accessor.getProperty(errorNodeKey));
 
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     checkRebalanceFailureGauge(false);
     checkResourceBestPossibleCalFailureState(ResourceMonitor.RebalanceStatus.NORMAL, testDb);
 
@@ -236,11 +243,14 @@ public class TestAlertingRebalancerFailure extends ZkStandAloneCMTestBase {
         BuiltInStateModelDefinitions.MasterSlave.name(), RebalanceMode.FULL_AUTO.name(),
         CrushRebalanceStrategy.class.getName());
     _gSetupTool.rebalanceStorageCluster(CLUSTER_NAME, testDb, replicas);
-    ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
+    try (ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
         .setZkClient(_gZkClient).setResources(new HashSet<>(Collections.singleton(testDb)))
         .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-        .build();
-    Assert.assertTrue(verifier.verifyByPolling());
+        .build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     // Verify there is no rebalance error logged
     Assert.assertNull(accessor.getProperty(errorNodeKey));
     checkRebalanceFailureGauge(false);

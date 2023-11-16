@@ -56,20 +56,23 @@ public class TestInstancesAccessor extends AbstractTestClass {
         InstancesAccessor.InstancesProperties.instances.name(), "instance0", "instance1",
         "instance2", "instance3", "instance4", "instance5", "invalidInstance",
         InstancesAccessor.InstancesProperties.zone_order.name(), "zone2", "zone1");
-    Response response = new JerseyUriRequestBuilder(
+   try(Response response = new JerseyUriRequestBuilder(
         "clusters/{}/instances?command=stoppable&skipHealthCheckCategories=CUSTOM_INSTANCE_CHECK,CUSTOM_PARTITION_CHECK").format(
-        STOPPABLE_CLUSTER).post(this, Entity.entity(content, MediaType.APPLICATION_JSON_TYPE));
-    JsonNode jsonNode = OBJECT_MAPPER.readTree(response.readEntity(String.class));
-    Assert.assertFalse(
-        jsonNode.withArray(InstancesAccessor.InstancesProperties.instance_stoppable_parallel.name())
-            .elements().hasNext());
-    JsonNode nonStoppableInstances = jsonNode.get(
-        InstancesAccessor.InstancesProperties.instance_not_stoppable_with_reasons.name());
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "instance5"),
-        ImmutableSet.of("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ALIVE",
-            "HELIX:INSTANCE_NOT_STABLE"));
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "invalidInstance"),
-        ImmutableSet.of("HELIX:INSTANCE_NOT_EXIST"));
+        STOPPABLE_CLUSTER).post(this, Entity.entity(content, MediaType.APPLICATION_JSON_TYPE))){
+      JsonNode jsonNode = OBJECT_MAPPER.readTree(response.readEntity(String.class));
+      Assert.assertFalse(
+              jsonNode.withArray(InstancesAccessor.InstancesProperties.instance_stoppable_parallel.name())
+                      .elements().hasNext());
+      JsonNode nonStoppableInstances = jsonNode.get(
+              InstancesAccessor.InstancesProperties.instance_not_stoppable_with_reasons.name());
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "instance5"),
+              ImmutableSet.of("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ALIVE",
+                      "HELIX:INSTANCE_NOT_STABLE"));
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "invalidInstance"),
+              ImmutableSet.of("HELIX:INSTANCE_NOT_EXIST"));
+    } catch (Exception e) {
+     Assert.fail(e.getMessage());
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -83,28 +86,31 @@ public class TestInstancesAccessor extends AbstractTestClass {
             InstancesAccessor.InstanceHealthSelectionBase.zone_based.name(),
             InstancesAccessor.InstancesProperties.instances.name(), "instance0", "instance1",
             "instance2", "instance3", "instance4", "instance5", "invalidInstance");
-    Response response =
+    try (Response response =
         new JerseyUriRequestBuilder("clusters/{}/instances?command=stoppable").format(
-            STOPPABLE_CLUSTER).post(this, Entity.entity(content, MediaType.APPLICATION_JSON_TYPE));
-    JsonNode jsonNode = OBJECT_MAPPER.readTree(response.readEntity(String.class));
-    Assert.assertFalse(
-        jsonNode.withArray(InstancesAccessor.InstancesProperties.instance_stoppable_parallel.name())
-            .elements().hasNext());
-    JsonNode nonStoppableInstances = jsonNode.get(
-        InstancesAccessor.InstancesProperties.instance_not_stoppable_with_reasons.name());
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "instance0"),
-        ImmutableSet.of("HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "instance1"),
-        ImmutableSet.of("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
-            "HELIX:INSTANCE_NOT_STABLE"));
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "instance2"),
-        ImmutableSet.of("HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "instance3"),
-        ImmutableSet.of("HELIX:HAS_DISABLED_PARTITION", "HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "instance4"),
-        ImmutableSet.of("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ALIVE",
-            "HELIX:INSTANCE_NOT_STABLE"));
-    Assert.assertEquals(getStringSet(nonStoppableInstances, "invalidInstance"), ImmutableSet.of("HELIX:INSTANCE_NOT_EXIST"));
+            STOPPABLE_CLUSTER).post(this, Entity.entity(content, MediaType.APPLICATION_JSON_TYPE))) {
+      JsonNode jsonNode = OBJECT_MAPPER.readTree(response.readEntity(String.class));
+      Assert.assertFalse(
+              jsonNode.withArray(InstancesAccessor.InstancesProperties.instance_stoppable_parallel.name())
+                      .elements().hasNext());
+      JsonNode nonStoppableInstances = jsonNode.get(
+              InstancesAccessor.InstancesProperties.instance_not_stoppable_with_reasons.name());
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "instance0"),
+              ImmutableSet.of("HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "instance1"),
+              ImmutableSet.of("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
+                      "HELIX:INSTANCE_NOT_STABLE"));
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "instance2"),
+              ImmutableSet.of("HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "instance3"),
+              ImmutableSet.of("HELIX:HAS_DISABLED_PARTITION", "HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "instance4"),
+              ImmutableSet.of("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ALIVE",
+                      "HELIX:INSTANCE_NOT_STABLE"));
+      Assert.assertEquals(getStringSet(nonStoppableInstances, "invalidInstance"), ImmutableSet.of("HELIX:INSTANCE_NOT_EXIST"));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage());
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -118,31 +124,37 @@ public class TestInstancesAccessor extends AbstractTestClass {
     _configAccessor.setInstanceConfig(STOPPABLE_CLUSTER, instance, instanceConfig);
 
     // It takes time to reflect the changes.
-    BestPossibleExternalViewVerifier verifier =
-        new BestPossibleExternalViewVerifier.Builder(STOPPABLE_CLUSTER).setZkAddr(ZK_ADDR).build();
-    Assert.assertTrue(verifier.verifyByPolling());
+    try (BestPossibleExternalViewVerifier verifier =
+        new BestPossibleExternalViewVerifier.Builder(STOPPABLE_CLUSTER).setZkAddr(ZK_ADDR).build()) {
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    Entity entity = Entity.entity("\"{}\"", MediaType.APPLICATION_JSON_TYPE);
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/stoppable")
-        .format(STOPPABLE_CLUSTER, instance).post(this, entity);
-    JsonNode jsonResult = OBJECT_MAPPER.readTree(response.readEntity(String.class));
-    Assert.assertFalse(jsonResult.get("stoppable").asBoolean());
-    Assert.assertEquals(getStringSet(jsonResult, "failedChecks"),
-            ImmutableSet.of("HELIX:HAS_DISABLED_PARTITION","HELIX:INSTANCE_NOT_ENABLED","HELIX:INSTANCE_NOT_STABLE","HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
+      Entity entity = Entity.entity("\"{}\"", MediaType.APPLICATION_JSON_TYPE);
+      try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/stoppable")
+              .format(STOPPABLE_CLUSTER, instance).post(this, entity)) {
+        JsonNode jsonResult = OBJECT_MAPPER.readTree(response.readEntity(String.class));
+        Assert.assertFalse(jsonResult.get("stoppable").asBoolean());
+        Assert.assertEquals(getStringSet(jsonResult, "failedChecks"),
+                ImmutableSet.of("HELIX:HAS_DISABLED_PARTITION", "HELIX:INSTANCE_NOT_ENABLED", "HELIX:INSTANCE_NOT_STABLE", "HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
 
-    // Reenable instance0, it should passed the check
-    instanceConfig.setInstanceEnabled(true);
-    instanceConfig.setInstanceEnabledForPartition("FakeResource", "FakePartition", true);
-    _configAccessor.setInstanceConfig(STOPPABLE_CLUSTER, instance, instanceConfig);
-    Assert.assertTrue(verifier.verifyByPolling());
+        // Reenable instance0, it should passed the check
+        instanceConfig.setInstanceEnabled(true);
+        instanceConfig.setInstanceEnabledForPartition("FakeResource", "FakePartition", true);
+        _configAccessor.setInstanceConfig(STOPPABLE_CLUSTER, instance, instanceConfig);
+        Assert.assertTrue(verifier.verifyByPolling());
 
-    entity = Entity.entity("\"{}\"", MediaType.APPLICATION_JSON_TYPE);
-    response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/stoppable")
-        .format(STOPPABLE_CLUSTER, instance).post(this, entity);
-    jsonResult = OBJECT_MAPPER.readTree(response.readEntity(String.class));
+        entity = Entity.entity("\"{}\"", MediaType.APPLICATION_JSON_TYPE);
 
-    Assert.assertFalse(jsonResult.get("stoppable").asBoolean());
-    Assert.assertEquals(getStringSet(jsonResult, "failedChecks"), ImmutableSet.of("HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
+        try (Response response2 = new JerseyUriRequestBuilder("clusters/{}/instances/{}/stoppable")
+                .format(STOPPABLE_CLUSTER, instance).post(this, entity)) {
+          jsonResult = OBJECT_MAPPER.readTree(response2.readEntity(String.class));
+        }
+
+        Assert.assertFalse(jsonResult.get("stoppable").asBoolean());
+        Assert.assertEquals(getStringSet(jsonResult, "failedChecks"), ImmutableSet.of("HELIX:MIN_ACTIVE_REPLICA_CHECK_FAILED"));
+      }
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 

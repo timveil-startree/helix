@@ -109,13 +109,17 @@ public class TestControllerLeadershipChange extends ZkTestBase {
     verifyControllerIsLeader(controller);
 
     // Create cluster verifier
-    ZkHelixClusterVerifier clusterVerifier =
+    try (ZkHelixClusterVerifier clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
+            .build()) {
 
-    // Wait for rebalanced
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
+      // Wait for rebalanced
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     ZKHelixDataAccessor helixDataAccessor = new ZKHelixDataAccessor(CLUSTER_NAME, baseDataAccessor);
     ClusterConfig cls = helixDataAccessor.getProperty(helixDataAccessor.keyBuilder().clusterConfig());
     Assert.assertFalse(cls.getRecord().getMapFields()
@@ -252,87 +256,93 @@ public class TestControllerLeadershipChange extends ZkTestBase {
     _gSetupTool.addCluster(clusterName, true);
 
     // Create cluster verifier
-    ZkHelixClusterVerifier clusterVerifier =
+    try (ZkHelixClusterVerifier clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(clusterName).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
+            .build()) {
 
-    // Create participant
-    _gSetupTool.addInstanceToCluster(clusterName, instanceName);
-    MockParticipantManager participant =
-        new MockParticipantManager(ZK_ADDR, clusterName, instanceName, simulatedTransitionDelayMs);
-    participant.syncStart();
 
-    // Create controller, since this is the only controller, it will be the leader
-    HelixManager manager1 = HelixManagerFactory
-        .getZKHelixManager(clusterName, clusterName + "-manager1", InstanceType.CONTROLLER,
-            ZK_ADDR);
-    manager1.connect();
-    Assert.assertTrue(manager1.isLeader());
+      // Create participant
+      _gSetupTool.addInstanceToCluster(clusterName, instanceName);
+      MockParticipantManager participant =
+              new MockParticipantManager(ZK_ADDR, clusterName, instanceName, simulatedTransitionDelayMs);
+      participant.syncStart();
 
-    // Create resource
-    _gSetupTool.addResourceToCluster(clusterName, resourceName, numPartition, stateModel,
-        IdealState.RebalanceMode.SEMI_AUTO.name());
+      // Create controller, since this is the only controller, it will be the leader
+      HelixManager manager1 = HelixManagerFactory
+              .getZKHelixManager(clusterName, clusterName + "-manager1", InstanceType.CONTROLLER,
+                      ZK_ADDR);
+      manager1.connect();
+      Assert.assertTrue(manager1.isLeader());
 
-    // Rebalance Resource
-    _gSetupTool.rebalanceResource(clusterName, resourceName, numReplica);
+      // Create resource
+      _gSetupTool.addResourceToCluster(clusterName, resourceName, numPartition, stateModel,
+              IdealState.RebalanceMode.SEMI_AUTO.name());
 
-    // Wait for rebalance
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
+      // Rebalance Resource
+      _gSetupTool.rebalanceResource(clusterName, resourceName, numReplica);
 
-    // Trigger missing top state in manager1
-    participant.syncStop();
+      // Wait for rebalance
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-    Thread.sleep(1000);
+      // Trigger missing top state in manager1
+      participant.syncStop();
 
-    // Starting manager2
-    HelixManager manager2 = HelixManagerFactory
-        .getZKHelixManager(clusterName, clusterName + "-manager2", InstanceType.CONTROLLER,
-            ZK_ADDR);
-    manager2.connect();
+      Thread.sleep(1000);
 
-    // Set leader to manager2
-    setLeader(manager2);
+      // Starting manager2
+      HelixManager manager2 = HelixManagerFactory
+              .getZKHelixManager(clusterName, clusterName + "-manager2", InstanceType.CONTROLLER,
+                      ZK_ADDR);
+      manager2.connect();
 
-    Assert.assertFalse(manager1.isLeader());
-    Assert.assertTrue(manager2.isLeader());
+      // Set leader to manager2
+      setLeader(manager2);
 
-    // Wait for rebalance
-    Assert.assertTrue(clusterVerifier.verify());
+      Assert.assertFalse(manager1.isLeader());
+      Assert.assertTrue(manager2.isLeader());
 
-    Thread.sleep(1000);
+      // Wait for rebalance
+      Assert.assertTrue(clusterVerifier.verify());
 
-    // The moment before manager1 regain leadership. The topstateless duration will start counting.
-    long start = System.currentTimeMillis();
-    setLeader(manager1);
+      Thread.sleep(1000);
 
-    Assert.assertTrue(manager1.isLeader());
-    Assert.assertFalse(manager2.isLeader());
+      // The moment before manager1 regain leadership. The topstateless duration will start counting.
+      long start = System.currentTimeMillis();
+      setLeader(manager1);
 
-    // Make resource top state to come back by restarting participant
-    participant = new MockParticipantManager(ZK_ADDR, clusterName, instanceName);
-    participant.syncStart();
+      Assert.assertTrue(manager1.isLeader());
+      Assert.assertFalse(manager2.isLeader());
 
-    _gSetupTool.rebalanceResource(clusterName, resourceName, numReplica);
+      // Make resource top state to come back by restarting participant
+      participant = new MockParticipantManager(ZK_ADDR, clusterName, instanceName);
+      participant.syncStart();
 
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
-    // The moment that partition top state has been recovered. The topstateless duration stopped counting.
-    long end = System.currentTimeMillis();
+      _gSetupTool.rebalanceResource(clusterName, resourceName, numReplica);
 
-    // Resource lost top state, and manager1 lost leadership for 2000ms, because manager1 will
-    // clean monitoring cache after re-gaining leadership, so max value of hand off duration should
-    // not have such a large value
-    long duration = (long) beanServer
-        .getAttribute(resourceMBeanObjectName, "PartitionTopStateHandoffDurationGauge.Max");
-    long controllerOpDuration = end - start;
-    Assert.assertTrue(duration >= simulatedTransitionDelayMs && duration <= controllerOpDuration,
-        String.format(
-            "The recorded TopState-less duration is %d. But the controller operation duration is %d.",
-            duration, controllerOpDuration));
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-    participant.syncStop();
-    manager1.disconnect();
-    manager2.disconnect();
+
+      // The moment that partition top state has been recovered. The topstateless duration stopped counting.
+      long end = System.currentTimeMillis();
+
+      // Resource lost top state, and manager1 lost leadership for 2000ms, because manager1 will
+      // clean monitoring cache after re-gaining leadership, so max value of hand off duration should
+      // not have such a large value
+      long duration = (long) beanServer
+              .getAttribute(resourceMBeanObjectName, "PartitionTopStateHandoffDurationGauge.Max");
+      long controllerOpDuration = end - start;
+      Assert.assertTrue(duration >= simulatedTransitionDelayMs && duration <= controllerOpDuration,
+              String.format(
+                      "The recorded TopState-less duration is %d. But the controller operation duration is %d.",
+                      duration, controllerOpDuration));
+
+      participant.syncStop();
+      manager1.disconnect();
+      manager2.disconnect();
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     deleteCluster(clusterName);
   }
 

@@ -62,41 +62,50 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     Map<String, String> params = ImmutableMap.of("client", "espresso");
     Entity entity =
         Entity.entity(OBJECT_MAPPER.writeValueAsString(params), MediaType.APPLICATION_JSON_TYPE);
-    Response response = new JerseyUriRequestBuilder(
+    try (Response response = new JerseyUriRequestBuilder(
         "clusters/{}/instances/{}/stoppable?skipHealthCheckCategories=CUSTOM_INSTANCE_CHECK,CUSTOM_PARTITION_CHECK").format(
-        STOPPABLE_CLUSTER, "instance1").post(this, entity);
-    String stoppableCheckResult = response.readEntity(String.class);
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(stoppableCheckResult, Map.class);
-    List<String> failedChecks =
-        Arrays.asList("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
-            "HELIX:INSTANCE_NOT_STABLE");
-    Map<String, Object> expectedMap =
-        ImmutableMap.of("stoppable", false, "failedChecks", failedChecks);
-    Assert.assertEquals(actualMap, expectedMap);
+        STOPPABLE_CLUSTER, "instance1").post(this, entity)) {
+      String stoppableCheckResult = response.readEntity(String.class);
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(stoppableCheckResult, Map.class);
+      List<String> failedChecks =
+              Arrays.asList("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
+                      "HELIX:INSTANCE_NOT_STABLE");
+      Map<String, Object> expectedMap =
+              ImmutableMap.of("stoppable", false, "failedChecks", failedChecks);
+      Assert.assertEquals(actualMap, expectedMap);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
   @Test(dependsOnMethods = "testIsInstanceStoppable")
   public void testTakeInstanceNegInput() throws IOException {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
-    post("clusters/TestCluster_0/instances/instance1/takeInstance", null,
-        Entity.entity("", MediaType.APPLICATION_JSON_TYPE),
-        Response.Status.BAD_REQUEST.getStatusCode(), true);
+    try (Response post = post("clusters/TestCluster_0/instances/instance1/takeInstance", null,
+            Entity.entity("", MediaType.APPLICATION_JSON_TYPE),
+            Response.Status.BAD_REQUEST.getStatusCode(), true)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
   @Test(dependsOnMethods = "testTakeInstanceNegInput")
   public void testTakeInstanceNegInput2() throws IOException {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
-        .format(STOPPABLE_CLUSTER, "instance1").post(this, Entity.entity("{}", MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+        .format(STOPPABLE_CLUSTER, "instance1").post(this, Entity.entity("{}", MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    List<String> errorMsg = Arrays.asList("Invalid input. Please provide at least one health check or operation.");
-    Map<String, Object> expectedMap =
-        ImmutableMap.of("successful", false, "messages", errorMsg, "operationResult", "");
-    Assert.assertEquals(actualMap, expectedMap);
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      List<String> errorMsg = Arrays.asList("Invalid input. Please provide at least one health check or operation.");
+      Map<String, Object> expectedMap =
+          ImmutableMap.of("successful", false, "messages", errorMsg, "operationResult", "");
+      Assert.assertEquals(actualMap, expectedMap);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -105,17 +114,20 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
     String payload = "{ \"health_check_list\" : [\"HelixInstanceStoppableCheck\", \"CustomInstanceStoppableCheck\"],"
         + "\"health_check_config\" : { \"client\" : \"espresso\" }} ";
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
-        .format(STOPPABLE_CLUSTER, "instance1").post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+        .format(STOPPABLE_CLUSTER, "instance1").post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    List<String> errorMsg = Arrays
-        .asList("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
-            "HELIX:INSTANCE_NOT_STABLE");
-    Map<String, Object> expectedMap =
-        ImmutableMap.of("successful", false, "messages", errorMsg, "operationResult", "");
-    Assert.assertEquals(actualMap, expectedMap);
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      List<String> errorMsg = Arrays
+          .asList("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
+              "HELIX:INSTANCE_NOT_STABLE");
+      Map<String, Object> expectedMap =
+          ImmutableMap.of("successful", false, "messages", errorMsg, "operationResult", "");
+      Assert.assertEquals(actualMap, expectedMap);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -126,17 +138,20 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
         + "\"health_check_config\" : { \"client\" : \"espresso\" , "
         + "\"continueOnFailures\" : [\"HELIX:EMPTY_RESOURCE_ASSIGNMENT\", \"HELIX:INSTANCE_NOT_ENABLED\","
         + " \"HELIX:INSTANCE_NOT_STABLE\"]} } ";
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
-        .format(STOPPABLE_CLUSTER, "instance1").post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+        .format(STOPPABLE_CLUSTER, "instance1").post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    List<String> errorMsg = Arrays
-        .asList("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
-            "HELIX:INSTANCE_NOT_STABLE");
-    Map<String, Object> expectedMap =
-        ImmutableMap.of("successful", true, "messages", errorMsg, "operationResult", "");
-    Assert.assertEquals(actualMap, expectedMap);
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      List<String> errorMsg = Arrays
+          .asList("HELIX:EMPTY_RESOURCE_ASSIGNMENT", "HELIX:INSTANCE_NOT_ENABLED",
+              "HELIX:INSTANCE_NOT_STABLE");
+      Map<String, Object> expectedMap =
+          ImmutableMap.of("successful", true, "messages", errorMsg, "operationResult", "");
+      Assert.assertEquals(actualMap, expectedMap);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -145,15 +160,18 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
     String payload =
         "{ \"operation_list\" : [\"org.apache.helix.rest.server.TestOperationImpl\"]} ";
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
         .format(STOPPABLE_CLUSTER, "instance1")
-        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    Map<String, Object> expectedMap = ImmutableMap
-        .of("successful", true, "messages", new ArrayList<>(), "operationResult", "DummyTakeOperationResult");
-    Assert.assertEquals(actualMap, expectedMap);
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      Map<String, Object> expectedMap = ImmutableMap
+          .of("successful", true, "messages", new ArrayList<>(), "operationResult", "DummyTakeOperationResult");
+      Assert.assertEquals(actualMap, expectedMap);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -162,16 +180,19 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
     String payload =
         "{ \"operation_list\" : [\"org.apache.helix.rest.server.TestOperationImpl\"]} ";
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/freeInstance")
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/freeInstance")
         .format(STOPPABLE_CLUSTER, "instance1")
-        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    Map<String, Object> expectedMap = ImmutableMap
-        .of("successful", true, "messages", new ArrayList<>(), "operationResult",
-            "DummyFreeOperationResult");
-    Assert.assertEquals(actualMap, expectedMap);
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      Map<String, Object> expectedMap = ImmutableMap
+          .of("successful", true, "messages", new ArrayList<>(), "operationResult",
+              "DummyFreeOperationResult");
+      Assert.assertEquals(actualMap, expectedMap);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -183,13 +204,16 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
         + " {\"instance0\": true, \"instance2\": true, "
         + "\"instance3\": true, \"instance4\": true, \"instance5\": true, "
         + " \"value\" : \"i001\", \"list_value\" : [\"list1\"]}} } ";
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
         .format(STOPPABLE_CLUSTER, "instance0")
-        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    Assert.assertFalse((boolean)actualMap.get("successful"));
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      Assert.assertFalse((boolean)actualMap.get("successful"));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -201,13 +225,16 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
         + " {\"instance0\": true, \"instance2\": true, "
         + "\"instance3\": true, \"instance4\": true, \"instance5\": true, "
         + " \"value\" : \"i001\", \"list_value\" : [\"list1\"]}}} ";
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
         .format(STOPPABLE_CLUSTER, "instance0")
-        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    Assert.assertFalse((boolean)actualMap.get("successful"));
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      Assert.assertFalse((boolean)actualMap.get("successful"));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -220,17 +247,20 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
         + "\"instance3\": true, \"instance4\": true, \"instance5\": true, "
         + "\"continueOnFailures\" : true} } } ";
 
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
         .format(STOPPABLE_CLUSTER, "instance0")
-        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
-    LOG.debug("testTakeInstanceOperationCheckFailureNonBlocking" + takeInstanceResult);
+        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
+      LOG.debug("testTakeInstanceOperationCheckFailureNonBlocking" + takeInstanceResult);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    Assert.assertTrue((boolean)actualMap.get("successful"));
-    Assert.assertEquals(actualMap.get("operationResult"), "DummyTakeOperationResult");
-    // The non blocking test should generate msg but won't return failure status
-    Assert.assertFalse(actualMap.get("messages").equals("[]"));
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      Assert.assertTrue((boolean)actualMap.get("successful"));
+      Assert.assertEquals(actualMap.get("operationResult"), "DummyTakeOperationResult");
+      // The non blocking test should generate msg but won't return failure status
+      Assert.assertFalse(actualMap.get("messages").equals("[]"));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -239,14 +269,17 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
     String payload = "{ \"operation_list\" : [\"org.apache.helix.rest.server.TestOperationImpl\"],"
         + "\"operation_config\": {\"performOperation\": false} } ";
-    Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
+    try (Response response = new JerseyUriRequestBuilder("clusters/{}/instances/{}/takeInstance")
         .format(STOPPABLE_CLUSTER, "instance1")
-        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE));
-    String takeInstanceResult = response.readEntity(String.class);
+        .post(this, Entity.entity(payload, MediaType.APPLICATION_JSON_TYPE))) {
+      String takeInstanceResult = response.readEntity(String.class);
 
-    Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
-    Assert.assertTrue((boolean)actualMap.get("successful"));
-    Assert.assertTrue(actualMap.get("operationResult").equals(""));
+      Map<String, Object> actualMap = OBJECT_MAPPER.readValue(takeInstanceResult, Map.class);
+      Assert.assertTrue((boolean) actualMap.get("successful"));
+      Assert.assertTrue(actualMap.get("operationResult").equals(""));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -378,31 +411,37 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     // Disable instance
     Entity entity = Entity.entity("", MediaType.APPLICATION_JSON_TYPE);
 
-    new JerseyUriRequestBuilder(
-        "clusters/{}/instances/{}?command=disable&instanceDisabledReason=reason1")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+   try (Response post = new JerseyUriRequestBuilder(
+            "clusters/{}/instances/{}?command=disable&instanceDisabledReason=reason1")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
 
-    Assert.assertFalse(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
-    Assert.assertEquals(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledType(),
-        InstanceConstants.InstanceDisabledType.DEFAULT_INSTANCE_DISABLE_TYPE.toString());
-    Assert.assertEquals(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledReason(),
-        "reason1");
+     Assert.assertFalse(
+             _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
+     Assert.assertEquals(
+             _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledType(),
+             InstanceConstants.InstanceDisabledType.DEFAULT_INSTANCE_DISABLE_TYPE.toString());
+     Assert.assertEquals(
+             _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledReason(),
+             "reason1");
+   } catch (Exception e) {
+     Assert.fail(e.getMessage(), e);
+   }
 
     // Enable instance
-    new JerseyUriRequestBuilder(
-        "clusters/{}/instances/{}?command=enable&instanceDisabledType=USER_OPERATION&instanceDisabledReason=reason1")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
-    Assert.assertTrue(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
-    Assert.assertEquals(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledType(),
-        InstanceConstants.INSTANCE_NOT_DISABLED);
-    Assert.assertEquals(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledReason(),
-        "");
+   try (Response post = new JerseyUriRequestBuilder(
+            "clusters/{}/instances/{}?command=enable&instanceDisabledType=USER_OPERATION&instanceDisabledReason=reason1")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+     Assert.assertTrue(
+             _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
+     Assert.assertEquals(
+             _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledType(),
+             InstanceConstants.INSTANCE_NOT_DISABLED);
+     Assert.assertEquals(
+             _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceDisabledReason(),
+             "");
+   } catch (Exception e) {
+     Assert.fail(e.getMessage(), e);
+   }
 
     // We should see no instance disable related field in to clusterConfig
     ClusterConfig cls = _configAccessor.getClusterConfig(CLUSTER_NAME);
@@ -410,16 +449,22 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
         .containsKey(ClusterConfig.ClusterConfigProperty.DISABLED_INSTANCES.name()));
 
     // disable instance with no reason input
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=disable")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=disable")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
 
-    Assert.assertFalse(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
+      Assert.assertFalse(
+              _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=enable")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
-    Assert.assertTrue(
-        _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
+    try(Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=enable")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+      Assert.assertTrue(
+              _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getInstanceEnabled());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // Disable instance should see no field write to clusterConfig
     cls = _configAccessor.getClusterConfig(CLUSTER_NAME);
@@ -433,11 +478,14 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
             INSTANCE_NAME, PerInstanceAccessor.PerInstanceProperties.instanceTags.name(), tagList)),
         MediaType.APPLICATION_JSON_TYPE);
 
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=addInstanceTag")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=addInstanceTag")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
 
-    Assert.assertEquals(_configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getTags(),
-        tagList);
+      Assert.assertEquals(_configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getTags(),
+              tagList);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // RemoveTags
     List<String> removeList = new ArrayList<>(tagList);
@@ -447,11 +495,14 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
             INSTANCE_NAME, PerInstanceAccessor.PerInstanceProperties.instanceTags.name(), removeList)),
         MediaType.APPLICATION_JSON_TYPE);
 
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=removeInstanceTag")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try(Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=removeInstanceTag")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
 
-    Assert.assertEquals(_configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getTags(),
-        ImmutableList.of("tag2"));
+      Assert.assertEquals(_configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME).getTags(),
+              ImmutableList.of("tag2"));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // Test enable disable partitions
     String dbName = "_db_0_";
@@ -465,8 +516,11 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
             PerInstanceAccessor.PerInstanceProperties.partitions.name(), partitionsToDisable)),
         MediaType.APPLICATION_JSON_TYPE);
 
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=disablePartitions")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=disablePartitions")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     InstanceConfig instanceConfig = _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME);
     Assert.assertEquals(
@@ -480,27 +534,42 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
             PerInstanceAccessor.PerInstanceProperties.partitions.name(),
             ImmutableList.of(CLUSTER_NAME + dbName + "1"))), MediaType.APPLICATION_JSON_TYPE);
 
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=enablePartitions")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=enablePartitions")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
 
-    instanceConfig = _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME);
-    Assert.assertEquals(new HashSet<>(instanceConfig.getDisabledPartitionsMap()
-            .get(CLUSTER_NAME + dbName.substring(0, dbName.length() - 1))),
-        new HashSet<>(Arrays.asList(CLUSTER_NAME + dbName + "0", CLUSTER_NAME + dbName + "3")));
+      instanceConfig = _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME);
+      Assert.assertEquals(new HashSet<>(instanceConfig.getDisabledPartitionsMap()
+                      .get(CLUSTER_NAME + dbName.substring(0, dbName.length() - 1))),
+              new HashSet<>(Arrays.asList(CLUSTER_NAME + dbName + "0", CLUSTER_NAME + dbName + "3")));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // test set instance operation
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=setInstanceOperation&instanceOperation=EVACUATE")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
-    instanceConfig = _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME);
-    Assert.assertEquals(
-        instanceConfig.getInstanceOperation(), InstanceConstants.InstanceOperation.EVACUATE.toString());
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=setInstanceOperation&instanceOperation=INVALIDOP")
-        .expectedReturnStatusCode(Response.Status.NOT_FOUND.getStatusCode()).format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=setInstanceOperation&instanceOperation=")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
-    instanceConfig = _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME);
-    Assert.assertEquals(
-        instanceConfig.getInstanceOperation(), "");
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=setInstanceOperation&instanceOperation=EVACUATE")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+      instanceConfig = _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME);
+      Assert.assertEquals(
+              instanceConfig.getInstanceOperation(), InstanceConstants.InstanceOperation.EVACUATE.toString());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=setInstanceOperation&instanceOperation=INVALIDOP")
+            .expectedReturnStatusCode(Response.Status.NOT_FOUND.getStatusCode()).format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}?command=setInstanceOperation&instanceOperation=")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+      instanceConfig = _configAccessor.getInstanceConfig(CLUSTER_NAME, INSTANCE_NAME);
+      Assert.assertEquals(
+              instanceConfig.getInstanceOperation(), "");
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -527,8 +596,12 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     // 1. Add these fields by way of "update"
     Entity entity =
         Entity.entity(OBJECT_MAPPER.writeValueAsString(record), MediaType.APPLICATION_JSON_TYPE);
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs?command=update")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs?command=update")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
 
     // Check that the fields have been added
     Assert.assertEquals(record.getSimpleFields(), _configAccessor
@@ -549,8 +622,12 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
 
     entity =
         Entity.entity(OBJECT_MAPPER.writeValueAsString(record), MediaType.APPLICATION_JSON_TYPE);
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs?command=update")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs?command=update")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
 
     // Check that the fields have been modified
     Assert.assertEquals(record.getSimpleFields(), _configAccessor
@@ -584,8 +661,11 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     // First, add these fields by way of "update"
     Entity entity =
         Entity.entity(OBJECT_MAPPER.writeValueAsString(record), MediaType.APPLICATION_JSON_TYPE);
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs?command=delete")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs?command=delete")
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
     // Check that the keys k1 and k2 have been deleted, and k0 remains
     for (int i = 0; i < 4; i++) {
@@ -626,9 +706,13 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
 
     Entity entity =
         Entity.entity(OBJECT_MAPPER.writeValueAsString(record), MediaType.APPLICATION_JSON_TYPE);
-    new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs")
-        .expectedReturnStatusCode(Response.Status.NOT_FOUND.getStatusCode())
-        .format(CLUSTER_NAME, instanceName).post(this, entity);
+    try(Response post = new JerseyUriRequestBuilder("clusters/{}/instances/{}/configs")
+            .expectedReturnStatusCode(Response.Status.NOT_FOUND.getStatusCode())
+            .format(CLUSTER_NAME, instanceName).post(this, entity)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }
 
@@ -726,11 +810,15 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     // Add these fields by way of "update"
     Entity entity =
         Entity.entity(OBJECT_MAPPER.writeValueAsString(record), MediaType.APPLICATION_JSON_TYPE);
-    Response response = new JerseyUriRequestBuilder(
+    try (Response response = new JerseyUriRequestBuilder(
         "clusters/{}/instances/{}/configs?command=update&doSanityCheck=true")
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
-    // Check that the fields have been added
-    Assert.assertEquals(response.getStatus(), 200);
+        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+      // Check that the fields have been added
+      Assert.assertEquals(response.getStatus(), 200);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
     // Check the cluster config is updated
     Assert.assertEquals(
         _configAccessor.getInstanceConfig(CLUSTER_NAME, instanceName).getDomainAsString(), domain);
@@ -741,10 +829,14 @@ public class TestPerInstanceAccessor extends AbstractTestClass {
     entity =
         Entity.entity(OBJECT_MAPPER.writeValueAsString(record), MediaType.APPLICATION_JSON_TYPE);
     // Updating using an invalid domain value should return a non-OK response
-    new JerseyUriRequestBuilder(
-        "clusters/{}/instances/{}/configs?command=update&doSanityCheck=true")
-        .expectedReturnStatusCode(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())
-        .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity);
+    try (Response post = new JerseyUriRequestBuilder(
+            "clusters/{}/instances/{}/configs?command=update&doSanityCheck=true")
+            .expectedReturnStatusCode(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())
+            .format(CLUSTER_NAME, INSTANCE_NAME).post(this, entity)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
+
 
     LOG.debug("End test :" + TestHelper.getTestMethodName());
   }

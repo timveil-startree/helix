@@ -517,13 +517,19 @@ public class AbstractTestClass extends JerseyTestNg.ContainerPerClassTest {
         webTarget = webTarget.queryParam(entry.getKey(), entry.getValue());
       }
     }
-    Response response = webTarget.request().put(entity);
-    Assert.assertEquals(response.getStatus(), expectedReturnStatus);
+    try (Response response = webTarget.request().put(entity)) {
+      Assert.assertEquals(response.getStatus(), expectedReturnStatus);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   protected void post(String uri, Map<String, String> queryParams, Entity entity,
       int expectedReturnStatus) {
-    post(uri, queryParams, entity,expectedReturnStatus, false);
+    try (Response post = post(uri, queryParams, entity, expectedReturnStatus, false)) {
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   protected Response post(String uri, Map<String, String> queryParams, Entity entity,
@@ -540,8 +546,11 @@ public class AbstractTestClass extends JerseyTestNg.ContainerPerClassTest {
   }
 
   protected void delete(String uri, int expectedReturnStatus) {
-    final Response response = target(uri).request().delete();
-    Assert.assertEquals(response.getStatus(), expectedReturnStatus);
+    try (Response response = target(uri).request().delete()) {
+      Assert.assertEquals(response.getStatus(), expectedReturnStatus);
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   protected TaskDriver getTaskDriver(String clusterName) {

@@ -144,92 +144,95 @@ public class TestClusterAggregateMetrics extends ZkTestBase {
 
   @Test
   public void testAggregateMetrics() throws Exception {
-    BestPossibleExternalViewVerifier verifier =
+    try (BestPossibleExternalViewVerifier verifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME)
             .setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
+            .build()) {
 
-    // Everything should be up and running initially with 5 total partitions
-    Map<String, Long> expectedMetricValues = new HashMap<>();
-    expectedMetricValues.put(PARTITION_COUNT, 5L);
-    expectedMetricValues.put(ERROR_PARTITION_COUNT, 0L);
-    expectedMetricValues.put(WITHOUT_TOPSTATE_COUNT, 0L);
-    expectedMetricValues.put(IS_EV_MISMATCH_COUNT, 0L);
-    Assert.assertTrue(TestHelper.verify(() -> {
-      return verifyMetrics(expectedMetricValues);
-    }, TestHelper.WAIT_DURATION), "Expected metrics and observed metrics don't align.");
+      // Everything should be up and running initially with 5 total partitions
+      Map<String, Long> expectedMetricValues = new HashMap<>();
+      expectedMetricValues.put(PARTITION_COUNT, 5L);
+      expectedMetricValues.put(ERROR_PARTITION_COUNT, 0L);
+      expectedMetricValues.put(WITHOUT_TOPSTATE_COUNT, 0L);
+      expectedMetricValues.put(IS_EV_MISMATCH_COUNT, 0L);
+      Assert.assertTrue(TestHelper.verify(() -> {
+        return verifyMetrics(expectedMetricValues);
+      }, TestHelper.WAIT_DURATION), "Expected metrics and observed metrics don't align.");
 
-    // Disable all Participants (instances)
-    _setupTool.getClusterManagementTool()
-        .manuallyEnableMaintenanceMode(CLUSTER_NAME, true, "Test", null);
-    for (int i = 0; i < NUM_PARTICIPANTS; i++) {
-      String instanceName = PARTICIPANT_PREFIX + "_" + (START_PORT + i);
-      _setupTool.getClusterManagementTool().enableInstance(CLUSTER_NAME, instanceName, false);
-    }
-    _setupTool.getClusterManagementTool()
-        .manuallyEnableMaintenanceMode(CLUSTER_NAME, false, "Test", null);
-    // Confirm that the Participants have been disabled
-    boolean result = TestHelper.verify(() -> {
+      // Disable all Participants (instances)
+      _setupTool.getClusterManagementTool()
+              .manuallyEnableMaintenanceMode(CLUSTER_NAME, true, "Test", null);
       for (int i = 0; i < NUM_PARTICIPANTS; i++) {
         String instanceName = PARTICIPANT_PREFIX + "_" + (START_PORT + i);
-        InstanceConfig instanceConfig =
-            _manager.getConfigAccessor().getInstanceConfig(CLUSTER_NAME, instanceName);
-        if (instanceConfig.getInstanceEnabled()) {
-          return false;
-        }
+        _setupTool.getClusterManagementTool().enableInstance(CLUSTER_NAME, instanceName, false);
       }
-      return true;
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
-    Assert.assertTrue(verifier.verifyByPolling());
+      _setupTool.getClusterManagementTool()
+              .manuallyEnableMaintenanceMode(CLUSTER_NAME, false, "Test", null);
+      // Confirm that the Participants have been disabled
+      boolean result = TestHelper.verify(() -> {
+        for (int i = 0; i < NUM_PARTICIPANTS; i++) {
+          String instanceName = PARTICIPANT_PREFIX + "_" + (START_PORT + i);
+          InstanceConfig instanceConfig =
+                  _manager.getConfigAccessor().getInstanceConfig(CLUSTER_NAME, instanceName);
+          if (instanceConfig.getInstanceEnabled()) {
+            return false;
+          }
+        }
+        return true;
+      }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    expectedMetricValues.put(WITHOUT_TOPSTATE_COUNT, 5L);
-    Assert.assertTrue(TestHelper.verify(() -> {
-      return verifyMetrics(expectedMetricValues);
-    }, TestHelper.WAIT_DURATION), "Expected metrics and observed metrics don't align.");
+      expectedMetricValues.put(WITHOUT_TOPSTATE_COUNT, 5L);
+      Assert.assertTrue(TestHelper.verify(() -> {
+        return verifyMetrics(expectedMetricValues);
+      }, TestHelper.WAIT_DURATION), "Expected metrics and observed metrics don't align.");
 
-    // Re-enable all Participants (instances)
-    for (int i = 0; i < NUM_PARTICIPANTS; i++) {
-      String instanceName = PARTICIPANT_PREFIX + "_" + (START_PORT + i);
-      _setupTool.getClusterManagementTool().enableInstance(CLUSTER_NAME, instanceName, true);
-    }
-    // Confirm that the Participants have been enabled
-    result = TestHelper.verify(() -> {
+      // Re-enable all Participants (instances)
       for (int i = 0; i < NUM_PARTICIPANTS; i++) {
         String instanceName = PARTICIPANT_PREFIX + "_" + (START_PORT + i);
-        InstanceConfig instanceConfig =
-            _manager.getConfigAccessor().getInstanceConfig(CLUSTER_NAME, instanceName);
-        if (!instanceConfig.getInstanceEnabled()) {
-          return false;
-        }
+        _setupTool.getClusterManagementTool().enableInstance(CLUSTER_NAME, instanceName, true);
       }
-      return true;
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
-    Assert.assertTrue(verifier.verifyByPolling());
+      // Confirm that the Participants have been enabled
+      result = TestHelper.verify(() -> {
+        for (int i = 0; i < NUM_PARTICIPANTS; i++) {
+          String instanceName = PARTICIPANT_PREFIX + "_" + (START_PORT + i);
+          InstanceConfig instanceConfig =
+                  _manager.getConfigAccessor().getInstanceConfig(CLUSTER_NAME, instanceName);
+          if (!instanceConfig.getInstanceEnabled()) {
+            return false;
+          }
+        }
+        return true;
+      }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    expectedMetricValues.put(WITHOUT_TOPSTATE_COUNT, 0L);
+      expectedMetricValues.put(WITHOUT_TOPSTATE_COUNT, 0L);
 
-    result = TestHelper.verify(() -> {
-      return verifyMetrics(expectedMetricValues);
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
+      result = TestHelper.verify(() -> {
+        return verifyMetrics(expectedMetricValues);
+      }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
 
-    // Drop the resource and check that all metrics are zero.
-    _setupTool.dropResourceFromCluster(CLUSTER_NAME, TEST_DB);
-    // Check that the resource has been removed
-    result = TestHelper.verify(
-        () -> _manager.getHelixDataAccessor().getPropertyStat(
-            _manager.getHelixDataAccessor().keyBuilder().idealStates(TEST_DB)) == null,
-        TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
-    Assert.assertTrue(verifier.verifyByPolling());
+      // Drop the resource and check that all metrics are zero.
+      _setupTool.dropResourceFromCluster(CLUSTER_NAME, TEST_DB);
+      // Check that the resource has been removed
+      result = TestHelper.verify(
+              () -> _manager.getHelixDataAccessor().getPropertyStat(
+                      _manager.getHelixDataAccessor().keyBuilder().idealStates(TEST_DB)) == null,
+              TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
+      Assert.assertTrue(verifier.verifyByPolling());
 
-    expectedMetricValues.put(PARTITION_COUNT, 0L);
-    Assert.assertTrue(TestHelper.verify(() -> {
-      return verifyMetrics(expectedMetricValues);
-    }, TestHelper.WAIT_DURATION), "Expected metrics and observed metrics don't align.");
+      expectedMetricValues.put(PARTITION_COUNT, 0L);
+      Assert.assertTrue(TestHelper.verify(() -> {
+        return verifyMetrics(expectedMetricValues);
+      }, TestHelper.WAIT_DURATION), "Expected metrics and observed metrics don't align.");
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   /**

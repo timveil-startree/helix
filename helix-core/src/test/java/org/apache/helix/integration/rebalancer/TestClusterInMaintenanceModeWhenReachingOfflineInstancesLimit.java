@@ -88,27 +88,30 @@ public class TestClusterInMaintenanceModeWhenReachingOfflineInstancesLimit exten
     _controller = new ClusterControllerManager(ZK_ADDR, CLUSTER_NAME, controllerName);
     _controller.syncStart();
 
-    ZkHelixClusterVerifier clusterVerifier =
+    try (ZkHelixClusterVerifier clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
+            .build()) {
 
-    enablePersistBestPossibleAssignment(_gZkClient, CLUSTER_NAME, true);
-    _dataAccessor = new ZKHelixDataAccessor(CLUSTER_NAME, _baseAccessor);
+      enablePersistBestPossibleAssignment(_gZkClient, CLUSTER_NAME, true);
+      _dataAccessor = new ZKHelixDataAccessor(CLUSTER_NAME, _baseAccessor);
 
-    ConfigAccessor configAccessor = new ConfigAccessor(_gZkClient);
-    ClusterConfig clusterConfig = configAccessor.getClusterConfig(CLUSTER_NAME);
-    clusterConfig.setMaxOfflineInstancesAllowed(_maxOfflineInstancesAllowed);
-    clusterConfig.setNumOfflineInstancesForAutoExit(0);
-    configAccessor.setClusterConfig(CLUSTER_NAME, clusterConfig);
+      ConfigAccessor configAccessor = new ConfigAccessor(_gZkClient);
+      ClusterConfig clusterConfig = configAccessor.getClusterConfig(CLUSTER_NAME);
+      clusterConfig.setMaxOfflineInstancesAllowed(_maxOfflineInstancesAllowed);
+      clusterConfig.setNumOfflineInstancesForAutoExit(0);
+      configAccessor.setClusterConfig(CLUSTER_NAME, clusterConfig);
 
-    for (int i = 0; i < 3; i++) {
-      String db = "Test-DB-" + i++;
-      createResourceWithDelayedRebalance(CLUSTER_NAME, db,
-          BuiltInStateModelDefinitions.MasterSlave.name(), _PARTITIONS, 3, 3, -1);
+      for (int i = 0; i < 3; i++) {
+        String db = "Test-DB-" + i++;
+        createResourceWithDelayedRebalance(CLUSTER_NAME, db,
+                BuiltInStateModelDefinitions.MasterSlave.name(), _PARTITIONS, 3, 3, -1);
+      }
+
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
     }
-
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
   }
 
   @AfterMethod
@@ -142,27 +145,30 @@ public class TestClusterInMaintenanceModeWhenReachingOfflineInstancesLimit exten
     String instance = _participants.get(i).getInstanceName();
     admin.enableInstance(CLUSTER_NAME, instance, false);
 
-    ZkHelixClusterVerifier clusterVerifier =
+    try (ZkHelixClusterVerifier clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-    result = TestHelper.verify(() -> {
-      MaintenanceSignal ms =_dataAccessor.getProperty(_dataAccessor.keyBuilder().maintenance());
-      return ms != null && ms.getReason() != null;
-    }, TestHelper.WAIT_DURATION);
-    Assert.assertTrue(result);
+      result = TestHelper.verify(() -> {
+        MaintenanceSignal ms = _dataAccessor.getProperty(_dataAccessor.keyBuilder().maintenance());
+        return ms != null && ms.getReason() != null;
+      }, TestHelper.WAIT_DURATION);
+      Assert.assertTrue(result);
 
-    checkForRebalanceError(true);
+      checkForRebalanceError(true);
 
-    for (i = 2; i < 2 + _maxOfflineInstancesAllowed + 1; i++) {
-      instance = _participants.get(i).getInstanceName();
-      admin.enableInstance(CLUSTER_NAME, instance, true);
+      for (i = 2; i < 2 + _maxOfflineInstancesAllowed + 1; i++) {
+        instance = _participants.get(i).getInstanceName();
+        admin.enableInstance(CLUSTER_NAME, instance, true);
+      }
+      admin.enableMaintenanceMode(CLUSTER_NAME, false);
+
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
     }
-    admin.enableMaintenanceMode(CLUSTER_NAME, false);
-
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
   }
 
   @Test(dependsOnMethods = "testWithDisabledInstancesLimit")

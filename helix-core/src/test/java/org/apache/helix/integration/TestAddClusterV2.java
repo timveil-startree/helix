@@ -144,17 +144,23 @@ public class TestAddClusterV2 extends ZkTestBase {
    * in the controller cluster and the first cluster
    */
   private void verifyClusters() {
-    ZkHelixClusterVerifier _clusterVerifier =
+    try (ZkHelixClusterVerifier _clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CONTROLLER_CLUSTER).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
 
-    _clusterVerifier =
+    try (ZkHelixClusterVerifier _clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_PREFIX + "_" + CLASS_NAME + "_0")
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .setZkClient(_gZkClient).build();
-    Assert.assertTrue(_clusterVerifier.verifyByPolling());
+            .setZkClient(_gZkClient).build()) {
+      Assert.assertTrue(_clusterVerifier.verifyByPolling());
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 
   protected void setupStorageCluster(ClusterSetup setupTool, String clusterName, String dbName,

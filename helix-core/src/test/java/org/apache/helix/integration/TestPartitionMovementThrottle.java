@@ -275,10 +275,12 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
       }
     });
 
-    ClusterLiveNodesVerifier liveNodesVerifier =
-        new ClusterLiveNodesVerifier(_gZkClient, CLUSTER_NAME,
-            Lists.transform(Arrays.asList(_participants), MockParticipantManager::getInstanceName));
-    Assert.assertTrue(liveNodesVerifier.verifyByZkCallback(1000));
+    try (ClusterLiveNodesVerifier liveNodesVerifier = new ClusterLiveNodesVerifier(_gZkClient, CLUSTER_NAME,
+            Lists.transform(Arrays.asList(_participants), MockParticipantManager::getInstanceName))) {
+      Assert.assertTrue(liveNodesVerifier.verifyByZkCallback(1000));
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
     Assert.assertTrue(_clusterVerifier.verifyByPolling());
 
     for (int i = 0; i < NODE_NR; i++) {

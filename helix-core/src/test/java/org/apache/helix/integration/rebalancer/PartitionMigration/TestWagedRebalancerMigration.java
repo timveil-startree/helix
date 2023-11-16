@@ -86,29 +86,32 @@ public class TestWagedRebalancerMigration extends TestPartitionMigrationBase {
       Thread.sleep(100);
     }
 
-    ZkHelixClusterVerifier clusterVerifier =
+    try (ZkHelixClusterVerifier clusterVerifier =
         new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkClient(_gZkClient)
             .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
+            .build()) {
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-    _migrationVerifier =
-        new MigrationStateVerifier(Collections.singletonMap(db, idealState), _manager);
+      _migrationVerifier =
+              new MigrationStateVerifier(Collections.singletonMap(db, idealState), _manager);
 
-    _migrationVerifier.reset();
-    _migrationVerifier.start();
+      _migrationVerifier.reset();
+      _migrationVerifier.start();
 
-    IdealState currentIdealState =
-        _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db);
-    currentIdealState.setRebalancerClassName(WagedRebalancer.class.getName());
-    _gSetupTool.getClusterManagementTool()
-        .setResourceIdealState(CLUSTER_NAME, db, currentIdealState);
+      IdealState currentIdealState =
+              _gSetupTool.getClusterManagementTool().getResourceIdealState(CLUSTER_NAME, db);
+      currentIdealState.setRebalancerClassName(WagedRebalancer.class.getName());
+      _gSetupTool.getClusterManagementTool()
+              .setResourceIdealState(CLUSTER_NAME, db, currentIdealState);
 
-    Assert.assertTrue(clusterVerifier.verifyByPolling());
+      Assert.assertTrue(clusterVerifier.verifyByPolling());
 
-    Assert.assertFalse(_migrationVerifier.hasLessReplica());
-    Assert.assertFalse(_migrationVerifier.hasMoreReplica());
+      Assert.assertFalse(_migrationVerifier.hasLessReplica());
+      Assert.assertFalse(_migrationVerifier.hasMoreReplica());
 
-    _migrationVerifier.stop();
+      _migrationVerifier.stop();
+    } catch (Exception e) {
+      Assert.fail(e.getMessage(), e);
+    }
   }
 }
