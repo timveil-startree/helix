@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 public class TestHelixUsingDifferentParams extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestHelixUsingDifferentParams.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestHelixUsingDifferentParams.class);
 
   @Test()
   public void testCMUsingDifferentParams() throws Exception {

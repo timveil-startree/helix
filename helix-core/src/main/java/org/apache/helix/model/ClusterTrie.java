@@ -45,7 +45,7 @@ public class ClusterTrie {
   public static final String DELIMITER = "/";
   public static final String CONNECTOR = ":";
 
-  private static Logger logger = LoggerFactory.getLogger(ClusterTrie.class);
+  private static final Logger logger = LoggerFactory.getLogger(ClusterTrie.class);
   private TrieNode _rootNode;
   private String[] _topologyKeys;
   private String _faultZoneType;

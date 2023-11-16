@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CustomizedStateComputationStage extends AbstractBaseStage {
-  private static Logger LOG = LoggerFactory.getLogger(CustomizedStateComputationStage.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CustomizedStateComputationStage.class);
 
   @Override
   public void process(ClusterEvent event) throws Exception {

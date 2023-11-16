@@ -48,7 +48,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 public class TestDistControllerElection extends ZkUnitTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestDistControllerElection.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestDistControllerElection.class);
 
   @Test()
   public void testController() throws Exception {

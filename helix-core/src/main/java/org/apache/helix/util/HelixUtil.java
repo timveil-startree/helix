@@ -70,7 +70,7 @@ import org.slf4j.LoggerFactory;
 
 
 public final class HelixUtil {
-  static private Logger LOG = LoggerFactory.getLogger(HelixUtil.class);
+  static private final Logger LOG = LoggerFactory.getLogger(HelixUtil.class);
 
   private HelixUtil() {
   }

@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
     "MASTER", "DROPPED", "ERROR"
 })
 public class MockSchemataStateModel extends StateModel {
-  private static Logger LOG = LoggerFactory.getLogger(MockSchemataStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MockSchemataStateModel.class);
 
   @Transition(to = "MASTER", from = "OFFLINE")
   public void onBecomeMasterFromOffline(Message message, NotificationContext context) {

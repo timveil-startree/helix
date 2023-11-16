@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * All of the constraints on a given cluster and its subcomponents, both physical and logical.
  */
 public class ClusterConstraints extends HelixProperty {
-  private static Logger LOG = LoggerFactory.getLogger(ClusterConstraints.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterConstraints.class);
 
   /**
    * Attributes on which constraints operate

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 public class ConstraintItemBuilder {
 
-  private static Logger LOG = LoggerFactory.getLogger(ConstraintItemBuilder.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ConstraintItemBuilder.class);
 
   // attributes e.g. {STATE:MASTER, RESOURCE:TestDB, INSTANCE:localhost_12918}
   final Map<ConstraintAttribute, String> _attributes = new TreeMap<ConstraintAttribute, String>();

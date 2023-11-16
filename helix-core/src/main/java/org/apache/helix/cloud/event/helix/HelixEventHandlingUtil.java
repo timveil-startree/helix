@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 
 class HelixEventHandlingUtil {
-  private static Logger LOG = LoggerFactory.getLogger(HelixEventHandlingUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixEventHandlingUtil.class);
 
   /**
    * check if instance is disabled by cloud event.

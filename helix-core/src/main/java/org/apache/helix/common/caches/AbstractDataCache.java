@@ -36,7 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDataCache<T extends HelixProperty> {
-  private static Logger LOG = LoggerFactory.getLogger(AbstractDataCache.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractDataCache.class.getName());
   public static final String UNKNOWN_CLUSTER = "UNKNOWN_CLUSTER";
   public static final String UNKNOWN_EVENT_ID = "NO_ID";
   public static final String UNKNOWN_PIPELINE = "UNKNOWN_PIPELINE";

@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 public class TestDriver {
-  private static Logger LOG = LoggerFactory.getLogger(TestDriver.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestDriver.class);
   private static final String ZK_ADDR = ZkTestBase.ZK_ADDR;
 
   // private static final String CLUSTER_PREFIX = "TestDriver";
@@ -64,7 +64,7 @@ public class TestDriver {
   private static final int START_PORT = 12918;
   private static final String CONTROLLER_PREFIX = "controller";
   private static final String PARTICIPANT_PREFIX = "localhost";
-  private static final Random RANDOM = new Random();
+  private static final Random RANDOM = new Random(1L);
   private static final PropertyJsonSerializer<ZNRecord> SERIALIZER =
       new PropertyJsonSerializer<ZNRecord>(ZNRecord.class);
 

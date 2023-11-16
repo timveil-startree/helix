@@ -115,7 +115,7 @@ public class DefaultSchedulerMessageHandlerFactory implements MultiTypeMessageHa
     }
   }
 
-  private static Logger _logger = LoggerFactory.getLogger(DefaultSchedulerMessageHandlerFactory.class);
+  private static final Logger _logger = LoggerFactory.getLogger(DefaultSchedulerMessageHandlerFactory.class);
   HelixManager _manager;
 
   public DefaultSchedulerMessageHandlerFactory(HelixManager manager) {

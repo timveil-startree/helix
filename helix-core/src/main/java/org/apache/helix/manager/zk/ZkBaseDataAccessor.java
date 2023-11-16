@@ -117,7 +117,7 @@ public class ZkBaseDataAccessor<T> implements BaseDataAccessor<T> {
     }
   }
 
-  private static Logger LOG = LoggerFactory.getLogger(ZkBaseDataAccessor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkBaseDataAccessor.class);
 
   private final RealmAwareZkClient _zkClient;
 

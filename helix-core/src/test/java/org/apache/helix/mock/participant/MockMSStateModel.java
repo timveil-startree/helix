@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
     "MASTER", "SLAVE", "ERROR"
 })
 public class MockMSStateModel extends StateModel {
-  private static Logger LOG = LoggerFactory.getLogger(MockMSStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MockMSStateModel.class);
 
   protected MockTransition _transition;
 

@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 
 public class CallbackEventExecutor {
-  private static Logger logger = LoggerFactory.getLogger(CallbackHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(CallbackEventExecutor.class);
 
   private DedupEventBlockingQueue<NotificationContext.Type, NotificationContext>
       _callBackEventQueue;

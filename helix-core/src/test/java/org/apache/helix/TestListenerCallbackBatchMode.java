@@ -45,7 +45,7 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
         try {
           Thread.sleep(200);
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
       }
     }
@@ -58,7 +58,7 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
         try {
           Thread.sleep(200);
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
       }
     }

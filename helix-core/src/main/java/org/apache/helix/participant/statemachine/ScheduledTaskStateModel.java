@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 public class ScheduledTaskStateModel extends StateModel {
   static final String DEFAULT_INITIAL_STATE = "OFFLINE";
-  Logger logger = LoggerFactory.getLogger(ScheduledTaskStateModel.class);
+  static final Logger logger = LoggerFactory.getLogger(ScheduledTaskStateModel.class);
 
   // TODO Get default state from implementation or from state model annotation
   // StateModel with initial state other than OFFLINE should override this field

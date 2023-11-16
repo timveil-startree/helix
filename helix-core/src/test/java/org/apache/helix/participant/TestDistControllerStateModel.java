@@ -32,7 +32,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class TestDistControllerStateModel extends ZkUnitTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestDistControllerStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestDistControllerStateModel.class);
 
   final String clusterName = CLUSTER_PREFIX + "_" + getShortClassName();
   DistClusterControllerStateModel stateModel = null;

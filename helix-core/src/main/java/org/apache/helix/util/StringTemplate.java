@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class StringTemplate {
-  private static Logger LOG = LoggerFactory.getLogger(StringTemplate.class);
+  private static final Logger LOG = LoggerFactory.getLogger(StringTemplate.class);
 
   Map<Enum, Map<Integer, String>> templateMap = new HashMap<Enum, Map<Integer, String>>();
   static Pattern pattern = Pattern.compile("(\\{.+?\\})");

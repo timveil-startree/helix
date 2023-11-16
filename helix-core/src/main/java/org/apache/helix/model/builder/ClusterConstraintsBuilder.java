@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ClusterConstraintsBuilder {
-  private static Logger LOG = LoggerFactory.getLogger(ClusterConstraintsBuilder.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterConstraintsBuilder.class);
 
   final private ConstraintType _constraintType;
 

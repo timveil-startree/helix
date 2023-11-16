@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PropertyJsonSerializer<T> implements PropertySerializer<T> {
-  static private Logger LOG = LoggerFactory.getLogger(PropertyJsonSerializer.class);
+  static private final Logger LOG = LoggerFactory.getLogger(PropertyJsonSerializer.class);
   private static ObjectMapper mapper = new ObjectMapper();
   private final Class<T> _clazz;
 

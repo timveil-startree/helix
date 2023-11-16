@@ -51,7 +51,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestConstraintRebalanceStrategy {
-  private static Logger _logger = LoggerFactory.getLogger(TestConstraintRebalanceStrategy.class);
+  private static final Logger _logger = LoggerFactory.getLogger(TestConstraintRebalanceStrategy.class);
 
   final String resourceNamePrefix = "resource";
   final int nParticipants = 40;

@@ -38,7 +38,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestGroupCommitAddBackData extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestGroupCommitAddBackData.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestGroupCommitAddBackData.class);
   private static final int START_PORT = 12918;
   private static final int DEFAULT_TIMEOUT = 30 * 1000;
 

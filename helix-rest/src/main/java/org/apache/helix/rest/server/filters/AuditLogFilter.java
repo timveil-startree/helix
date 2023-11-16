@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
 @Provider
 @PreMatching
 public class AuditLogFilter implements ContainerRequestFilter, ContainerResponseFilter {
-  private static Logger _logger = LoggerFactory.getLogger(AuditLogFilter.class.getName());
+  private static final Logger _logger = LoggerFactory.getLogger(AuditLogFilter.class.getName());
 
   @Context
   private HttpServletRequest _servletRequest;

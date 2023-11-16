@@ -75,7 +75,7 @@ import org.slf4j.LoggerFactory;
  * Class to handle all session related work for a participant.
  */
 public class ParticipantManager {
-  private static Logger LOG = LoggerFactory.getLogger(ParticipantManager.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ParticipantManager.class);
   final RealmAwareZkClient _zkclient;
   final HelixManager _manager;
   final PropertyKey.Builder _keyBuilder;

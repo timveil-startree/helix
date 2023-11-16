@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * The standalone cluster controller class
  */
 public class ClusterControllerManager extends ClusterManager {
-  private static Logger LOG = LoggerFactory.getLogger(ClusterControllerManager.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterControllerManager.class);
 
   public ClusterControllerManager(String zkAddr, String clusterName) {
     this(zkAddr, clusterName, "controller");

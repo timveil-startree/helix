@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 @ClusterAuth
 @Path("/clusters/{clusterId}/propertyStore")
 public class PropertyStoreAccessor extends AbstractHelixResource {
-  private static Logger LOG = LoggerFactory.getLogger(PropertyStoreAccessor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PropertyStoreAccessor.class);
   private static final String CONTENT_KEY = "content";
   private static final ZNRecordSerializer ZN_RECORD_SERIALIZER = new ZNRecordSerializer();
 

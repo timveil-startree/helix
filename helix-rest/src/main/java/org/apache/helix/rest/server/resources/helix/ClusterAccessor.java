@@ -88,7 +88,7 @@ import io.swagger.annotations.ApiOperation;
 @Path("/clusters")
 @Api (value = "", description = "Helix REST Clusters  APIs")
 public class ClusterAccessor extends AbstractHelixResource {
-  private static Logger LOG = LoggerFactory.getLogger(ClusterAccessor.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterAccessor.class.getName());
 
   public enum ClusterProperties {
     controller,

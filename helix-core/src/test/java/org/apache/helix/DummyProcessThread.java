@@ -57,7 +57,7 @@ public class DummyProcessThread implements Runnable {
           "participant:" + _instanceName + ", " + Thread.currentThread().getName() + " interrupted";
       LOG.info(msg);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
   }
 

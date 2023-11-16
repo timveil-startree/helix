@@ -46,7 +46,7 @@ import org.testng.annotations.Test;
 
 
 public class TestStateTransitionAppFailureHandling extends ZkStandAloneCMTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestStateTransitionAppFailureHandling.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestStateTransitionAppFailureHandling.class);
   private final static int REPLICAS = 3;
 
   @Override

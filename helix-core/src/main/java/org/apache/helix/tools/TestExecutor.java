@@ -76,7 +76,7 @@ public class TestExecutor {
     ZNODE_VALUE
   }
 
-  private static Logger logger = LoggerFactory.getLogger(TestExecutor.class);
+  private static final Logger logger = LoggerFactory.getLogger(TestExecutor.class);
   private static final long SLEEP_TIME = 500; // in
                                               // ms
 

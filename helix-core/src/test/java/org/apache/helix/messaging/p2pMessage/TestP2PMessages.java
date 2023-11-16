@@ -109,7 +109,7 @@ public class TestP2PMessages extends BaseStageTest {
     try {
       _fullPipeline.handle(event);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
 
     _instances = _dataCache.getAllInstances();
@@ -335,7 +335,7 @@ public class TestP2PMessages extends BaseStageTest {
           try {
             Thread.sleep(50);
           } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
           }
           currentState.setEndTime(partition, System.currentTimeMillis());
           accessor.setProperty(currentStateKey, currentState);

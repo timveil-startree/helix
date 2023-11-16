@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * Current states of partitions in a resource for an instance.
  */
 public class CurrentState extends HelixProperty {
-  private static Logger LOG = LoggerFactory.getLogger(CurrentState.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CurrentState.class);
 
   /**
    * Lookup keys for the current state

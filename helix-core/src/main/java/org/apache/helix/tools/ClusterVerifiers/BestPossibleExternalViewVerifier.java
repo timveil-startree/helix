@@ -63,7 +63,7 @@ import org.slf4j.LoggerFactory;
  * match its best possible mapping states.
  */
 public class BestPossibleExternalViewVerifier extends ZkHelixClusterVerifier {
-  private static Logger LOG = LoggerFactory.getLogger(BestPossibleExternalViewVerifier.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BestPossibleExternalViewVerifier.class);
 
   private final Map<String, Map<String, String>> _errStates;
   private final Set<String> _resources;

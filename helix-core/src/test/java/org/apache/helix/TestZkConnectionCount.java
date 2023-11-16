@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 // TODO fix this test
 public class TestZkConnectionCount extends ZkUnitTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestZkConnectionCount.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestZkConnectionCount.class);
 
   // @Test ()
   public void testZkConnectionCount() {

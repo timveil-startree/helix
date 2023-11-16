@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 public class HelixRestMain {
-  private static Logger LOG = LoggerFactory.getLogger(HelixRestServer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixRestMain.class);
   private static final String HELP = "help";
   private static final String ZKSERVERADDRESS = "zkSvr";
   private static final String NAMESPACE_MANIFEST_FILE = "namespace-manifest-file";

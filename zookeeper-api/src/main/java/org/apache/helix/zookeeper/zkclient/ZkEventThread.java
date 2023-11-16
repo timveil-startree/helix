@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * anymore.
  */
 public class ZkEventThread extends Thread {
-  private static Logger LOG = LoggerFactory.getLogger(ZkClient.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkEventThread.class);
 
   private BlockingQueue<ZkEvent> _events = new LinkedBlockingQueue<>();
 

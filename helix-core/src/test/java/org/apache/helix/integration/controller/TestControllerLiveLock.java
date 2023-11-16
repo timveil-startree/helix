@@ -75,7 +75,7 @@ public class TestControllerLiveLock extends ZkUnitTestBase {
 
 
     // start participants
-    Random random = new Random();
+    Random random = new Random(1L);
     MockParticipantManager[] participants = new MockParticipantManager[n];
     for (int i = 0; i < n; i++) {
       String instanceName = "localhost_" + (12918 + i);

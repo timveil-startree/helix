@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 
 @StateModelInfo(initialState = "OFFLINE", states = {"LEADER", "STANDBY"})
 public class DistClusterControllerStateModel extends AbstractHelixLeaderStandbyStateModel {
-  private static Logger logger = LoggerFactory.getLogger(DistClusterControllerStateModel.class);
+  private static final Logger logger = LoggerFactory.getLogger(DistClusterControllerStateModel.class);
   protected Optional<HelixManager> _controllerOpt = Optional.empty();
   private final Set<Pipeline.Type> _enabledPipelineTypes;
 

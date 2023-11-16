@@ -270,7 +270,7 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
             DelayedTransition.getInstancePatitionTransitionTimes(), node.getInstanceName()) <= 1,
             1000 * 2));
       } catch (Exception e) {
-        e.printStackTrace();
+        LOG.error(e.getMessage(), e);
         assert false;
       }
     });
@@ -304,8 +304,8 @@ public class TestPartitionMovementThrottle extends ZkStandAloneCMTestBase {
     try {
       Assert.assertTrue(TestHelper.verify(() -> dataAccessor.getChildNames(dataAccessor.keyBuilder().liveInstances()).isEmpty(), 1000));
     } catch (Exception e) {
-      e.printStackTrace();
-      LOG.debug("There're live instances not cleaned up yet");
+
+      LOG.error("There're live instances not cleaned up yet: " + e.getMessage(), e);
       assert false;
     }
     DelayedTransition.clearThrottleRecord();

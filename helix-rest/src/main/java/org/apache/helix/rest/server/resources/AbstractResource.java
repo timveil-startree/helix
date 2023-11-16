@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
 @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
 public class AbstractResource {
-  private static Logger _logger = LoggerFactory.getLogger(AbstractResource.class.getName());
+  private static final Logger _logger = LoggerFactory.getLogger(AbstractResource.class.getName());
 
   public enum Properties {
     id,

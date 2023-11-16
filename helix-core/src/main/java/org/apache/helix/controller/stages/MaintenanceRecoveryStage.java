@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MaintenanceRecoveryStage extends AbstractAsyncBaseStage {
-  private static Logger LOG = LoggerFactory.getLogger(MaintenanceRecoveryStage.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MaintenanceRecoveryStage.class);
 
   @Override
   public AsyncWorkerType getAsyncWorkerType() {

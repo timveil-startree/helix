@@ -60,7 +60,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestStateTransitionTimeoutWithResource extends ZkStandAloneCMTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestStateTransitionTimeout.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestStateTransitionTimeoutWithResource.class);
   private Map<String, SleepStateModelFactory> _factories;
   private ConfigAccessor _configAccessor;
 

@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelixViewAggregatorMain {
-  private static Logger logger = LoggerFactory.getLogger(HelixViewAggregatorMain.class);
+  private static final Logger logger = LoggerFactory.getLogger(HelixViewAggregatorMain.class);
   private static final String HELP = "help";
   private static final String ZK_ADDR = "zookeeper-address";
   private static final String VIEW_CLUSTER_NAME = "view-cluster-name";

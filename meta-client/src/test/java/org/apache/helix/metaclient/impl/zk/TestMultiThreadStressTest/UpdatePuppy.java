@@ -28,12 +28,10 @@ import java.util.Random;
 
 public class UpdatePuppy extends AbstractPuppy {
 
-  private final Random _random;
   private final String _parentPath = "/test";
 
   public UpdatePuppy(MetaClientInterface<String> metaclient, PuppySpec puppySpec) {
     super(metaclient, puppySpec);
-    _random = new Random();
   }
 
   @Override

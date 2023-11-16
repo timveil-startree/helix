@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * Support committing updates to data such that they are ordered for each key
  */
 public class GroupCommit {
-  private static Logger LOG = LoggerFactory.getLogger(GroupCommit.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GroupCommit.class);
   private static int MAX_RETRY = 3;
 
   private static class Queue {

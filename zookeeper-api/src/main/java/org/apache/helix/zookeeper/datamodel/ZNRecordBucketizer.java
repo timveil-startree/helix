@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  * Operations to divide a ZNRecord into specified buckets
  */
 public class ZNRecordBucketizer {
-  private static Logger LOG = LoggerFactory.getLogger(ZNRecordBucketizer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZNRecordBucketizer.class);
   final int _bucketSize;
 
   /**

@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 @Deprecated
 public class ConfigScopeBuilder {
-  private static Logger LOG = LoggerFactory.getLogger(ConfigScopeBuilder.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ConfigScopeBuilder.class);
 
   private static StringTemplate template = new StringTemplate();
   static {

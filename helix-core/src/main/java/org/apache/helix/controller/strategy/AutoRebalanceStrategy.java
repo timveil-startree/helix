@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 @Deprecated
 public class AutoRebalanceStrategy {
 
-  private static Logger logger = LoggerFactory.getLogger(AutoRebalanceStrategy.class);
+  private static final Logger logger = LoggerFactory.getLogger(AutoRebalanceStrategy.class);
 
   private final String _resourceName;
   private final List<String> _partitions;

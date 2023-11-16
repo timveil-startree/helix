@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ZNRecord {
-  static Logger _logger = LoggerFactory.getLogger(ZNRecord.class);
+  static final Logger _logger = LoggerFactory.getLogger(ZNRecord.class);
   private final String id;
 
   @JsonIgnore(true)

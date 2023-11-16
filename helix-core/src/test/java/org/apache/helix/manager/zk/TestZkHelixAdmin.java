@@ -673,16 +673,14 @@ public class TestZkHelixAdmin extends ZkUnitTestBase {
     try {
       Assert.assertTrue(TestHelper.verify(() -> dataAccessor.getChildNames(dataAccessor.keyBuilder().liveInstances()).isEmpty(), 1000));
     } catch (Exception e) {
-      e.printStackTrace();
-      LOG.debug("There're live instances not cleaned up yet");
+      LOG.error("There're live instances not cleaned up yet: " + e.getMessage(), e);
       assert false;
     }
 
     try {
       Assert.assertTrue(TestHelper.verify(() -> dataAccessor.getChildNames(dataAccessor.keyBuilder().clusterConfig()).isEmpty(), 1000));
     } catch (Exception e) {
-      e.printStackTrace();
-      LOG.debug("The cluster is not cleaned up yet");
+      LOG.error("The cluster is not cleaned up yet: " + e.getMessage(), e);
       assert false;
     }
   }

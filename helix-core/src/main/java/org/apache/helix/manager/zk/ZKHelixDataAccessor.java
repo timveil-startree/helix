@@ -53,7 +53,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class ZKHelixDataAccessor implements HelixDataAccessor {
-  private static Logger LOG = LoggerFactory.getLogger(ZKHelixDataAccessor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZKHelixDataAccessor.class);
   private final BaseDataAccessor<ZNRecord> _baseDataAccessor;
   protected final String _clusterName;
   private final Builder _propertyKeyBuilder;

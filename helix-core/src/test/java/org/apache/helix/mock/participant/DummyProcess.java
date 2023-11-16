@@ -76,7 +76,7 @@ public class DummyProcess {
       }
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error(e.getMessage(), e);
     }
   }
 
@@ -392,7 +392,7 @@ public class DummyProcess {
             throw new Exception("delay must be positive");
           }
         } catch (Exception e) {
-          e.printStackTrace();
+          logger.error(e.getMessage(), e);
           delay = 0;
         }
       }

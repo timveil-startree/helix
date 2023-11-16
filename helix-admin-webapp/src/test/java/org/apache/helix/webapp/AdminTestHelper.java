@@ -25,6 +25,7 @@ import java.io.StringWriter;
 import java.util.concurrent.CountDownLatch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.helix.util.TestInputLoader;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.restlet.Client;
 import org.restlet.Request;
@@ -34,9 +35,13 @@ import org.restlet.data.Method;
 import org.restlet.data.Reference;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 public class AdminTestHelper {
+
+  private static final Logger LOG = LoggerFactory.getLogger(AdminTestHelper.class);
 
   public static class AdminThread {
     Thread _adminThread;
@@ -60,7 +65,7 @@ public class AdminTestHelper {
             // Thread.currentThread().join();
             _stopCountDown.await();
           } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
           } finally {
             if (app != null) {
               // System.err.println("Stopping HelixAdminWebApp");

@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * TODO: add listeners to node current state changes
  * */
 public class ExternalViewGenerator {
-  static Logger _logger = LoggerFactory.getLogger(ExternalViewGenerator.class);
+  static final Logger _logger = LoggerFactory.getLogger(ExternalViewGenerator.class);
 
   /*
    * Given a list of external view ZNRecord nodes(one for each cluster),

@@ -189,7 +189,7 @@ public class TestStateTransitionCancellation extends TaskTestBase {
       "MASTER", "SLAVE", "ERROR"
   })
   public static class InternalMockDelayMSStateModel extends StateModel {
-    private static Logger LOG = LoggerFactory.getLogger(MockDelayMSStateModel.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InternalMockDelayMSStateModel.class);
     private long _delay;
     public static boolean _cancelledStatic;
     public static boolean _cancelledFirstTime;

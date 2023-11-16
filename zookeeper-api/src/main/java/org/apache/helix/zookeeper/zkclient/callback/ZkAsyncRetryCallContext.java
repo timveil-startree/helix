@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class ZkAsyncRetryCallContext extends ZkAsyncCallMonitorContext {
-  private static Logger LOG = LoggerFactory.getLogger(ZkAsyncRetryCallContext.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkAsyncRetryCallContext.class);
   private final ZkAsyncRetryThread _retryThread;
   private final CancellableZkAsyncCallback _cancellableCallback;
 

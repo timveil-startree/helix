@@ -53,7 +53,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelixStateMachineEngine implements StateMachineEngine {
-  private static Logger logger = LoggerFactory.getLogger(HelixStateMachineEngine.class);
+  private static final Logger logger = LoggerFactory.getLogger(HelixStateMachineEngine.class);
 
   // StateModelName->FactoryName->StateModelFactory
   private final Map<String, Map<String, StateModelFactory<? extends StateModel>>> _stateModelFactoryMap;

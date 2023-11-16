@@ -37,7 +37,7 @@ public class TestLiveInstanceBounce extends ZkStandAloneCMTestBase {
       try {
         Thread.sleep(1000);
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        LOG.error(e.getMessage(), e);
       }
       // restart the participant
       _participants[i] = new MockParticipantManager(ZK_ADDR, CLUSTER_NAME, instanceName);

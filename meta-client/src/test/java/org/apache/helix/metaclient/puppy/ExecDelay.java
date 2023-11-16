@@ -30,7 +30,7 @@ public class ExecDelay {
 
   private final long _delayBase;
   private final long _delayRange;
-  private final Random _random;
+  private static final Random _random = new Random(1L);
 
   public ExecDelay(long duration, float jitter) {
     if (jitter < 0 || jitter > 1 || duration < 0) {
@@ -41,7 +41,6 @@ public class ExecDelay {
     _jitter = jitter;
     _delayRange = Math.round(_duration * _jitter * 2);
     _delayBase = _duration - _delayRange / 2;
-    _random = new Random();
   }
 
   /**

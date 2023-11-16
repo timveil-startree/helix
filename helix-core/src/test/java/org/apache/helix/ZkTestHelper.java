@@ -62,7 +62,7 @@ import org.apache.helix.zookeeper.datamodel.ZNRecord;
 
 
 public class ZkTestHelper {
-  private static Logger LOG = LoggerFactory.getLogger(ZkTestHelper.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkTestHelper.class);
   private static ExecutorService _executor = Executors.newSingleThreadExecutor();
 
   static {

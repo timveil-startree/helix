@@ -110,7 +110,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ZKHelixManager implements HelixManager, IZkStateListener {
-  private static Logger LOG = LoggerFactory.getLogger(ZKHelixManager.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZKHelixManager.class);
 
   public static final String ALLOW_PARTICIPANT_AUTO_JOIN = "allowParticipantAutoJoin";
   private static final int FLAPPING_TIME_WINDOW = 300000; // Default to 300 sec

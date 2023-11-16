@@ -27,9 +27,16 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import org.apache.helix.common.ZkTestBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class TestInputLoader {
+
+  private static final Logger LOG = LoggerFactory.getLogger(TestInputLoader.class);
+
+
   public static Object[][] loadTestInputs(String inputFile, String[] params) {
     List<Object[]> data = new ArrayList<Object[]>();
     InputStream inputStream = TestInputLoader.class.getClassLoader().getResourceAsStream(inputFile);
@@ -45,7 +52,7 @@ public class TestInputLoader {
         data.add(objects);
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
 
     Object[][] ret = new Object[data.size()][];

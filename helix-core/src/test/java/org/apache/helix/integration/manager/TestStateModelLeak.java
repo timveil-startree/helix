@@ -45,7 +45,7 @@ import org.testng.annotations.Test;
  * test drop resource should remove state-models
  */
 public class TestStateModelLeak extends ZkUnitTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestStateModelLeak.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestStateModelLeak.class);
 
   /**
    * test drop resource should remove all state models

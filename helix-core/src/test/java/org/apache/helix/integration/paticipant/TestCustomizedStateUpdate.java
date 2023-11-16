@@ -42,7 +42,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class TestCustomizedStateUpdate extends ZkStandAloneCMTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestCustomizedStateUpdate.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestCustomizedStateUpdate.class);
   private final String CUSTOMIZE_STATE_NAME = "testState1";
   private final String PARTITION_NAME1 = "testPartition1";
   private final String PARTITION_NAME2 = "testPartition2";
@@ -51,6 +51,7 @@ public class TestCustomizedStateUpdate extends ZkStandAloneCMTestBase {
   private static CustomizedStateProvider _mockProvider;
   private PropertyKey _propertyKey;
   private HelixDataAccessor _dataAccessor;
+  private static final Random _random = new Random(1L);
 
   @BeforeClass
   public void beforeClass() throws Exception {
@@ -286,13 +287,13 @@ public class TestCustomizedStateUpdate extends ZkStandAloneCMTestBase {
   }
 
   private static class TestSimultaneousUpdate implements Callable<Boolean> {
-    private Random rand = new Random();
+
 
     @Override
     public Boolean call() {
       String customizedStateName = "testState";
-      String resourceName = "resource" + String.valueOf(rand.nextInt(10));
-      String partitionName = "partition" + String.valueOf(rand.nextInt(10));
+      String resourceName = "resource" + _random.nextInt(10);
+      String partitionName = "partition" + _random.nextInt(10);
       String partitionState = "Updated";
       try {
         _mockProvider.updateCustomizedState(customizedStateName, resourceName, partitionName,

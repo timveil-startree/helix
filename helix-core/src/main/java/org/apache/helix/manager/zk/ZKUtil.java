@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  * NOTE: Ephemeral operations will not be supported on multi-zk mode!
  */
 public final class ZKUtil {
-  private static Logger logger = LoggerFactory.getLogger(ZKUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZKUtil.class);
   private static int RETRYLIMIT = 3;
 
   private ZKUtil() {

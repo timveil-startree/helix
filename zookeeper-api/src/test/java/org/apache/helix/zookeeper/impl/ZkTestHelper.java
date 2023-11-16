@@ -57,7 +57,7 @@ import org.testng.Assert;
 
 
 public class ZkTestHelper {
-  private static Logger LOG = LoggerFactory.getLogger(ZkTestHelper.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkTestHelper.class);
   private static ExecutorService _executor = Executors.newSingleThreadExecutor();
 
   /**

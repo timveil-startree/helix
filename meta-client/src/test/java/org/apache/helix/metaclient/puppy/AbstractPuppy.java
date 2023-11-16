@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.Random;
 
 
 /**
@@ -32,6 +33,8 @@ import java.util.HashMap;
 public abstract class AbstractPuppy implements Runnable {
 
   protected static final Logger LOG = LoggerFactory.getLogger(AbstractPuppy.class);
+
+  protected static final Random _random = new Random(1L);
 
   protected MetaClientInterface<String> _metaclient;
   protected PuppySpec _puppySpec;
@@ -68,11 +71,11 @@ public abstract class AbstractPuppy implements Runnable {
           break;
         } catch (Exception e) {
           incrementUnhandledErrorCounter();
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
     finally {
       cleanup();

@@ -66,7 +66,7 @@ public class TestTopStateHandoffMetrics extends BaseStageTest {
       config = OBJECT_MAPPER
           .readValue(getClass().getClassLoader().getResourceAsStream(TEST_INPUT_FILE), TestConfig.class);
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
   }
 

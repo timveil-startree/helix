@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public abstract class StateModel {
   static final String DEFAULT_INITIAL_STATE = "OFFLINE";
   protected boolean _cancelled;
-  Logger logger = LoggerFactory.getLogger(StateModel.class);
+  static final Logger logger = LoggerFactory.getLogger(StateModel.class);
 
   // TODO Get default state from implementation or from state model annotation
   // StateModel with initial state other than OFFLINE should override this field

@@ -38,6 +38,9 @@ import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.HelixConfigScope.ConfigScopeProperty;
 import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.spectator.RoutingTableProvider;
+import org.apache.helix.util.TestInputLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
@@ -45,6 +48,7 @@ import org.testng.annotations.Test;
 
 public class TestRoutingTable {
   NotificationContext changeContext = null;
+  private static final Logger LOG = LoggerFactory.getLogger(TestRoutingTable.class);
 
   @BeforeClass()
   public synchronized void setup() {
@@ -292,7 +296,7 @@ public class TestRoutingTable {
         try {
           Thread.sleep(10);
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
         routingTable.onExternalViewChange(externalViewList, changeContext);
         count++;

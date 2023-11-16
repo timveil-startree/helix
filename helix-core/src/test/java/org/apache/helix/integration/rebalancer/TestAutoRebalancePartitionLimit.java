@@ -48,7 +48,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestAutoRebalancePartitionLimit extends ZkStandAloneCMTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestAutoRebalancePartitionLimit.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestAutoRebalancePartitionLimit.class);
 
   @Override
   @BeforeClass

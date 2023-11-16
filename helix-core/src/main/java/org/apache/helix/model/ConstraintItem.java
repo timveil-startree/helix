@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * A single constraint and its associated attributes
  */
 public class ConstraintItem {
-  private static Logger LOG = LoggerFactory.getLogger(ConstraintItem.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ConstraintItem.class);
 
   // attributes e.g. {STATE:MASTER, RESOURCE:TestDB, INSTANCE:localhost_12918}
   final Map<ConstraintAttribute, String> _attributes;

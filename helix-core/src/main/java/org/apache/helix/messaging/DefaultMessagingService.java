@@ -60,7 +60,7 @@ public class DefaultMessagingService implements ClusterMessagingService {
   private final AsyncCallbackService _asyncCallbackService;
   private final int _taskThreadpoolResetTimeout;
 
-  private static Logger _logger = LoggerFactory.getLogger(DefaultMessagingService.class);
+  private static final Logger _logger = LoggerFactory.getLogger(DefaultMessagingService.class);
   ConcurrentHashMap<String, MessageHandlerFactory> _messageHandlerFactoriestobeAdded =
       new ConcurrentHashMap<>();
 

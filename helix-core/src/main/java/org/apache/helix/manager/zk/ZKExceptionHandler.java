@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 public class ZKExceptionHandler {
   private static ZKExceptionHandler instance = new ZKExceptionHandler();
-  private static Logger logger = LoggerFactory.getLogger(ZKExceptionHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZKExceptionHandler.class);
 
   private ZKExceptionHandler() {
 

@@ -54,7 +54,7 @@ import org.testng.annotations.Test;
 
 public class TestPartitionLevelTransitionConstraint extends ZkTestBase {
 
-  private static Logger LOG = LoggerFactory.getLogger(TestPartitionLevelTransitionConstraint.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestPartitionLevelTransitionConstraint.class);
 
   final Queue<Message> _msgOrderList = new ConcurrentLinkedQueue<Message>();
 

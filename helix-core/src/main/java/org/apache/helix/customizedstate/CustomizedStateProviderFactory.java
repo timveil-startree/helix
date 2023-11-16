@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * Singleton factory that build customized state provider.
  */
 public class CustomizedStateProviderFactory {
-  private static Logger LOG = LoggerFactory.getLogger(CustomizedStateProvider.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CustomizedStateProviderFactory.class);
 
   protected CustomizedStateProviderFactory() {
   }

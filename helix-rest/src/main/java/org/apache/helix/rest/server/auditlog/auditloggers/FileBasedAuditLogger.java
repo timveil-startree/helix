@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * Default AuditLogger implementation that log the AuditLog into local log file.
  */
 public class FileBasedAuditLogger implements AuditLogger {
-  private static Logger _logger = LoggerFactory.getLogger(FileBasedAuditLogger.class.getName());
+  private static final Logger _logger = LoggerFactory.getLogger(FileBasedAuditLogger.class.getName());
 
   private boolean _logReadOperations;
 

@@ -88,7 +88,7 @@ public class MockBaseDataAccessor implements BaseDataAccessor<ZNRecord> {
     try {
       Thread.sleep(50);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
     return true;
   }
@@ -110,7 +110,7 @@ public class MockBaseDataAccessor implements BaseDataAccessor<ZNRecord> {
     try {
       Thread.sleep(50);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
     return true;
   }

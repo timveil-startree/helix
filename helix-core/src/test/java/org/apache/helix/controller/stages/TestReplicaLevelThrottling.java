@@ -227,7 +227,7 @@ public class TestReplicaLevelThrottling extends BaseStageTest {
         ret.add(new Object[]{event, expectedOutput, cacheMap, mock});
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
 
     return ret;

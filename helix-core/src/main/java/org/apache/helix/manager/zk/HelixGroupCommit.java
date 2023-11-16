@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelixGroupCommit<T> {
-  private static Logger LOG = LoggerFactory.getLogger(HelixGroupCommit.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixGroupCommit.class);
 
   private static class Queue<T> {
     final AtomicReference<Thread> _running = new AtomicReference<Thread>();

@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * This class is intended for topology-aware partition placement.
  */
 public class Topology {
-  private static Logger logger = LoggerFactory.getLogger(Topology.class);
+  private static final Logger logger = LoggerFactory.getLogger(Topology.class);
   public enum Types {
     ROOT,
     ZONE,

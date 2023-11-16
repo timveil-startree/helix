@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * Utility mapping properties to their Zookeeper locations
  */
 public class PropertyPathBuilder {
-  private static Logger logger = LoggerFactory.getLogger(PropertyPathBuilder.class);
+  private static final Logger logger = LoggerFactory.getLogger(PropertyPathBuilder.class);
 
   static final Map<PropertyType, Map<Integer, String>> templateMap =
       new HashMap<PropertyType, Map<Integer, String>>();

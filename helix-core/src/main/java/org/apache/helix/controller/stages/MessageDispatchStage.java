@@ -46,7 +46,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class MessageDispatchStage extends AbstractBaseStage {
-  private static Logger logger = LoggerFactory.getLogger(MessageDispatchStage.class);
+  private static final Logger logger = LoggerFactory.getLogger(MessageDispatchStage.class);
 
   protected void processEvent(ClusterEvent event, MessageOutput messageOutput) throws Exception {
     _eventId = event.getEventId();

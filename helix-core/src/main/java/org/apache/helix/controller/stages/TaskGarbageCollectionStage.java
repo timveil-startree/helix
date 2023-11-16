@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class TaskGarbageCollectionStage extends AbstractAsyncBaseStage {
-  private static Logger LOG = LoggerFactory.getLogger(TaskGarbageCollectionStage.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TaskGarbageCollectionStage.class);
   private static RebalanceScheduler _rebalanceScheduler = new RebalanceScheduler();
 
   @Override

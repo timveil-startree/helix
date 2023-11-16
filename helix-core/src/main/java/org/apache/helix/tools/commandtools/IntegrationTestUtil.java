@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
  * collection of test utilities for integration tests
  */
 public class IntegrationTestUtil {
-  private static Logger LOG = LoggerFactory.getLogger(IntegrationTestUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(IntegrationTestUtil.class);
 
   public static final long DEFAULT_TIMEOUT = 30 * 1000; // in milliseconds
   public static final String help = "help";

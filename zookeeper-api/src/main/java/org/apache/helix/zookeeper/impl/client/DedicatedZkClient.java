@@ -57,7 +57,7 @@ import org.slf4j.LoggerFactory;
  * Supports CRUD, data change subscription, and ephemeral mode operations.
  */
 public class DedicatedZkClient implements RealmAwareZkClient {
-  private static Logger LOG = LoggerFactory.getLogger(DedicatedZkClient.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DedicatedZkClient.class);
 
   private final ZkClient _rawZkClient;
   private volatile MetadataStoreRoutingData _metadataStoreRoutingData;

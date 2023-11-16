@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ZkAsyncCallbacks {
-  private static Logger LOG = LoggerFactory.getLogger(ZkAsyncCallbacks.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkAsyncCallbacks.class);
 
   public static class GetDataCallbackHandler extends DefaultCallback implements DataCallback {
     public byte[] _data;

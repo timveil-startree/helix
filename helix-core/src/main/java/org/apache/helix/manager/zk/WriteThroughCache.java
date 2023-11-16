@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WriteThroughCache<T> extends Cache<T> {
-  private static Logger LOG = LoggerFactory.getLogger(WriteThroughCache.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WriteThroughCache.class);
 
   final BaseDataAccessor<T> _accessor;
 

@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
     "ONLINE", "BOOTSTRAP", "OFFLINE", "IDLE"
 })
 public class MockBootstrapStateModel extends StateModel {
-  private static Logger LOG = LoggerFactory.getLogger(MockBootstrapStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MockBootstrapStateModel.class);
 
   // Overwrite the default value of intial state
   MockBootstrapStateModel() {

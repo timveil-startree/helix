@@ -35,7 +35,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 public class TestDefaultControllerMsgHandlerFactory {
-  private static Logger LOG = LoggerFactory.getLogger(TestDefaultControllerMsgHandlerFactory.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestDefaultControllerMsgHandlerFactory.class);
 
   @Test()
   public void testDefaultControllerMsgHandlerFactory() {

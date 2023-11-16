@@ -737,7 +737,7 @@ public class PerInstanceAccessor extends AbstractHelixResource {
     for (String messageName : messageNames) {
       Message message = accessor.getProperty(accessor.keyBuilder().message(instanceName, messageName));
       if (message == null) {
-        LOG.warn("Message is deleted given message name: ", messageName);
+        LOG.warn("Message is deleted given message name: {}", messageName);
         continue;
       }
       // if stateModelDef is valid, keep messages with StateModelDef equals to the parameter

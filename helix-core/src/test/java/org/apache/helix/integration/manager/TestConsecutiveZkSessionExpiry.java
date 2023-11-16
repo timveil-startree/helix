@@ -43,7 +43,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestConsecutiveZkSessionExpiry extends ZkUnitTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestConsecutiveZkSessionExpiry.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestConsecutiveZkSessionExpiry.class);
 
   /**
    * make use of PreConnectCallback to insert session expiry during HelixManager#handleNewSession()

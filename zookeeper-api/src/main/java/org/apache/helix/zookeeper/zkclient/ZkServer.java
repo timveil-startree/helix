@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 
 public class ZkServer {
 
-    private static Logger LOG = LoggerFactory.getLogger(ZkServer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ZkServer.class);
 
     public static final int DEFAULT_PORT = 2181;
     public static final int DEFAULT_TICK_TIME = 5000;

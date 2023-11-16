@@ -59,7 +59,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestAutoRebalanceStrategy {
-  private static Logger logger = LoggerFactory.getLogger(TestAutoRebalanceStrategy.class);
+  private static final Logger logger = LoggerFactory.getLogger(TestAutoRebalanceStrategy.class);
+  private static final Random _random = new Random(1L);
 
   /**
    * Sanity test for a basic Master-Slave model
@@ -184,7 +185,6 @@ public class TestAutoRebalanceStrategy {
       }
       _maxPerNode = maxPerNode;
       _stateModelDef = stateModelDef;
-      _random = new Random();
     }
 
     /**

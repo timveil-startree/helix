@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
     "LEADER", "STANDBY"
 })
 public class GenericLeaderStandbyModel extends StateModel {
-  private static Logger LOG = LoggerFactory.getLogger(GenericLeaderStandbyModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GenericLeaderStandbyModel.class);
 
   private final CustomCodeInvoker _particHolder;
   private final List<ChangeType> _notificationTypes;

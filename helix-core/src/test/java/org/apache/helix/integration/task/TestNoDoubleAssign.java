@@ -46,7 +46,7 @@ public class TestNoDoubleAssign extends TaskTestBase {
   private static final long CONNECTION_DELAY = 100L;
   private static final long POLL_DELAY = 50L;
   private static final String TASK_DURATION = "200";
-  private static final Random RANDOM = new Random();
+  private static final Random RANDOM = new Random(1L);
 
   private ScheduledExecutorService _executorServicePoll;
   private ScheduledExecutorService _executorServiceConnection;

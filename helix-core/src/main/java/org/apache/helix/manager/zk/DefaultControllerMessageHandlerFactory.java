@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DefaultControllerMessageHandlerFactory implements MultiTypeMessageHandlerFactory {
-  private static Logger _logger = LoggerFactory.getLogger(DefaultControllerMessageHandlerFactory.class);
+  private static final Logger _logger = LoggerFactory.getLogger(DefaultControllerMessageHandlerFactory.class);
 
   @Override
   public MessageHandler createHandler(Message message, NotificationContext context) {

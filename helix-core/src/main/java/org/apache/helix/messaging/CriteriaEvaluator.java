@@ -40,7 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CriteriaEvaluator {
-  private static Logger logger = LoggerFactory.getLogger(CriteriaEvaluator.class);
+  private static final Logger logger = LoggerFactory.getLogger(CriteriaEvaluator.class);
   public static final String MATCH_ALL_SYM = "%";
 
   /**

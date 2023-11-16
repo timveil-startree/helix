@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MessageTimeoutTask extends TimerTask {
-  private static Logger LOG = LoggerFactory.getLogger(MessageTimeoutTask.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MessageTimeoutTask.class);
 
   final HelixTaskExecutor _executor;
   final MessageTask _task;

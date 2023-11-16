@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * To use this verifier on resources in Full-Auto mode, BestPossible state must be persisted in Cluster config.
  */
 public class StrictMatchExternalViewVerifier extends ZkHelixClusterVerifier {
-  private static Logger LOG = LoggerFactory.getLogger(StrictMatchExternalViewVerifier.class);
+  private static final Logger LOG = LoggerFactory.getLogger(StrictMatchExternalViewVerifier.class);
 
   private final Set<String> _resources;
   private final Set<String> _expectLiveInstances;

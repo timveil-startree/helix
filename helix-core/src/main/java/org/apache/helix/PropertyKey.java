@@ -82,7 +82,7 @@ import static org.apache.helix.PropertyType.TASKCURRENTSTATES;
  * Key allowing for type-safe lookups of and conversions to {@link HelixProperty} objects.
  */
 public class PropertyKey {
-  private static Logger LOG = LoggerFactory.getLogger(PropertyKey.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PropertyKey.class);
   public PropertyType _type;
   private final String[] _params;
   Class<? extends HelixProperty> _typeClazz;

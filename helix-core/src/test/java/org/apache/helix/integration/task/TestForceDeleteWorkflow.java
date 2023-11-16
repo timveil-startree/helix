@@ -335,7 +335,7 @@ public class TestForceDeleteWorkflow extends TaskTestBase {
       try {
         Thread.sleep(_delayCancel);
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        LOG.error(e.getMessage(), e);
       }
       super.cancel();
 

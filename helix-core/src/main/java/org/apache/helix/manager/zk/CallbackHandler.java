@@ -106,7 +106,7 @@ import static org.apache.helix.HelixConstants.ChangeType.TASK_CURRENT_STATE;
 
 @PreFetchChangedData(enabled = false)
 public class CallbackHandler implements IZkChildListener, IZkDataListener {
-  private static Logger logger = LoggerFactory.getLogger(CallbackHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(CallbackHandler.class);
   private static final AtomicLong CALLBACK_HANDLER_UID = new AtomicLong();
 
   private final long _uid;

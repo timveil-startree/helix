@@ -38,7 +38,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestParticipantErrorMessage extends ZkStandAloneCMTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestParticipantErrorMessage.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestParticipantErrorMessage.class);
 
   @Test()
   public void TestParticipantErrorMessageSend() {

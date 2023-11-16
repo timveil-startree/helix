@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
     "ONLINE", "ERROR"
 })
 public class ConsumerStateModel extends StateModel {
-  private static Logger LOG = LoggerFactory.getLogger(ConsumerStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ConsumerStateModel.class);
 
   private final String _consumerId;
   private final String _partition;

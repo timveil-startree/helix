@@ -206,7 +206,7 @@ public class TestResourceGroupEndtoEnd extends ZkTestBase {
   }
 
   public static class MockProcess {
-    private static final Logger logger = LoggerFactory.getLogger(DummyProcess.class);
+    private static final Logger logger = LoggerFactory.getLogger(MockProcess.class);
     // public static final String rootNamespace = "rootNamespace";
 
     private final String _zkConnectString;
@@ -238,7 +238,7 @@ public class TestResourceGroupEndtoEnd extends ZkTestBase {
         }
       } catch (InterruptedException e) {
         // TODO Auto-generated catch block
-        e.printStackTrace();
+        LOG.error(e.getMessage(), e);
       }
     }
 
@@ -338,7 +338,7 @@ public class TestResourceGroupEndtoEnd extends ZkTestBase {
         try {
           Thread.sleep(1);
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
 
         verifyMessage(message);

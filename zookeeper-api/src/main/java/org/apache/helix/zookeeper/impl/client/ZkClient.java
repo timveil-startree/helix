@@ -59,7 +59,7 @@ import org.slf4j.LoggerFactory;
  */
 
 public class ZkClient extends org.apache.helix.zookeeper.zkclient.ZkClient implements HelixZkClient {
-  private static Logger LOG = LoggerFactory.getLogger(ZkClient.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkClient.class);
 
   // Setting default operation retry timeout to 24 hours. It can also be overwritten via RealmAwareZkClientConfig.
   // This timeout will be used while retrying zookeeper operations.

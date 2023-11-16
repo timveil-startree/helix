@@ -69,7 +69,7 @@ public class MessageGenerationPhase extends AbstractBaseStage {
   private final static String PENDING_MESSAGE = "pending message";
   private final static String STALE_MESSAGE = "stale message";
 
-  private static Logger logger = LoggerFactory.getLogger(MessageGenerationPhase.class);
+  private static final Logger logger = LoggerFactory.getLogger(MessageGenerationPhase.class);
 
   @Override
   public void process(ClusterEvent event) throws Exception {

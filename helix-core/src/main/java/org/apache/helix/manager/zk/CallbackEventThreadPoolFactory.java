@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 // returns a thread pool object given a HelixManager identifier
 public class CallbackEventThreadPoolFactory {
-  private static Logger logger = LoggerFactory.getLogger(CallbackHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(CallbackEventThreadPoolFactory.class);
   private static final int CALLBACK_EVENT_THREAD_POOL_SIZE = 10;
   private static final int CALLBACK_EVENT_THREAD_POOL_TTL_MINUTE = 3;
   static private final ReentrantReadWriteLock _lock = new ReentrantReadWriteLock();

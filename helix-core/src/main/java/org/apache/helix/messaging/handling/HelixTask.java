@@ -47,7 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelixTask implements MessageTask {
-  private static Logger logger = LoggerFactory.getLogger(HelixTask.class);
+  private static final Logger logger = LoggerFactory.getLogger(HelixTask.class);
   private final Message _message;
   private final MessageHandler _handler;
   private final NotificationContext _notificationContext;

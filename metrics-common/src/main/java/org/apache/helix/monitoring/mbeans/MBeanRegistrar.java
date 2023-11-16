@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class MBeanRegistrar {
-  private static Logger LOG = LoggerFactory.getLogger(MBeanRegistrar.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MBeanRegistrar.class);
 
   public static final String DUPLICATE = "Duplicate";
   public static final int MAX_NUM_DUPLICATED_MONITORS = 1000;

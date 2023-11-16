@@ -63,7 +63,7 @@ import org.slf4j.LoggerFactory;
 @ClusterAuth
 @Path("/clusters/{clusterId}/workflows")
 public class WorkflowAccessor extends AbstractHelixResource {
-  private static Logger _logger = LoggerFactory.getLogger(WorkflowAccessor.class.getName());
+  private static final Logger _logger = LoggerFactory.getLogger(WorkflowAccessor.class.getName());
 
   public enum WorkflowProperties {
     Workflows,

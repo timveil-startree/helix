@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * fail-over latency = timestamp difference between 2) and 3)
  */
 public class ZkGrep {
-  private static Logger LOG = LoggerFactory.getLogger(ZkGrep.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkGrep.class);
 
   private static final String zkCfg = "zkCfg";
   private static final String pattern = "pattern";

@@ -37,7 +37,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestHelixCustomCodeRunner extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestHelixCustomCodeRunner.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestHelixCustomCodeRunner.class);
 
   private final String _clusterName = "CLUSTER_" + getShortClassName();
   private final MockCallback _callback = new MockCallback();

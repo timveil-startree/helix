@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 public class SystemUtil {
   public static final String OS_NAME = System.getProperty("os.name");
-  private static Logger LOG = LoggerFactory.getLogger(SystemUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SystemUtil.class);
 
   /**
    * PROCESS STATE CODES

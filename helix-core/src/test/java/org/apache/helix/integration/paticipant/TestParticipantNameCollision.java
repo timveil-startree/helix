@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 public class TestParticipantNameCollision extends ZkStandAloneCMTestBase {
-  private static Logger logger = LoggerFactory.getLogger(TestParticipantNameCollision.class);
+  private static final Logger logger = LoggerFactory.getLogger(TestParticipantNameCollision.class);
 
   @Test()
   public void testParticiptantNameCollision() throws Exception {
@@ -44,7 +44,7 @@ public class TestParticipantNameCollision extends ZkStandAloneCMTestBase {
         newParticipant = new MockParticipantManager(ZK_ADDR, CLUSTER_NAME, instanceName);
         newParticipant.syncStart();
       } catch (Exception e) {
-        e.printStackTrace();
+        LOG.error(e.getMessage(), e);
       }
     }
 

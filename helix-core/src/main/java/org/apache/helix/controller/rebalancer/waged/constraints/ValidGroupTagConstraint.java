@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 class ValidGroupTagConstraint extends HardConstraint {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SamePartitionOnInstanceConstraint.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ValidGroupTagConstraint.class);
 
   @Override
   boolean isAssignmentValid(AssignableNode node, AssignableReplica replica,

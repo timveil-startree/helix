@@ -35,7 +35,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestNonOfflineInitState extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestNonOfflineInitState.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestNonOfflineInitState.class);
 
   @Test
   public void testNonOfflineInitState() throws Exception {

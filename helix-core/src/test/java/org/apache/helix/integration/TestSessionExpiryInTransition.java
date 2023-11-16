@@ -38,7 +38,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestSessionExpiryInTransition extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestSessionExpiryInTransition.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestSessionExpiryInTransition.class);
 
   public class SessionExpiryTransition extends MockTransition {
     private final AtomicBoolean _done = new AtomicBoolean();

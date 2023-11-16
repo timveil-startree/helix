@@ -137,7 +137,6 @@ public class TestZeroReplicaAvoidance extends BaseStageTest {
         Map<String, String> pendingStates = (Map<String, String>) inMap.get(PENDING_MESSAGES);
         Map<String, List<Message>> pendingMessages = null;
         if (pendingStates != null) {
-          Random r = new Random();
           pendingMessages = new HashMap<>();
           for (String instance : pendingStates.keySet()) {
             pendingMessages.put(instance, new ArrayList<>());
@@ -153,7 +152,7 @@ public class TestZeroReplicaAvoidance extends BaseStageTest {
         });
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
 
     return ret;

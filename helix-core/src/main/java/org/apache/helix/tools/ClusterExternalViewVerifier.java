@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  */
 @Deprecated
 public class ClusterExternalViewVerifier extends ClusterVerifier {
-  private static Logger LOG = LoggerFactory.getLogger(ClusterExternalViewVerifier.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterExternalViewVerifier.class);
 
   final List<String> _expectSortedLiveNodes; // always sorted
 

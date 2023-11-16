@@ -124,7 +124,7 @@ public class TestBatchMessageHandling extends ZkStandAloneCMTestBase {
   }
 
   public static class TestOnlineOfflineStateModel extends StateModel {
-    private static Logger LOG = LoggerFactory.getLogger(MockMSStateModel.class);
+    private static Logger LOG = LoggerFactory.getLogger(TestOnlineOfflineStateModel.class);
     static AtomicInteger _numOfSuccessBeforeFailure = new AtomicInteger();
 
     public void onBecomeOnlineFromOffline(Message message, NotificationContext context) {

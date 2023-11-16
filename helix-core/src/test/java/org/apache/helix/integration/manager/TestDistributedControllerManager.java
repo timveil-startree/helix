@@ -43,7 +43,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestDistributedControllerManager extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestDistributedControllerManager.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestDistributedControllerManager.class);
 
   @Test
   public void simpleIntegrationTest() throws Exception {

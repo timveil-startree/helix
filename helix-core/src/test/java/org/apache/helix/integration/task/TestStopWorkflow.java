@@ -312,7 +312,7 @@ public class TestStopWorkflow extends TaskTestBase {
         try {
           Thread.sleep(1000L);
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
       }
 
@@ -320,7 +320,7 @@ public class TestStopWorkflow extends TaskTestBase {
       try {
         Thread.sleep(500L);
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        LOG.error(e.getMessage(), e);
       }
 
       return new TaskResult(TaskResult.Status.CANCELED, "");

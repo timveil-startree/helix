@@ -58,7 +58,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestP2PNoDuplicatedMessage extends ZkTestBase {
-  private static Logger logger = LoggerFactory.getLogger(TestP2PNoDuplicatedMessage.class);
+  private static final Logger logger = LoggerFactory.getLogger(TestP2PNoDuplicatedMessage.class);
 
   final String CLASS_NAME = getShortClassName();
   final String CLUSTER_NAME = CLUSTER_PREFIX + "_" + CLASS_NAME;

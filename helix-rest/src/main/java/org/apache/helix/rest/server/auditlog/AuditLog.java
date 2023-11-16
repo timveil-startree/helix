@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuditLog {
-  private static Logger _logger = LoggerFactory.getLogger(AuditLog.class.getName());
+  private static final Logger _logger = LoggerFactory.getLogger(AuditLog.class.getName());
   public static final String ATTRIBUTE_NAME = "AUDIT_LOG";
 
   private Date _startTime;

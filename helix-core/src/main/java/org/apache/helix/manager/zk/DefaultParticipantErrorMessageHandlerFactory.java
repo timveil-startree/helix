@@ -50,7 +50,7 @@ public class DefaultParticipantErrorMessageHandlerFactory implements MultiTypeMe
 
   public static final String ACTIONKEY = "ActionOnError";
 
-  private static Logger _logger = LoggerFactory
+  private static final Logger _logger = LoggerFactory
       .getLogger(DefaultParticipantErrorMessageHandlerFactory.class);
   final HelixManager _manager;
 

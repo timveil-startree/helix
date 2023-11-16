@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class AsyncCallbackService implements MultiTypeMessageHandlerFactory {
   private final ConcurrentHashMap<String, AsyncCallback> _callbackMap =
       new ConcurrentHashMap<String, AsyncCallback>();
-  private static Logger _logger = LoggerFactory.getLogger(AsyncCallbackService.class);
+  private static final Logger _logger = LoggerFactory.getLogger(AsyncCallbackService.class);
 
   public AsyncCallbackService() {
   }

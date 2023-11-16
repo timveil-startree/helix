@@ -63,7 +63,7 @@ import org.slf4j.LoggerFactory;
 @ClusterAuth
 @Path("/clusters/{clusterId}/partitionAssignment")
 public class ResourceAssignmentOptimizerAccessor extends AbstractHelixResource {
-  private static Logger LOG = LoggerFactory.getLogger(
+  private static final Logger LOG = LoggerFactory.getLogger(
       org.apache.helix.rest.server.resources.helix.ResourceAssignmentOptimizerAccessor.class
           .getName());
 

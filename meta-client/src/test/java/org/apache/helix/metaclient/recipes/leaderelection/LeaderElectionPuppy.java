@@ -32,12 +32,11 @@ import org.testng.Assert;
 public class LeaderElectionPuppy extends AbstractPuppy {
   String _leaderGroup;
   String _participant;
-  private final Random _random;
   LeaderElectionClient _leaderElectionClient;
+
 
   public LeaderElectionPuppy(MetaClientInterface<String> metaclient, PuppySpec puppySpec) {
     super(metaclient, puppySpec);
-    _random = new Random();
   }
 
   public LeaderElectionPuppy(LeaderElectionClient leaderElectionClient, PuppySpec puppySpec, String leaderGroup,
@@ -45,7 +44,6 @@ public class LeaderElectionPuppy extends AbstractPuppy {
     super(leaderElectionClient.getMetaClient(), puppySpec);
     _leaderElectionClient = leaderElectionClient;
     _leaderGroup = leaderGroup;
-    _random = new Random();
     _participant = participant;
   }
 

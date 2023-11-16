@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
     "MASTER", "SLAVE", "ERROR"
 })
 public class MockDelayMSStateModel extends StateModel {
-  private static Logger LOG = LoggerFactory.getLogger(MockDelayMSStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MockDelayMSStateModel.class);
   private long _delay;
 
   public MockDelayMSStateModel(long delay) {

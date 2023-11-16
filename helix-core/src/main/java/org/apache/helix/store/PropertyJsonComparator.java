@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PropertyJsonComparator<T> implements Comparator<T> {
-  static private Logger LOG = LoggerFactory.getLogger(PropertyJsonComparator.class);
+  static private final Logger LOG = LoggerFactory.getLogger(PropertyJsonComparator.class);
   private final PropertyJsonSerializer<T> _serializer;
 
   public PropertyJsonComparator(Class<T> clazz) {

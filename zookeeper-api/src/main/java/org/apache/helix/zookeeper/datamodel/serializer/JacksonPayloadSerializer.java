@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JacksonPayloadSerializer implements PayloadSerializer {
 
-  private static Logger logger = LoggerFactory.getLogger(JacksonPayloadSerializer.class);
+  private static final Logger logger = LoggerFactory.getLogger(JacksonPayloadSerializer.class);
 
   @Override
   public <T> byte[] serialize(final T data) {

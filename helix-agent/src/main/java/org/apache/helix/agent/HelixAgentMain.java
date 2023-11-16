@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelixAgentMain {
-  private static Logger LOG = LoggerFactory.getLogger(HelixAgentMain.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixAgentMain.class);
 
   public static final String zkAddr = "zkSvr";
   public static final String cluster = "cluster";

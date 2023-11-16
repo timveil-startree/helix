@@ -42,7 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BatchMessageHandler extends MessageHandler {
-  private static Logger LOG = LoggerFactory.getLogger(BatchMessageHandler.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BatchMessageHandler.class);
 
   final MessageHandlerFactory _msgHandlerFty;
   final TaskExecutor _executor;

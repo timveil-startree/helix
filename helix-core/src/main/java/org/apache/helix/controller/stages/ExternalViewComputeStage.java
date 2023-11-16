@@ -52,7 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExternalViewComputeStage extends AbstractAsyncBaseStage {
-  private static Logger LOG = LoggerFactory.getLogger(ExternalViewComputeStage.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ExternalViewComputeStage.class);
 
   @Override
   public AsyncWorkerType getAsyncWorkerType() {

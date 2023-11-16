@@ -52,7 +52,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestRoutingTableProviderFromTargetEV extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestRoutingTableProviderFromTargetEV.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestRoutingTableProviderFromTargetEV.class);
   private HelixManager _manager;
   private final String MASTER_SLAVE_STATE_MODEL = "MasterSlave";
   private final int NUM_NODES = 10;

@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * previous State [ResourceComputationStage]
  */
 public class CurrentStateComputationStage extends AbstractBaseStage {
-  private static Logger LOG = LoggerFactory.getLogger(CurrentStateComputationStage.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CurrentStateComputationStage.class);
   private boolean _isTaskFrameworkPipeline = false;
 
   @Override

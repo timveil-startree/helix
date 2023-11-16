@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
  * "errors" ZNodes in the zookeeper instances.
  */
 public class StatusUpdateUtil {
-  static Logger _logger = LoggerFactory.getLogger(StatusUpdateUtil.class);
+  static final Logger _logger = LoggerFactory.getLogger(StatusUpdateUtil.class);
 
   public static final boolean ERROR_LOG_TO_ZK_ENABLED =
       Boolean.getBoolean(SystemPropertyKeys.STATEUPDATEUTIL_ERROR_PERSISTENCY_ENABLED);

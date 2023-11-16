@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 
 public class TestStateModelParser {
 
-  private static Logger LOG = LoggerFactory.getLogger(TestStateModelParser.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestStateModelParser.class);
 
   @StateModelInfo(initialState = "OFFLINE", states = {
       "MASTER", "SLAVE", "ERROR"

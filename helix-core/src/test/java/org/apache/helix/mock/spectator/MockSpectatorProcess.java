@@ -98,7 +98,7 @@ public class MockSpectatorProcess {
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
   }
 
@@ -135,7 +135,7 @@ public class MockSpectatorProcess {
       manager.connect();
       manager.addExternalViewChangeListener(_routingTableProvider);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
   }
 }

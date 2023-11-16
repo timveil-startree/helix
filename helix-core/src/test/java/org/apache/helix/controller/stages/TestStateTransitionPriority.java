@@ -260,7 +260,7 @@ public class TestStateTransitionPriority extends BaseStageTest {
         }
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
 
     return inputData;

@@ -303,7 +303,7 @@ public class TestClusterStatusMonitor {
     Assert.assertEquals(monitor.getDifferenceWithIdealStateGauge(), 0);
 
     int lessMinActiveReplica = 6;
-    Random r = new Random();
+    Random r = new Random(1L);
     externalView = new ExternalView(TestResourceMonitor.deepCopyZNRecord(idealStateRecord));
     int start = r.nextInt(numPartition - lessMinActiveReplica - 1);
     for (int i = start; i < start + lessMinActiveReplica; i++) {
@@ -401,7 +401,7 @@ public class TestClusterStatusMonitor {
     Assert.assertEquals(monitor.getPendingStateTransitionGuage(), 0);
 
     // test pending state transition message report and read
-    messageCount = new Random().nextInt(numPartition) + 1;
+    messageCount = r.nextInt(numPartition) + 1;
     monitor.setResourcePendingMessages(testDB, messageCount);
     Assert.assertEquals(monitor.getPendingStateTransitionGuage(), messageCount);
 
@@ -419,7 +419,7 @@ public class TestClusterStatusMonitor {
     List<Double> maxUsageList = ImmutableList.of(0.0d, 0.32d, 0.85d, 1.0d, 0.50d, 0.75d);
     Map<String, Double> maxUsageMap = new HashMap<>();
     Map<String, Map<String, Integer>> instanceCapacityMap = new HashMap<>();
-    Random rand = new Random();
+    Random rand = new Random(1L);
 
     for (int i = 0; i < maxUsageList.size(); i++) {
       String instanceName = "instance" + i;

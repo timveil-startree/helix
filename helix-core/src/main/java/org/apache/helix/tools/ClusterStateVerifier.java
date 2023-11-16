@@ -84,7 +84,7 @@ public class ClusterStateVerifier {
   public static String period = "period";
   public static String resources = "resources";
 
-  private static Logger LOG = LoggerFactory.getLogger(ClusterStateVerifier.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterStateVerifier.class);
 
   public interface Verifier {
     boolean verify();

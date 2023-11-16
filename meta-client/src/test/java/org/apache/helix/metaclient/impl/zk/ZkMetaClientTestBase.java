@@ -84,7 +84,7 @@ public abstract class ZkMetaClientTestBase {
       FileUtils.deleteDirectory(new File(dataDir));
       FileUtils.deleteDirectory(new File(logDir));
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
 
     IDefaultNameSpace defaultNameSpace = zkClient -> {

@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  * Cache the basic cluster data, including LiveInstances, InstanceConfigs and ExternalViews.
  */
 public class BasicClusterDataCache implements ControlContextProvider {
-  private static Logger LOG = LoggerFactory.getLogger(BasicClusterDataCache.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(BasicClusterDataCache.class.getName());
 
   private static final String INSTANCE_CONFIG = "InstanceConfig";
   private static final String LIVE_INSTANCE = "LiveInstance";

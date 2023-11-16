@@ -660,7 +660,7 @@ public class TestQuotaBasedScheduling extends TaskTestBase {
         try {
           Thread.sleep(200L);
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          LOG.error(e.getMessage(), e);
         }
       }
       return new TaskResult(TaskResult.Status.COMPLETED,

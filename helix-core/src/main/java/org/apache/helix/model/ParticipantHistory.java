@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * The history of participant.
  */
 public class ParticipantHistory extends HelixProperty {
-  private static Logger LOG = LoggerFactory.getLogger(ParticipantHistory.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ParticipantHistory.class);
   private static final String UNKNOWN_HOST_NAME = "UnknownHostname";
 
   private final static int HISTORY_SIZE = 20;

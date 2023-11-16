@@ -121,7 +121,7 @@ public class TestZNRecordStreamingSerializer {
     int numPartitions = 1024;
     int replicas = 3;
     int numNodes = 100;
-    Random random = new Random();
+    Random random = new Random(1L);
     for (int p = 0; p < numPartitions; p++) {
       Map<String, String> map = new HashMap<String, String>();
       for (int r = 0; r < replicas; r++) {
@@ -146,11 +146,11 @@ public class TestZNRecordStreamingSerializer {
   @Test
   public void testCompression() {
     int runId = 1;
+    Random random = new Random(1L);
     while (runId < 20) {
       int numPartitions = runId * 1000;
       int replicas = 3;
       int numNodes = 100;
-      Random random = new Random();
       ZNRecord record = new ZNRecord("testId");
       LOG.debug("Partitions:" + numPartitions);
       for (int p = 0; p < numPartitions; p++) {

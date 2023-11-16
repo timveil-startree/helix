@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MockTransition {
-  private static Logger LOG = LoggerFactory.getLogger(MockTransition.class);
+  protected static final Logger LOG = LoggerFactory.getLogger(MockTransition.class);
 
   // called by state model transition functions
   public void doTransition(Message message, NotificationContext context)

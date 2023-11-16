@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  * Factory class for {@link TaskStateModel}.
  */
 public class TaskStateModelFactory extends StateModelFactory<TaskStateModel> {
-  private static Logger LOG = LoggerFactory.getLogger(TaskStateModelFactory.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TaskStateModelFactory.class);
 
   // Unit in minutes. Need a retry timeout to prevent zkClient from hanging infinitely.
   private static final int ZKCLIENT_OPERATION_RETRY_TIMEOUT = 5;

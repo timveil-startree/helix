@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 @Deprecated
 public class ConfigScope {
-  private static Logger LOG = LoggerFactory.getLogger(ConfigScope.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ConfigScope.class);
 
   private static final List<ConfigScopeProperty> scopePriority =
       new ArrayList<ConfigScopeProperty>();

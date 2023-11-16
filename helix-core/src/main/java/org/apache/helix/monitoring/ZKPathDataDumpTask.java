@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ZKPathDataDumpTask extends TimerTask {
-  static Logger LOG = LoggerFactory.getLogger(ZKPathDataDumpTask.class);
+  static final Logger LOG = LoggerFactory.getLogger(ZKPathDataDumpTask.class);
 
   private final long _thresholdNoChangeMsForStatusUpdates;
   private final long _thresholdNoChangeMsForErrors;

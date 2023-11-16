@@ -51,7 +51,7 @@ import org.testng.annotations.Test;
 
 public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
 
-  private static Logger LOG = LoggerFactory.getLogger(TestZkCallbackHandlerLeak.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestZkCallbackHandlerLeak.class);
 
   @Test
   public void testCbHandlerLeakOnParticipantSessionExpiry() throws Exception {
@@ -348,9 +348,9 @@ public class TestZkCallbackHandlerLeak extends ZkUnitTestBase {
     Thread.sleep(5000);
 
     // expire RoutingProvider would create dangling CB
-    LOG.info("expire rp manager session:", rpManager.getSessionId());
+    LOG.info("expire rp manager session: {}", rpManager.getSessionId());
     ZkTestHelper.expireSession(rpManager.getZkClient());
-    LOG.info("rp manager new session:", rpManager.getSessionId());
+    LOG.info("rp manager new session: {}", rpManager.getSessionId());
 
     Thread.sleep(5000);
 

@@ -30,9 +30,15 @@ import org.apache.helix.task.TaskCallbackContext;
 import org.apache.helix.task.TaskConfig;
 import org.apache.helix.task.TaskResult;
 import org.apache.helix.task.UserContentStore;
+import org.apache.helix.util.TestInputLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class MockTask extends UserContentStore implements Task {
+
+  private static final Logger LOG = LoggerFactory.getLogger(MockTask.class);
+
   public static final String TASK_COMMAND = "Reindex";
   public static final String JOB_DELAY = "Delay";
   public static final String TASK_RESULT_STATUS = "TaskResultStatus";
@@ -170,7 +176,7 @@ public class MockTask extends UserContentStore implements Task {
     try {
       Thread.sleep(d);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
   }
 }

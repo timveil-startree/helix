@@ -55,6 +55,7 @@ public class TestZkBucketDataAccessor extends ZkTestBase {
   // Populate list and map fields for content comparison
   private static final List<String> LIST_FIELD = ImmutableList.of("1", "2");
   private static final Map<String, String> MAP_FIELD = ImmutableMap.of("1", "2");
+  private static final Random _random = new Random(1L);
 
   private final ZNRecord record = new ZNRecord(NAME_KEY);
 
@@ -199,8 +200,8 @@ public class TestZkBucketDataAccessor extends ZkTestBase {
       // Create a random string every time
       byte[] arrayKey = new byte[20];
       byte[] arrayVal = new byte[20];
-      new Random().nextBytes(arrayKey);
-      new Random().nextBytes(arrayVal);
+      _random.nextBytes(arrayKey);
+      _random.nextBytes(arrayVal);
       String randomStrKey = new String(arrayKey, StandardCharsets.UTF_8);
       String randomStrVal = new String(arrayVal, StandardCharsets.UTF_8);
 

@@ -43,7 +43,7 @@ public class TestDropTerminalTasksUponReset {
    */
   @Test
   public void testDropAllTerminalTasksUponReset() {
-    Random random = new Random();
+    Random random = new Random(1L);
     String jobName = "job";
     String nodeName = "localhost";
     int numTasks = 10;

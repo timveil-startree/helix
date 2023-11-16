@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class ZkCallbackCache<T> extends Cache<T> implements IZkChildListener, IZkDataListener, IZkStateListener {
-  private static Logger LOG = LoggerFactory.getLogger(ZkCallbackCache.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkCallbackCache.class);
 
   final BaseDataAccessor<T> _accessor;
   final String _chrootPath;

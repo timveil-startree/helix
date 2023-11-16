@@ -1017,7 +1017,7 @@ public class TestRawZkClient extends ZkTestBase {
 
       ZNRecord oversizeZNRecord = new ZNRecord("Oversize");
       char[] buff = new char[1024];
-      Random ran = new Random();
+      Random ran = new Random(1024);
       for (int i = 0; i < 1024; i++) {
         buff[i] = (char) (ran.nextInt(26) + 'a');
       }

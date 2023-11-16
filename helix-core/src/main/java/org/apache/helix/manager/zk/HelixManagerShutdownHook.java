@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * NOT working for kill -9
  */
 public class HelixManagerShutdownHook extends Thread {
-  private static Logger LOG = LoggerFactory.getLogger(HelixManagerShutdownHook.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixManagerShutdownHook.class);
 
   final HelixManager _manager;
 

@@ -52,7 +52,7 @@ public class ZkCopy {
     zk
   }
 
-  private static Logger logger = LoggerFactory.getLogger(ZkCopy.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZkCopy.class);
   private static final String src = "src";
   private static final String dst = "dst";
 

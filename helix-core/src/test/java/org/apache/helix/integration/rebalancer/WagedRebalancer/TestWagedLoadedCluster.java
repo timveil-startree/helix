@@ -252,7 +252,7 @@ public class TestWagedLoadedCluster extends ZkTestBase {
       deleteCluster(CLUSTER_NAME);
       //_verifyThread.interrupt();
     } catch (Exception e) {
-      LOG.info("After class throwing exception, {}", e);
+      LOG.info("After class throwing exception: " + e.getMessage(), e);
     }
   }
 }

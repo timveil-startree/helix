@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AsyncCallback {
 
-  private static Logger _logger = LoggerFactory.getLogger(AsyncCallback.class);
+  private static final Logger _logger = LoggerFactory.getLogger(AsyncCallback.class);
   long _startTimeStamp = 0;
   protected long _timeout = -1;
   Timer _timer = null;

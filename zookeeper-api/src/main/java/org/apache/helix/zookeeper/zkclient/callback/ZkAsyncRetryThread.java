@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ZkAsyncRetryThread extends Thread {
-  private static Logger LOG = LoggerFactory.getLogger(ZkAsyncRetryThread.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkAsyncRetryThread.class);
   private BlockingQueue<ZkAsyncRetryCallContext> _retryContexts = new LinkedBlockingQueue<>();
   private volatile boolean _isReady = true;
 

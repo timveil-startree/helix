@@ -40,7 +40,7 @@ import org.testng.annotations.Test;
 
 
 public class TestZKUtil extends ZkUnitTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestZKUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestZKUtil.class);
 
   String clusterName = CLUSTER_PREFIX + "_" + getShortClassName();
 

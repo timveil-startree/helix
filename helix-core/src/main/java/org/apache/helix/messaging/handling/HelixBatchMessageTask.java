@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelixBatchMessageTask implements MessageTask {
-  private static Logger LOG = LoggerFactory.getLogger(HelixBatchMessageTask.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixBatchMessageTask.class);
 
   final NotificationContext _context;
   final Message _batchMsg;

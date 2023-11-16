@@ -40,7 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AutoRebalanceStrategy implements RebalanceStrategy<ResourceControllerDataProvider> {
-  private static Logger logger = LoggerFactory.getLogger(AutoRebalanceStrategy.class);
+  private static final Logger logger = LoggerFactory.getLogger(AutoRebalanceStrategy.class);
   private final ReplicaPlacementScheme _placementScheme = new DefaultPlacementScheme();
 
   private String _resourceName;

@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 @Deprecated
 public abstract class ClusterVerifier implements IZkChildListener, IZkDataListener {
-  private static Logger LOG = LoggerFactory.getLogger(ClusterVerifier.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterVerifier.class);
 
   protected final HelixZkClient _zkclient;
   protected final String _clusterName;

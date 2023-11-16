@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
  * While multiple Shared ZkClients can use single connection manager if possible.
  */
 public class ZkConnectionManager extends ZkClient {
-  private static Logger LOG = LoggerFactory.getLogger(ZkConnectionManager.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ZkConnectionManager.class);
   // Client type that is used in monitor, and metrics.
   private final static String MONITOR_TYPE = "ZkConnectionManager";
   private final String _monitorKey;

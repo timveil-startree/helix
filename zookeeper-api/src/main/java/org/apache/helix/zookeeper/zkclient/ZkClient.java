@@ -1498,7 +1498,7 @@ public class ZkClient implements Watcher {
     } finally {
       long endT = System.currentTimeMillis();
       if (LOG.isTraceEnabled()) {
-        LOG.trace("zkclient exists, path: {}, time: {} ms", _uid, path, (endT - startT));
+        LOG.trace("zkclient {} exists, path: {}, time: {} ms", _uid, path, (endT - startT));
       }
     }
   }
@@ -1522,7 +1522,7 @@ public class ZkClient implements Watcher {
     } finally {
       long endT = System.currentTimeMillis();
       if (LOG.isTraceEnabled()) {
-        LOG.trace("zkclient exists, path: {}, time: {} ms", _uid, path, (endT - startT));
+        LOG.trace("zkclient {} exists, path: {}, time: {} ms", _uid, path, (endT - startT));
       }
     }
   }
@@ -1551,7 +1551,7 @@ public class ZkClient implements Watcher {
     } finally {
       long endT = System.currentTimeMillis();
       if (LOG.isTraceEnabled()) {
-        LOG.trace("zkclient getData (installWatchOnlyPathExist), path: {}, time: {} ms",
+        LOG.trace("zkclient {} getData (installWatchOnlyPathExist), path: {}, time: {} ms",
             _uid, path, (endT - startT));
       }
     }

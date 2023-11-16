@@ -81,7 +81,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ClusterSetup {
-  private static Logger logger = LoggerFactory.getLogger(ClusterSetup.class);
+  private static final Logger _logger = LoggerFactory.getLogger(ClusterSetup.class);
   public static final String zkServerAddress = "zkSvr";
 
   // List info about the cluster / resource / Instances
@@ -152,7 +152,6 @@ public class ClusterSetup {
   public static final String setConstraint = "setConstraint";
   public static final String removeConstraint = "removeConstraint";
 
-  private static final Logger _logger = LoggerFactory.getLogger(ClusterSetup.class);
   private final RealmAwareZkClient _zkClient;
   // true if ZkBaseDataAccessor was instantiated with a RealmAwareZkClient, false otherwise
   // This is used for close() to determine how ZkBaseDataAccessor should close the underlying

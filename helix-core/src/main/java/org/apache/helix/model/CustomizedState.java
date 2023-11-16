@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * Customized states of partitions in a resource for an instance.
  */
 public class CustomizedState extends HelixProperty {
-  private static Logger LOG = LoggerFactory.getLogger(CustomizedState.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CustomizedState.class);
 
   /**
    * Lookup keys for the customized state

@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
  * Dynamic MBean provider that reporting DynamicMetric attributes
  */
 public abstract class DynamicMBeanProvider implements DynamicMBean, SensorNameProvider {
-  protected final Logger _logger = LoggerFactory.getLogger(getClass());
+  protected static final Logger _logger = LoggerFactory.getLogger(DynamicMBeanProvider.class);
   protected static final long DEFAULT_RESET_INTERVAL_MS = 60 * 1000; // Reset time every minute
   private static final String HELIX_MONITOR_TIME_WINDOW_LENGTH_MS =
       "helix.monitor.slidingTimeWindow.ms";

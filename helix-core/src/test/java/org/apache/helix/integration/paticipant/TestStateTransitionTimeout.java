@@ -54,7 +54,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestStateTransitionTimeout extends ZkStandAloneCMTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestStateTransitionTimeout.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestStateTransitionTimeout.class);
 
   @Override
   @BeforeClass

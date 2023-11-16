@@ -368,7 +368,7 @@ public class AssignableInstance {
     } else {
       // resourceType is not found. Leave a warning log and will not touch quota
       logger.debug(
-          "Task's requested resource type is not supported. TaskConfig: %s; UsedCapacity: %s; ResourceType: %s",
+          "Task's requested resource type is not supported. TaskConfig: {}; UsedCapacity: {}; ResourceType: {}",
           result.getTaskConfig(), _usedCapacity, resourceType);
     }
     logger.debug("Assigned task {} to instance {}", result.getTaskConfig().getId(),

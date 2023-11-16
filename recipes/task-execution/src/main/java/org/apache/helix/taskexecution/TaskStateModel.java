@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
     "ONLINE", "ERROR"
 })
 public class TaskStateModel extends StateModel {
-  private static Logger LOG = LoggerFactory.getLogger(TaskStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TaskStateModel.class);
 
   private final String _workerId;
   private final String _partition;

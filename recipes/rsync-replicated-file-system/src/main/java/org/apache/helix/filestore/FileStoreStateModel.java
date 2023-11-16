@@ -87,7 +87,7 @@ public class FileStoreStateModel extends StateModel {
     }
   }
 
-  private static Logger LOG = LoggerFactory.getLogger(FileStoreStateModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(FileStoreStateModel.class);
 
   private final String _serverId;
   private final String _partition;

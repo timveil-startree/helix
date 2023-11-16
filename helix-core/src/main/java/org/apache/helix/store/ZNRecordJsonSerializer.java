@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ZNRecordJsonSerializer implements PropertySerializer<ZNRecord> {
-  static private Logger LOG = LoggerFactory.getLogger(ZNRecordJsonSerializer.class);
+  static private final Logger LOG = LoggerFactory.getLogger(ZNRecordJsonSerializer.class);
   private final ZNRecordSerializer _serializer = new ZNRecordSerializer();
 
   @Override

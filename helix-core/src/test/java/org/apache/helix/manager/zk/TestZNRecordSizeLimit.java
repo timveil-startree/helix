@@ -42,7 +42,7 @@ import org.testng.annotations.Test;
 
 
 public class TestZNRecordSizeLimit extends ZkUnitTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestZNRecordSizeLimit.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestZNRecordSizeLimit.class);
 
   private static final String ASSERTION_MESSAGE =
       "Should succeed because compressed data is smaller than 1M. Caused by: ";

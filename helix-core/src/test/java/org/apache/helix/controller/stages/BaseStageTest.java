@@ -221,7 +221,7 @@ public class BaseStageTest {
         stage.process(event);
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
     stage.postProcess();
   }

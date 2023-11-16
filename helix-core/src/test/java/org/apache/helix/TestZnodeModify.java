@@ -42,7 +42,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestZnodeModify extends ZkUnitTestBase {
-  private static Logger logger = LoggerFactory.getLogger(TestZnodeModify.class);
+  private static final Logger logger = LoggerFactory.getLogger(TestZnodeModify.class);
   private final String PREFIX = "/" + getShortClassName();
 
   @Test()

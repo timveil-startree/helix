@@ -40,6 +40,8 @@ public class TestMessagePartitionStateMismatch extends ZkStandAloneCMTestBase {
   public void testStateMismatch() throws InterruptedException {
     // String controllerName = CONTROLLER_PREFIX + "_0";
 
+    Random random = new Random(1L);
+
     HelixManager manager = _controller; // _startCMResultMap.get(controllerName)._manager;
     HelixDataAccessor accessor = manager.getHelixDataAccessor();
     Builder kb = accessor.keyBuilder();
@@ -53,7 +55,7 @@ public class TestMessagePartitionStateMismatch extends ZkStandAloneCMTestBase {
         if (ev.getStateMap(partition).containsKey(instanceName)) {
           String uuid = UUID.randomUUID().toString();
           Message message = new Message(MessageType.STATE_TRANSITION, uuid);
-          boolean rand = new Random().nextInt(10) > 5;
+          boolean rand = random.nextInt(10) > 5;
           if (ev.getStateMap(partition).get(instanceName).equals("MASTER")) {
             message.setSrcName(manager.getInstanceName());
             message.setTgtName(instanceName);

@@ -58,7 +58,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HelixCustomCodeRunner {
   private static final String LEADER_STANDBY = "LeaderStandby";
-  private static Logger LOG = LoggerFactory.getLogger(HelixCustomCodeRunner.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixCustomCodeRunner.class);
   private static String PARTICIPANT_LEADER = "PARTICIPANT_LEADER";
 
   private CustomCodeCallbackHandler _callback;

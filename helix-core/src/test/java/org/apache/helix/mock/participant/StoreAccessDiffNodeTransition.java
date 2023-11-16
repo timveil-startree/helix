@@ -68,7 +68,7 @@ public class StoreAccessDiffNodeTransition extends MockTransition {
       }, AccessOption.PERSISTENT);
     } catch (Exception e) {
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
 
   }

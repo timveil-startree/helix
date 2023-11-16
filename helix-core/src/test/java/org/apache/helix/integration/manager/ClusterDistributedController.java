@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ClusterDistributedController extends ClusterManager {
-  private static Logger LOG = LoggerFactory.getLogger(ClusterDistributedController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClusterDistributedController.class);
 
   public ClusterDistributedController(String zkAddr, String clusterName, String controllerName) {
     super(zkAddr, clusterName, controllerName, InstanceType.CONTROLLER_PARTICIPANT);

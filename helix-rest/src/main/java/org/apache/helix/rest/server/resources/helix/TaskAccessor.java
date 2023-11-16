@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 @ClusterAuth
 @Path("/clusters/{clusterId}/workflows/{workflowName}/jobs/{jobName}/tasks")
 public class TaskAccessor extends AbstractHelixResource {
-  private static Logger _logger = LoggerFactory.getLogger(TaskAccessor.class.getName());
+  private static final Logger _logger = LoggerFactory.getLogger(TaskAccessor.class.getName());
 
   @ResponseMetered(name = HttpConstants.READ_REQUEST)
   @Timed(name = HttpConstants.READ_REQUEST)

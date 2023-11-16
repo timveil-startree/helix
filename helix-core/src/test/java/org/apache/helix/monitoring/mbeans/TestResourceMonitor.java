@@ -86,7 +86,7 @@ public class TestResourceMonitor {
       Assert.assertEquals(monitor.getBeanName(), _clusterName + " " + _dbName);
 
       int errorCount = 5;
-      Random r = new Random();
+      Random r = new Random(1L);
       int start = r.nextInt(_partitions - errorCount - 1);
       for (int i = start; i < start + errorCount; i++) {
         String partition = _dbName + "_" + i;
@@ -205,7 +205,7 @@ public class TestResourceMonitor {
 
       Assert.assertEquals(monitor.getNumPendingStateTransitionGauge(), 0);
       // test pending state transition message report and read
-      int messageCount = new Random().nextInt(_partitions) + 1;
+      int messageCount = r.nextInt(_partitions) + 1;
       monitor.updatePendingStateTransitionMessages(messageCount);
       Assert.assertEquals(monitor.getNumPendingStateTransitionGauge(), messageCount);
 

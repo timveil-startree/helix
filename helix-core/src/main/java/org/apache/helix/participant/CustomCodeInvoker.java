@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 public class CustomCodeInvoker implements LiveInstanceChangeListener, ConfigChangeListener,
     ExternalViewChangeListener {
-  private static Logger LOG = LoggerFactory.getLogger(CustomCodeInvoker.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CustomCodeInvoker.class);
   private final CustomCodeCallbackHandler _callback;
   private final String _partitionKey;
 

@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
 
 
 public class TestParticipantManager extends ZkTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestParticipantManager.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestParticipantManager.class);
 
   /*
    * Simulates zk session expiry before creating live instance in participant manager. This test

@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TopStateHandoffReportStage extends AbstractAsyncBaseStage {
   private static final long DEFAULT_HANDOFF_USER_LATENCY = 0L;
-  private static Logger LOG = LoggerFactory.getLogger(TopStateHandoffReportStage.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TopStateHandoffReportStage.class);
   public static final long TIMESTAMP_NOT_RECORDED = -1L;
 
   @Override

@@ -35,7 +35,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 public class AdminTestBase {
-  protected static Logger LOG = LoggerFactory.getLogger(AdminTestBase.class);
+  protected static final Logger LOG = LoggerFactory.getLogger(AdminTestBase.class);
   public static final String ZK_ADDR = "localhost:2187";
   protected final static int ADMIN_PORT = 2202;
 

@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  * Assuming no concurrent updates
  */
 public class AutoFallbackPropertyStore<T> extends ZkHelixPropertyStore<T> {
-  private static Logger LOG = LoggerFactory.getLogger(AutoFallbackPropertyStore.class);
+  private static final Logger LOG = LoggerFactory.getLogger(AutoFallbackPropertyStore.class);
 
   private final ZkHelixPropertyStore<T> _fallbackStore;
 

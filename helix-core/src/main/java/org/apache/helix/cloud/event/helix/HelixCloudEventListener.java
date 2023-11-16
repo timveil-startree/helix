@@ -19,7 +19,7 @@ import static org.apache.helix.cloud.event.helix.CloudEventCallbackProperty.User
  * A helix manager-based cloud event listener implementation
  */
 public class HelixCloudEventListener implements CloudEventListener {
-  private static Logger LOG = LoggerFactory.getLogger(HelixCloudEventListener.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixCloudEventListener.class);
 
   private final CloudEventCallbackProperty _property;
   private final DefaultCloudEventCallbackImpl _callbackImplClass;

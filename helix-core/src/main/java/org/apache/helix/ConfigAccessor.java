@@ -57,7 +57,7 @@ import org.slf4j.LoggerFactory;
  * and the logical resources assigned to it.
  */
 public class ConfigAccessor {
-  private static Logger LOG = LoggerFactory.getLogger(ConfigAccessor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ConfigAccessor.class);
 
   private static final StringTemplate template = new StringTemplate();
 

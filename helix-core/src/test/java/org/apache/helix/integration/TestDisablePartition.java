@@ -50,7 +50,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class TestDisablePartition extends ZkStandAloneCMTestBase {
-  private static Logger LOG = LoggerFactory.getLogger(TestDisablePartition.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TestDisablePartition.class);
 
   @Test()
   public void testDisablePartition() throws Exception {

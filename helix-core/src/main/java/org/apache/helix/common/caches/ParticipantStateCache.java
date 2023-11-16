@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * Represent a cache that holds a certain participant side state of for the whole cluster.
  */
 public abstract class ParticipantStateCache<T> extends AbstractDataCache {
-  private static Logger LOG = LoggerFactory.getLogger(ParticipantStateCache.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ParticipantStateCache.class);
   protected Map<String, Map<String, Map<String, T>>> _participantStateMap;
 
   protected Map<PropertyKey, T> _participantStateCache = Maps.newHashMap();

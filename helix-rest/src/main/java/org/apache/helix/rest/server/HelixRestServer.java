@@ -81,7 +81,7 @@ import javax.ws.rs.core.Context;
 
 
 public class HelixRestServer {
-  private static Logger LOG = LoggerFactory.getLogger(HelixRestServer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(HelixRestServer.class);
 
   private static final String REST_DOMAIN = "org.apache.helix.rest";
   private static final String CORS_ENABLED = "cors.enabled";

@@ -39,7 +39,7 @@ import static org.apache.helix.model.ClusterTrie.DELIMITER;
 
 
 public class ClusterTopology {
-  private static Logger logger = LoggerFactory.getLogger(ClusterTopology.class);
+  private static final Logger logger = LoggerFactory.getLogger(ClusterTopology.class);
 
   private final ClusterTrie _trieClusterTopology;
 

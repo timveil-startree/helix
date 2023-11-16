@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * helper class for controller manager
  */
 public class ControllerManagerHelper {
-  private static Logger LOG = LoggerFactory.getLogger(ControllerManagerHelper.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ControllerManagerHelper.class);
 
   final HelixManager _manager;
   final DefaultMessagingService _messagingService;

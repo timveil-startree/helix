@@ -53,7 +53,7 @@ import org.slf4j.LoggerFactory;
  * A SharedZkClient won't manipulate the shared ZkConnection directly.
  */
 public class SharedZkClient implements RealmAwareZkClient {
-  private static Logger LOG = LoggerFactory.getLogger(SharedZkClient.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SharedZkClient.class);
 
   private final HelixZkClient _innerSharedZkClient;
   private final MetadataStoreRoutingData _metadataStoreRoutingData;

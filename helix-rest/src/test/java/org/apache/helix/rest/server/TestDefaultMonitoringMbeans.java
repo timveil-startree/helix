@@ -40,6 +40,8 @@ import org.testng.annotations.Test;
 public class TestDefaultMonitoringMbeans extends AbstractTestClass {
   private static final String DEFAULT_METRIC_DOMAIN = "org.glassfish.jersey";
 
+  private static final Random _random = new Random(1L);
+
   // For entire testing environment, we could have 2 - 4 rest server during the testing. So we dont
   // know which REST server got the request and report number. So we have to loop all of them to
   // report data.
@@ -51,7 +53,7 @@ public class TestDefaultMonitoringMbeans extends AbstractTestClass {
   public void testDefaultMonitoringMbeans()
       throws MBeanException, ReflectionException, InstanceNotFoundException, InterruptedException {
     LOG.debug("Start test :" + TestHelper.getTestMethodName());
-    int listClusters = new Random().nextInt(10);
+    int listClusters = _random.nextInt(10);
     for (int i = 0; i < listClusters; i++) {
       get("clusters", null, Response.Status.OK.getStatusCode(), true);
     }

@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * do distributed leader election
  */
 public class DistributedLeaderElection implements ControllerChangeListener {
-  private static Logger LOG = LoggerFactory.getLogger(DistributedLeaderElection.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DistributedLeaderElection.class);
 
   private final HelixManager _manager;
   private final GenericHelixController _controller;

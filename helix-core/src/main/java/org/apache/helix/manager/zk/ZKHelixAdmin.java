@@ -109,7 +109,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class ZKHelixAdmin implements HelixAdmin {
-  private static final Logger LOG = LoggerFactory.getLogger(ZKHelixAdmin.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZKHelixAdmin.class);
 
   public static final String CONNECTION_TIMEOUT = "helixAdmin.timeOutInSec";
   private static final String MAINTENANCE_ZNODE_ID = "maintenance";
@@ -120,8 +120,6 @@ public class ZKHelixAdmin implements HelixAdmin {
   // true if ZKHelixAdmin was instantiated with a RealmAwareZkClient, false otherwise
   // This is used for close() to determine how ZKHelixAdmin should close the underlying ZkClient
   private final boolean _usesExternalZkClient;
-
-  private static Logger logger = LoggerFactory.getLogger(ZKHelixAdmin.class);
 
   /**
    * @deprecated it is recommended to use the builder constructor {@link Builder}
@@ -288,7 +286,7 @@ public class ZKHelixAdmin implements HelixAdmin {
       }
     });
     if (failToPurgeInstances.size() > 0) {
-      LOG.error("ZKHelixAdmin::purgeOfflineInstances(): failed to drop the following instances: "
+      logger.error("ZKHelixAdmin::purgeOfflineInstances(): failed to drop the following instances: "
           + failToPurgeInstances);
     }
   }
@@ -785,7 +783,7 @@ public class ZKHelixAdmin implements HelixAdmin {
                     .updateMaintenanceHistory(enabled, reason, currentTime, internalReason,
                         customFields, triggeringEntity);
               } catch (IOException e) {
-                logger.error("Failed to update maintenance history! Exception: {}", e);
+                logger.error("Failed to update maintenance history! Exception: " + e.getMessage(), e);
                 return oldRecord;
               }
             }, AccessOption.PERSISTENT)) {
@@ -1484,7 +1482,7 @@ public class ZKHelixAdmin implements HelixAdmin {
     PropertyKey.Builder keyBuilder = accessor.keyBuilder();
 
     accessor.setProperty(keyBuilder.idealStates(idealState.getResourceName()), idealState);
-    LOG.info("Cluster {} has been added to grand cluster {} with rebalance configuration {}.",
+    logger.info("Cluster {} has been added to grand cluster {} with rebalance configuration {}.",
         clusterName, grandCluster, idealState.getRecord().getSimpleFields().toString());
   }
 

@@ -45,7 +45,7 @@ public class TestCurrentInstanceToTaskAssignmentsWithPendingMessage {
    */
   @Test
   public void testCurrentInstanceToTaskAssignmentsWithPendingMessage() {
-    Random random = new Random();
+    Random random = new Random(1L);
     String jobName = "job";
     String nodeName = "localhost";
     int numTasks = 100;
