@@ -73,10 +73,6 @@ public class RestAdminApplication extends Application {
   public static final String ZKCLIENT = "zkClient";
   public static final int DEFAULT_PORT = 8100;
 
-  static {
-    org.restlet.engine.Engine.setLogLevel(Level.SEVERE);
-  }
-
   public RestAdminApplication() {
     super();
   }

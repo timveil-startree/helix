@@ -184,7 +184,7 @@ public class TestJobQueuesResource extends AdminTestBase {
     LOG.info("Resumed job-queue, ret: " + postRet);
 
     // Flush job queue
-    paraMap.put(JsonParameters.MANAGEMENT_COMMAND, "persistDataChanges");
+    paraMap.put(JsonParameters.MANAGEMENT_COMMAND, TaskDriver.DriverCommand.flush.toString());
     postBody =
         JsonParameters.JSON_PARAMETERS + "=" + ClusterRepresentationUtil.ObjectToJson(paraMap);
     postRet = AdminTestHelper.post(_gClient, resourceUrl, postBody);

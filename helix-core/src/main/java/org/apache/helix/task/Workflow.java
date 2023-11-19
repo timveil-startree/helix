@@ -144,7 +144,7 @@ public class Workflow {
     TagInspector tagInspector = new TagInspector() {
       @Override
       public boolean isGlobalTagAllowed(Tag tag) {
-        return false;
+        return tag.getClassName().equals(WorkflowBean.class.getName());
       }
     };
     options.setTagInspector(tagInspector);

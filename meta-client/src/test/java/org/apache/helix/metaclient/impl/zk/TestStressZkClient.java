@@ -169,7 +169,10 @@ public class TestStressZkClient extends ZkMetaClientTestBase {
     }
 
     for (int i = 0; i < TEST_ITERATION_COUNT; i++) {
-      Assert.assertEquals(_zkMetaClient.get(zkParentKey + "/" + i), i);
+      String key = zkParentKey + "/" + i;
+      String actual = String.valueOf(_zkMetaClient.get(key));
+      String expected = String.valueOf(i);
+      Assert.assertEquals(actual, expected);
     }
 
     // Test with non-existent node path
