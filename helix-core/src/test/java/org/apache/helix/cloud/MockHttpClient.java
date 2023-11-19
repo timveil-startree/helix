@@ -26,8 +26,9 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.any;
 
 
 /**
@@ -43,7 +44,7 @@ public class MockHttpClient {
     CloseableHttpClient mockCloseableHttpClient = Mockito.mock(CloseableHttpClient.class);
 
     Mockito.when(httpEntity.getContent()).thenReturn(responseInputStream);
-    Mockito.when(mockCloseableHttpClient.execute(Matchers.any(HttpGet.class))).thenReturn(mockCloseableHttpResponse);
+    Mockito.when(mockCloseableHttpClient.execute(any(HttpGet.class))).thenReturn(mockCloseableHttpResponse);
     Mockito.when(mockCloseableHttpResponse.getEntity()).thenReturn(httpEntity);
     Mockito.when(mockCloseableHttpResponse.getStatusLine()).thenReturn(statusLine);
     Mockito.when(statusLine.getStatusCode()).thenReturn(200);

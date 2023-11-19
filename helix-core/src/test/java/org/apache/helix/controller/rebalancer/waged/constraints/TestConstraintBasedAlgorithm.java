@@ -33,7 +33,7 @@ import org.apache.helix.controller.rebalancer.waged.model.OptimalAssignment;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

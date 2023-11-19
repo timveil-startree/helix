@@ -54,17 +54,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 public class TestMaintenanceManagementService {
   private static final String TEST_CLUSTER = "TestCluster";
@@ -136,8 +127,8 @@ public class TestMaintenanceManagementService {
         service.getInstanceStoppableCheck(TEST_CLUSTER, TEST_INSTANCE, jsonContent);
     Assert.assertEquals(actual.getFailedChecks().size(), failedCheck.size());
     Assert.assertFalse(actual.isStoppable());
-    verifyZeroInteractions(_customRestClient);
-    verifyZeroInteractions(_configAccessor);
+    verifyNoMoreInteractions(_customRestClient);
+    verifyNoMoreInteractions(_configAccessor);
   }
 
   @Test

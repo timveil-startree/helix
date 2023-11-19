@@ -56,6 +56,8 @@
       *
     </osgi.import>
     <osgi.export>org.apache.helix.rest*;version="${project.version};-noimport:=true</osgi.export>
+    <swagger.version>2.2.19</swagger.version>
+    <jersey.version>3.0.12</jersey.version>
   </properties>
 
   <dependencies>
@@ -72,12 +74,10 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.32</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <version>2.17.1</version>
+      <artifactId>log4j-slf4j2-impl</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.helix</groupId>
@@ -91,32 +91,30 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
-      <version>9.4.48.v20220622</version>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>
-      <version>2.35</version>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.test-framework</groupId>
       <artifactId>jersey-test-framework-core</artifactId>
-      <version>2.35</version>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet-core</artifactId>
-      <version>2.35</version>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
         <groupId>org.glassfish.jersey.inject</groupId>
         <artifactId>jersey-hk2</artifactId>
-        <version>2.35</version>
+        <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
-      <version>9.4.48.v20220622</version>
     </dependency>
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
@@ -151,8 +149,8 @@
     </dependency>
     <dependency>
       <groupId>io.dropwizard.metrics</groupId>
-      <artifactId>metrics-jersey2</artifactId>
-      <version>${metrics-jersey2.version}</version>
+      <artifactId>metrics-jersey3</artifactId>
+      <version>${metrics-jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>io.dropwizard.metrics</groupId>
@@ -165,24 +163,24 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.swagger</groupId>
+      <groupId>io.swagger.core.v3</groupId>
       <artifactId>swagger-annotations</artifactId>
-      <version>1.6.4</version>
+      <version>${swagger.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.swagger</groupId>
+      <groupId>io.swagger.core.v3</groupId>
       <artifactId>swagger-core</artifactId>
-      <version>1.6.4</version>
+      <version>${swagger.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-jaxrs</artifactId>
-      <version>1.6.4</version>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-jaxrs2</artifactId>
+      <version>${swagger.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.swagger</groupId>
+      <groupId>io.swagger.core.v3</groupId>
       <artifactId>swagger-models</artifactId>
-      <version>1.6.4</version>
+      <version>${swagger.version}</version>
     </dependency>
   </dependencies>
   <build>

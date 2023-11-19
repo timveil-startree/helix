@@ -32,7 +32,7 @@ import org.apache.helix.rest.server.json.cluster.ClusterTopology;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

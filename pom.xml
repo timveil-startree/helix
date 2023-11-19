@@ -466,9 +466,12 @@
     <SKIP_INTEGRATION_TESTS>true</SKIP_INTEGRATION_TESTS>
     <!-- Configuration for unit/integration tests section 1 of 3 (properties) ENDS HERE.-->
 
-    <metrics-core.version>4.1.14</metrics-core.version>
-    <metrics-jersey2.version>4.1.14</metrics-jersey2.version>
-    <metrics-jmx.version>4.1.14</metrics-jmx.version>
+    <metrics-core.version>4.2.22</metrics-core.version>
+    <metrics-jersey.version>4.2.22</metrics-jersey.version>
+    <metrics-jmx.version>4.2.22</metrics-jmx.version>
+    <jetty.version>11.0.15</jetty.version>
+    <slf4j.version>2.0.9</slf4j.version>
+    <log4j.version>2.21.1</log4j.version>
   </properties>
 
   <distributionManagement>
@@ -483,27 +486,27 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.32</version>
+        <version>${slf4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
-        <version>1.7.32</version>
+        <version>${slf4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>
-        <version>2.17.1</version>
+        <version>${log4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
-        <version>2.17.1</version>
+        <version>${log4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-slf4j-impl</artifactId>
-        <version>2.17.1</version>
+        <artifactId>log4j-slf4j2-impl</artifactId>
+        <version>${log4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.restlet.jse</groupId>
@@ -511,14 +514,14 @@
         <version>2.3.12</version>
       </dependency>
       <dependency>
-        <groupId>org.restlet.jse</groupId>
-        <artifactId>org.restlet.ext.jetty</artifactId>
-        <version>2.3.12</version>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>${jetty.version}</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-server</artifactId>
-        <version>8.1.8.v20121106</version>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.helix</groupId>
@@ -543,21 +546,15 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.11</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>6.0.1</version>
+        <version>7.8.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.12.4</version>
+        <version>5.5.0</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -570,7 +567,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.10.1</version>
+          <version>3.11.0</version>
           <configuration>
             <release>11</release>
           </configuration>
@@ -587,12 +584,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.1</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>appassembler-maven-plugin</artifactId>
-          <version>1.1.1</version>
+          <version>2.1.0</version>
           <configuration>
             <binFileExtensions>
               <unix>.sh</unix>
@@ -625,12 +622,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.6.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -643,7 +640,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-eclipse-plugin</artifactId>
-          <version>2.9</version>
+          <version>2.10</version>
           <configuration>
             <downloadSources>true</downloadSources>
             <downloadJavadocs>true</downloadJavadocs>
@@ -652,7 +649,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <goals>
@@ -664,7 +661,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.8</version>
+          <version>3.3.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -709,7 +706,7 @@
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
-          <version>0.13</version>
+          <version>0.15</version>
           <configuration>
             <!-- Exclude files/folders for Apache release -->
             <excludes>
@@ -723,10 +720,33 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.2</version>
           <configuration>
             <failOnError>true</failOnError>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.4.1</version>
+          <executions>
+            <execution>
+              <id>enforce-maven</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireMavenVersion>
+                    <version>3.6.3</version>
+                  </requireMavenVersion>
+                  <requireJavaVersion>
+                    <version>11</version>
+                  </requireJavaVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -734,17 +754,17 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.12.1</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>2.3.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.4</version>
+        <version>5.1.9</version>
         <inherited>true</inherited>
         <extensions>true</extensions>
         <configuration>
@@ -781,14 +801,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
       </plugin>
 
       <!-- Code Coverage report generation -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.6</version>
+        <version>0.8.11</version>
         <executions>
           <execution>
             <goals>
@@ -836,7 +856,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.3.1</version>
         <configuration>
           <aggregate>true</aggregate>
         </configuration>
@@ -844,12 +864,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.4.5</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.5.0</version>
+        <version>3.6.2</version>
         <configuration>
           <stylesheetfile>javadocstyle.css</stylesheetfile>
           <reportOutputDirectory>site</reportOutputDirectory>
@@ -874,7 +894,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.3.1</version>
         <inherited>false</inherited>
         <reportSets>
           <reportSet>

@@ -31,7 +31,7 @@ import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.MasterSlaveSMD;
 import org.apache.helix.model.StateModelDefinition;
 import org.apache.helix.util.InstanceValidationUtil;
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.mock;

@@ -39,18 +39,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 public class TestHelixDataAccessorWrapper {
   private static final String TEST_INSTANCE0 = "host0";
@@ -116,7 +106,7 @@ public class TestHelixDataAccessorWrapper {
 
     Assert.assertEquals(actual, expected);
     // No need to query against rest endpoint
-    verifyZeroInteractions(_restClient);
+    verifyNoMoreInteractions(_restClient);
   }
 
   @Test

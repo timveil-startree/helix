@@ -19,7 +19,7 @@ package org.apache.helix.controller.rebalancer.waged.constraints;
  * under the License.
  */
 
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.apache.helix.controller.rebalancer.waged.model.AssignableNode;
@@ -52,8 +52,8 @@ public class TestResourceTopStateAntiAffinityConstraint {
         _constraint.getAssignmentNormalizedScore(_testNode, _testReplica, _clusterContext);
     Assert.assertEquals(score, 0.0);
     Assert.assertEquals(normalizedScore, 1.0);
-    verifyZeroInteractions(_testNode);
-    verifyZeroInteractions(_clusterContext);
+    verifyNoMoreInteractions(_testNode);
+    verifyNoMoreInteractions(_clusterContext);
   }
 
   @Test
