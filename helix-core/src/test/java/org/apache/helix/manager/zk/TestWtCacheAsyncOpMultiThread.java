@@ -36,7 +36,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestWtCacheAsyncOpMultiThread extends ZkUnitTestBase {
-  class TestCreateZkCacheBaseDataAccessor implements Callable<Boolean> {
+  static class TestCreateZkCacheBaseDataAccessor implements Callable<Boolean> {
     final ZkCacheBaseDataAccessor<ZNRecord> _accessor;
     final String _clusterName;
     final int _id;
@@ -90,7 +90,7 @@ public class TestWtCacheAsyncOpMultiThread extends ZkUnitTestBase {
     }
   }
 
-  class TestUpdateZkCacheBaseDataAccessor implements Callable<Boolean> {
+  static class TestUpdateZkCacheBaseDataAccessor implements Callable<Boolean> {
     final ZkCacheBaseDataAccessor<ZNRecord> _accessor;
     final String _clusterName;
     final int _id;
@@ -134,7 +134,7 @@ public class TestWtCacheAsyncOpMultiThread extends ZkUnitTestBase {
     }
   }
 
-  class TestSetZkCacheBaseDataAccessor implements Callable<Boolean> {
+  static class TestSetZkCacheBaseDataAccessor implements Callable<Boolean> {
     final ZkCacheBaseDataAccessor<ZNRecord> _accessor;
     final String _clusterName;
     final int _id;

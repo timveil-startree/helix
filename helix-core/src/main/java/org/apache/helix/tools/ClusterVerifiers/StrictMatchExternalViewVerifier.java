@@ -357,7 +357,7 @@ public class StrictMatchExternalViewVerifier extends ZkHelixClusterVerifier {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 }

@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 
 public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
 
-  class Listener implements InstanceConfigChangeListener, IdealStateChangeListener {
+  static class Listener implements InstanceConfigChangeListener, IdealStateChangeListener {
     int _idealStateChangedCount = 0;
     int _instanceConfigChangedCount = 0;
 
@@ -70,11 +70,11 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
   }
 
   @BatchMode
-  class BatchedListener extends Listener {
+  static class BatchedListener extends Listener {
   }
 
 
-  class MixedListener extends Listener {
+  static class MixedListener extends Listener {
     @BatchMode
     @Override
     public void onIdealStateChange(List<IdealState> idealState, NotificationContext changeContext) {
@@ -83,7 +83,7 @@ public class TestListenerCallbackBatchMode extends ZkUnitTestBase {
   }
 
   @BatchMode (enabled = false)
-  class BatchDisableddListener extends Listener {
+  static class BatchDisableddListener extends Listener {
     @Override
     public void onIdealStateChange(List<IdealState> idealState, NotificationContext changeContext) {
       super.onIdealStateChange(idealState, changeContext);

@@ -265,7 +265,7 @@ public class ZkClientMonitor extends DynamicMBeanProvider {
     });
   }
 
-  class ZkThreadMetric extends DynamicMetric<ZkEventThread, ZkEventThread> {
+  static class ZkThreadMetric extends DynamicMetric<ZkEventThread, ZkEventThread> {
     public ZkThreadMetric(ZkEventThread eventThread) {
       super("ZkEventThead", eventThread);
     }

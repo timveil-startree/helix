@@ -175,7 +175,7 @@ public class TestP2PWithStateCancellationMessage extends BaseStageTest {
     return event;
   }
 
-  private final class Mock {
+  private static final class Mock {
     private ResourceControllerDataProvider cache = mock(ResourceControllerDataProvider.class);
     private HelixManager manager = mock(ZKHelixManager.class);
     private HelixDataAccessor accessor = mock(ZKHelixDataAccessor.class);

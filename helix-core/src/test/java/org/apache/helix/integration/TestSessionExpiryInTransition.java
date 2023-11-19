@@ -40,7 +40,7 @@ import org.testng.annotations.Test;
 public class TestSessionExpiryInTransition extends ZkTestBase {
   private static final Logger LOG = LoggerFactory.getLogger(TestSessionExpiryInTransition.class);
 
-  public class SessionExpiryTransition extends MockTransition {
+  public static class SessionExpiryTransition extends MockTransition {
     private final AtomicBoolean _done = new AtomicBoolean();
 
     @Override

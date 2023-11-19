@@ -85,7 +85,7 @@ public class TestMaintenanceManagementService {
     when(_configAccessor.getRESTConfig(TEST_CLUSTER)).thenReturn(restConfig);
   }
 
-  class MockMaintenanceManagementService extends MaintenanceManagementService {
+  static class MockMaintenanceManagementService extends MaintenanceManagementService {
 
     public MockMaintenanceManagementService(ZKHelixDataAccessor dataAccessor,
         ConfigAccessor configAccessor, CustomRestClient customRestClient, boolean skipZKRead,
@@ -168,11 +168,11 @@ public class TestMaintenanceManagementService {
       throws IOException {
     // Test when custom instance and partition check are both disabled.
     MockMaintenanceManagementService service =
-        new MockMaintenanceManagementService(_dataAccessorWrapper, _configAccessor,
-            _customRestClient, false, false, new HashSet<>(
-            Arrays.asList(StoppableCheck.Category.CUSTOM_INSTANCE_CHECK,
-                StoppableCheck.Category.CUSTOM_PARTITION_CHECK)),
-            HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
+            new MockMaintenanceManagementService(_dataAccessorWrapper, _configAccessor,
+                    _customRestClient, false, false, new HashSet<>(
+                    Arrays.asList(StoppableCheck.Category.CUSTOM_INSTANCE_CHECK,
+                            StoppableCheck.Category.CUSTOM_PARTITION_CHECK)),
+                    HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
 
     StoppableCheck actual = service.getInstanceStoppableCheck(TEST_CLUSTER, TEST_INSTANCE, "");
     Assert.assertTrue(actual.isStoppable());
@@ -191,10 +191,10 @@ public class TestMaintenanceManagementService {
     when(_customRestClient.getInstanceStoppableCheck(anyString(), anyMap())).thenReturn(
         ImmutableMap.of("FailCheck", false));
     MockMaintenanceManagementService service =
-        new MockMaintenanceManagementService(_dataAccessorWrapper, _configAccessor,
-            _customRestClient, false, false,
-            new HashSet<>(Arrays.asList(StoppableCheck.Category.CUSTOM_PARTITION_CHECK)),
-            HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
+            new MockMaintenanceManagementService(_dataAccessorWrapper, _configAccessor,
+                    _customRestClient, false, false,
+                    new HashSet<>(Arrays.asList(StoppableCheck.Category.CUSTOM_PARTITION_CHECK)),
+                    HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
 
     StoppableCheck actual = service.getInstanceStoppableCheck(TEST_CLUSTER, TEST_INSTANCE, "");
     Assert.assertEquals(actual.getFailedChecks(),
@@ -223,10 +223,10 @@ public class TestMaintenanceManagementService {
     when(_dataAccessorWrapper.getChildValues(any(), anyBoolean())).thenReturn(
         Arrays.asList(externalView));
     MockMaintenanceManagementService service =
-        new MockMaintenanceManagementService(_dataAccessorWrapper, _configAccessor,
-            _customRestClient, false, false,
-            new HashSet<>(Arrays.asList(StoppableCheck.Category.CUSTOM_INSTANCE_CHECK)),
-            HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
+            new MockMaintenanceManagementService(_dataAccessorWrapper, _configAccessor,
+                    _customRestClient, false, false,
+                    new HashSet<>(Arrays.asList(StoppableCheck.Category.CUSTOM_INSTANCE_CHECK)),
+                    HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
     
     StoppableCheck actual = service.getInstanceStoppableCheck(TEST_CLUSTER, TEST_INSTANCE, "");
     List<String> expectedFailedChecks = Arrays.asList(
@@ -313,16 +313,16 @@ public class TestMaintenanceManagementService {
 
     // Valid data only from ZK, pass the check
     MockMaintenanceManagementService instanceServiceReadZK =
-        new MockMaintenanceManagementService(zkHelixDataAccessor, _configAccessor, _customRestClient, false,
-            false, HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
+            new MockMaintenanceManagementService(zkHelixDataAccessor, _configAccessor, _customRestClient, false,
+                    false, HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
     StoppableCheck stoppableCheck =
         instanceServiceReadZK.getInstanceStoppableCheck(TEST_CLUSTER, TEST_INSTANCE, jsonContent);
     Assert.assertTrue(stoppableCheck.isStoppable());
 
     // Even ZK data is valid. Skip ZK read should fail the test.
     MockMaintenanceManagementService instanceServiceWithoutReadZK =
-        new MockMaintenanceManagementService(zkHelixDataAccessor, _configAccessor, _customRestClient, true,
-            false, HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
+            new MockMaintenanceManagementService(zkHelixDataAccessor, _configAccessor, _customRestClient, true,
+                    false, HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
     stoppableCheck = instanceServiceWithoutReadZK.getInstanceStoppableCheck(TEST_CLUSTER, TEST_INSTANCE, jsonContent);
     Assert.assertFalse(stoppableCheck.isStoppable());
 
@@ -336,8 +336,8 @@ public class TestMaintenanceManagementService {
 
     // Operation should finish even with check failed.
     MockMaintenanceManagementService instanceServiceSkipFailure =
-        new MockMaintenanceManagementService(zkHelixDataAccessor, _configAccessor, _customRestClient, true,
-            ImmutableSet.of("CUSTOM_PARTITION_HEALTH_FAILURE:HOST_NO_STATE_ERROR"), HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
+            new MockMaintenanceManagementService(zkHelixDataAccessor, _configAccessor, _customRestClient, true,
+                    ImmutableSet.of("CUSTOM_PARTITION_HEALTH_FAILURE:HOST_NO_STATE_ERROR"), HelixRestNamespace.DEFAULT_NAMESPACE_NAME);
     MaintenanceManagementInstanceInfo instanceInfo2 =
         instanceServiceSkipFailure.takeInstance(TEST_CLUSTER, TEST_INSTANCE, Collections.singletonList("CustomInstanceStoppableCheck"),
             MaintenanceManagementService.getMapFromJsonPayload(jsonContent), Collections.singletonList("org.apache.helix.rest.server.TestOperationImpl"),

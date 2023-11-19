@@ -50,8 +50,8 @@ public class MessageLatencyMonitor extends DynamicMBeanProvider {
 
     _messageLatencyGauge = new HistogramDynamicMetric("MessagelatencyGauge", new Histogram(
         new SlidingTimeWindowArrayReservoir(getResetIntervalInMs(), TimeUnit.MILLISECONDS)));
-    _totalMessageLatency = new SimpleDynamicMetric("TotalMessageLatency", 0l);
-    _totalMessageCount = new SimpleDynamicMetric("TotalMessageCount", 0l);
+    _totalMessageLatency = new SimpleDynamicMetric("TotalMessageLatency", 0L);
+    _totalMessageCount = new SimpleDynamicMetric("TotalMessageCount", 0L);
   }
 
   @Override

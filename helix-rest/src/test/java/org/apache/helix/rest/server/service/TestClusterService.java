@@ -96,7 +96,7 @@ public class TestClusterService {
     Assert.assertEquals(clusterTopology.getClusterId(), TEST_CLUSTER);
   }
 
-  private final class Mock {
+  private static final class Mock {
     private HelixDataAccessor dataAccessor = mock(HelixDataAccessor.class);
     private ConfigAccessor configAccessor = mock(ConfigAccessor.class);
     private ClusterService clusterService;

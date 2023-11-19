@@ -849,7 +849,7 @@ public class ZkCacheBaseDataAccessor<T> implements HelixPropertyStore<T> {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 

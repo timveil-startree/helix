@@ -44,7 +44,6 @@ import org.apache.helix.PropertyPathBuilder;
 import org.apache.helix.SystemPropertyKeys;
 import org.apache.helix.TestHelper;
 import org.apache.helix.model.ClusterConfig;
-import org.apache.helix.model.InstanceConfig;
 import org.apache.helix.model.ParticipantHistory;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.ZkTestHelper;
@@ -384,7 +383,7 @@ public class TestParticipantManager extends ZkTestBase {
     }
   }
 
-  class SessionExpiryTransition extends MockTransition {
+  static class SessionExpiryTransition extends MockTransition {
     private final AtomicBoolean _done = new AtomicBoolean();
     private final CountDownLatch _startCountdown;
     private final CountDownLatch _endCountdown;

@@ -31,7 +31,7 @@ import org.apache.helix.model.Message;
 import org.apache.helix.model.Message.Attributes;
 
 public class GroupMessageHandler {
-  class CurrentStateUpdate {
+  static class CurrentStateUpdate {
     final PropertyKey _key;
     final CurrentState _curStateDelta;
 

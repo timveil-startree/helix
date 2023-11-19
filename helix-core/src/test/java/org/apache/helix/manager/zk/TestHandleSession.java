@@ -41,7 +41,6 @@ import org.apache.helix.common.ZkTestBase;
 import org.apache.helix.controller.GenericHelixController;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.model.LiveInstance;
-import org.apache.helix.zookeeper.api.client.HelixZkClient;
 import org.apache.helix.zookeeper.api.client.RealmAwareZkClient;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.zookeeper.impl.client.ZkClient;
@@ -514,7 +513,7 @@ public class TestHandleSession extends ZkTestBase {
     deleteCluster(clusterName);
   }
 
-  class MockLiveInstanceChangeListener implements LiveInstanceChangeListener {
+  static class MockLiveInstanceChangeListener implements LiveInstanceChangeListener {
     private final HelixManager _manager;
     private final Set<String> _expectedLiveInstances;
 
@@ -559,9 +558,9 @@ public class TestHandleSession extends ZkTestBase {
       // Note that we have to test with 2 separate listeners so one of them has a chance to fail if
       // there is a concurrent modification exception.
       helixManager.addLiveInstanceChangeListener(
-          new MockLiveInstanceChangeListener(helixManager, Collections.singleton("localhost_1")));
+              new MockLiveInstanceChangeListener(helixManager, Collections.singleton("localhost_1")));
       helixManager.addLiveInstanceChangeListener(
-          new MockLiveInstanceChangeListener(helixManager, Collections.singleton("localhost_2")));
+              new MockLiveInstanceChangeListener(helixManager, Collections.singleton("localhost_2")));
 
       // Session expire will trigger all callbacks to be init. And the injected liveInstance
       // listener will trigger more callbackhandlers to be registered during the init process.

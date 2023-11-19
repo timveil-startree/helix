@@ -86,7 +86,7 @@ public class TestScheduleDelayJobs extends TaskSynchronizedTestBase {
     Assert.assertTrue(_testRebalancer.getRebalanceTime(workflowName) == currentTime);
   }
 
-  private class TestRebalancer extends WorkflowRebalancer {
+  private static class TestRebalancer extends WorkflowRebalancer {
     public long getRebalanceTime(String workflow) {
       return _rebalanceScheduler.getRebalanceTime(workflow);
     }

@@ -66,7 +66,7 @@ public class ClusterLiveNodesVerifier extends ZkHelixClusterVerifier {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 

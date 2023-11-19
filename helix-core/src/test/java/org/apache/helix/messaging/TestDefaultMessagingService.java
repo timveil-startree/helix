@@ -51,7 +51,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 public class TestDefaultMessagingService {
-  class MockHelixManager extends MockManager {
+  static class MockHelixManager extends MockManager {
     class MockDataAccessor extends MockAccessor {
 
       @Override
@@ -128,8 +128,8 @@ public class TestDefaultMessagingService {
     }
   }
 
-  class TestMessageHandlerFactory implements MultiTypeMessageHandlerFactory {
-    class TestMessageHandler extends MessageHandler {
+  static class TestMessageHandlerFactory implements MultiTypeMessageHandlerFactory {
+    static class TestMessageHandler extends MessageHandler {
 
       public TestMessageHandler(Message message, NotificationContext context) {
         super(message, context);
@@ -167,7 +167,7 @@ public class TestDefaultMessagingService {
     }
   }
 
-  class TestStateTransitionHandlerFactory implements MultiTypeMessageHandlerFactory {
+  static class TestStateTransitionHandlerFactory implements MultiTypeMessageHandlerFactory {
 
     @Override
     public MessageHandler createHandler(Message message, NotificationContext context) {
@@ -187,7 +187,7 @@ public class TestDefaultMessagingService {
     }
   }
 
-  class MockDefaultMessagingService extends DefaultMessagingService {
+  static class MockDefaultMessagingService extends DefaultMessagingService {
     public MockDefaultMessagingService(HelixManager manager) {
       super(manager);
     }

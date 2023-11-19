@@ -103,9 +103,8 @@ public class IdealStateExample {
     admin.addCluster(clusterName, true);
 
     // add MasterSlave state mode definition
-    StateModelConfigGenerator generator = new StateModelConfigGenerator();
     admin.addStateModelDef(clusterName, "MasterSlave",
-        new StateModelDefinition(generator.generateConfigForMasterSlave()));
+        new StateModelDefinition(StateModelConfigGenerator.generateConfigForMasterSlave()));
 
     // add 3 participants: "localhost:{12918, 12919, 12920}"
     for (int i = 0; i < 3; i++) {

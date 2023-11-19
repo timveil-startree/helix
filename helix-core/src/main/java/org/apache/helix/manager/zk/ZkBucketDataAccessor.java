@@ -349,7 +349,7 @@ public class ZkBucketDataAccessor implements BucketDataAccessor, AutoCloseable {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     _zkBaseDataAccessor.close();
     close();
   }

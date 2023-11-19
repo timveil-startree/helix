@@ -42,7 +42,7 @@ public class TestHelixCustomCodeRunner extends ZkTestBase {
   private final String _clusterName = "CLUSTER_" + getShortClassName();
   private final MockCallback _callback = new MockCallback();
 
-  class MockCallback implements CustomCodeCallbackHandler {
+  static class MockCallback implements CustomCodeCallbackHandler {
     boolean _isCallbackInvoked;
 
     @Override

@@ -300,7 +300,7 @@ public class TestZKHelixNonblockingLockWithPriority extends ZkTestBase {
     lock.close();
   }
 
-  private class LockHelper implements Runnable {
+  private static class LockHelper implements Runnable {
     private volatile boolean result;
     private final ZKDistributedNonblockingLock _lock;
 

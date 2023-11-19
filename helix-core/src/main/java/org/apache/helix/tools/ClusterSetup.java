@@ -216,7 +216,7 @@ public class ClusterSetup {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 

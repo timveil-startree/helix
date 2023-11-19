@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
  * test zookeeper basis
  */
 public class TestZkBasis extends ZkUnitTestBase {
-  class ZkListener implements IZkDataListener, IZkChildListener {
+  static class ZkListener implements IZkDataListener, IZkChildListener {
     String _parentPath = null;
     String _dataDeletePath = null;
     List<String> _currentChilds = Collections.emptyList(); // make sure it's set to null in

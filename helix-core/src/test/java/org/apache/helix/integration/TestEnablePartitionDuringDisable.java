@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
 public class TestEnablePartitionDuringDisable extends ZkTestBase {
   private static final Logger LOG = LoggerFactory.getLogger(TestEnablePartitionDuringDisable.class);
 
-  class EnablePartitionTransition extends MockTransition {
+  static class EnablePartitionTransition extends MockTransition {
     int slaveToOfflineCnt = 0;
     int offlineToSlave = 0;
 

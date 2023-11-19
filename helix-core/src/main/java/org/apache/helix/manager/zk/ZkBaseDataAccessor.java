@@ -1353,7 +1353,7 @@ public class ZkBaseDataAccessor<T> implements BaseDataAccessor<T> {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 

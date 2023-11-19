@@ -425,7 +425,7 @@ public abstract class ZkHelixClusterVerifier
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 }

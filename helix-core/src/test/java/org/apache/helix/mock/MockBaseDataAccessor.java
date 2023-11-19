@@ -39,7 +39,7 @@ public class MockBaseDataAccessor implements BaseDataAccessor<ZNRecord> {
 
   protected static final Logger LOG = LoggerFactory.getLogger(MockBaseDataAccessor.class);
 
-  class ZNode {
+  static class ZNode {
     private ZNRecord _record;
     private Stat _stat;
 

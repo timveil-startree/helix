@@ -65,9 +65,9 @@ public class HelixCallbackMonitor extends DynamicMBeanProvider {
 
     _latencyGauge = new HistogramDynamicMetric("LatencyGauge", new Histogram(
         new SlidingTimeWindowArrayReservoir(getResetIntervalInMs(), TimeUnit.MILLISECONDS)));
-    _totalLatencyCounter = new SimpleDynamicMetric("LatencyCounter", 0l);
-    _unbatchedCounter = new SimpleDynamicMetric("UnbatchedCounter", 0l);
-    _counter = new SimpleDynamicMetric("Counter", 0l);
+    _totalLatencyCounter = new SimpleDynamicMetric("LatencyCounter", 0L);
+    _unbatchedCounter = new SimpleDynamicMetric("UnbatchedCounter", 0L);
+    _counter = new SimpleDynamicMetric("Counter", 0L);
   }
 
   @Override

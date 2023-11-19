@@ -53,7 +53,7 @@ public class TestDisableCustomCodeRunner extends ZkUnitTestBase {
   private static final int N = 2;
   private static final int PARTITION_NUM = 1;
 
-  class DummyCallback implements CustomCodeCallbackHandler {
+  static class DummyCallback implements CustomCodeCallbackHandler {
     private final Map<NotificationContext.Type, Boolean> _callbackInvokeMap = new HashMap<>();
 
     @Override

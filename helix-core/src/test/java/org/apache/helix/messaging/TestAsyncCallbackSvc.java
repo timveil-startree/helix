@@ -37,13 +37,13 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 public class TestAsyncCallbackSvc {
-  class MockHelixManager extends MockManager {
+  static class MockHelixManager extends MockManager {
     public String getSessionId() {
       return "123";
     }
   }
 
-  class TestAsyncCallback extends AsyncCallback {
+  static class TestAsyncCallback extends AsyncCallback {
     HashSet<String> _repliedMessageId = new HashSet<String>();
 
     @Override

@@ -394,7 +394,7 @@ class RoutingTable {
   /**
    * Class to store instances, partitions and their states for each resource.
    */
-  class ResourceInfo {
+  static class ResourceInfo {
     // store PartitionInfo for each partition
     Map<String, PartitionInfo> partitionInfoMap;
     // stores the Set of Instances in a given state
@@ -431,7 +431,7 @@ class RoutingTable {
   /**
    * Class to store instances, partitions and their states for each resource group.
    */
-  class ResourceGroupInfo {
+  static class ResourceGroupInfo {
     // aggregated partitions and instances info for all resources in the resource group.
     ResourceInfo aggregatedResourceInfo;
 
@@ -485,7 +485,7 @@ class RoutingTable {
     }
   }
 
-  class PartitionInfo {
+  static class PartitionInfo {
     Map<String, List<InstanceConfig>> stateInfoMap;
 
     public PartitionInfo() {

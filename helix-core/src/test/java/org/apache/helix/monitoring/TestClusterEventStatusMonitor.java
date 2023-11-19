@@ -49,7 +49,7 @@ public class TestClusterEventStatusMonitor {
   protected static final Logger LOG = LoggerFactory.getLogger(TestClusterEventStatusMonitor.class);
   private static final int TEST_SLIDING_WINDOW_MS = 2000; // 2s window for testing
 
-  private class ClusterStatusMonitorForTest extends ClusterStatusMonitor {
+  private static class ClusterStatusMonitorForTest extends ClusterStatusMonitor {
     public ClusterStatusMonitorForTest(String clusterName) {
       super(clusterName);
       active();

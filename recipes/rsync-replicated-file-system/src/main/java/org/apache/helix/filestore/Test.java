@@ -49,7 +49,7 @@ public class Test {
 class MyRunnable implements Callable<Object>, Runnable {
 
   // AtomicReference<Object> ref = new AtomicReference<Object>(new Object());
-  class Ref {
+  static class Ref {
     Object obj;
 
     public Ref(Object obj) {

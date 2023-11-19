@@ -188,7 +188,7 @@ public class TestCustomRestClient {
     Assert.assertTrue(timeoutExceptionHappened);
   }
 
-  private class MockCustomRestClient extends CustomRestClientImpl {
+  private static class MockCustomRestClient extends CustomRestClientImpl {
     private String _jsonResponse = "";
 
     MockCustomRestClient(HttpClient mockHttpClient) {

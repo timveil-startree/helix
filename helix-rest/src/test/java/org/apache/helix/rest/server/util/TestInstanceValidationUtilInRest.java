@@ -163,7 +163,7 @@ public class TestInstanceValidationUtilInRest{
     return externalView;
   }
 
-  private final class Mock {
+  private static final class Mock {
     private HelixDataAccessor dataAccessor = mock(HelixDataAccessor.class);
     private StateModelDefinition stateModel = mock(StateModelDefinition.class);
 

@@ -111,7 +111,7 @@ public class MonitoredAbnormalResolver implements AbnormalStateResolver {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 }

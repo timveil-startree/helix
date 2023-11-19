@@ -122,7 +122,7 @@ public class TestAutoRebalanceStrategy {
     StateModelDefinition stateModelDef = getIncompleteStateModelDef(name, stateNames[0], states);
 
     new AutoRebalanceTester(partitions, states, liveNodes, currentMapping, allNodes, maxPerNode,
-        stateModelDef).runRepeatedly(numIterations);
+            stateModelDef).runRepeatedly(numIterations);
   }
 
   /**
@@ -146,7 +146,7 @@ public class TestAutoRebalanceStrategy {
     return builder.build();
   }
 
-  class AutoRebalanceTester {
+  static class AutoRebalanceTester {
     private static final double P_KILL = 0.45;
     private static final double P_ADD = 0.1;
     private static final double P_RESURRECT = 0.45;

@@ -52,7 +52,7 @@ public class TestParticipantMonitor {
   private static final String PARTICIPANT_NAME = "participant_0";
   private static final String DOMAIN_NAME = "CLMParticipantReport";
 
-  class ParticipantMonitorListener extends ClusterMBeanObserver {
+  static class ParticipantMonitorListener extends ClusterMBeanObserver {
     Map<String, Map<String, Object>> _beanValueMap = new HashMap<>();
 
     public ParticipantMonitorListener(String domain, String key, String value)
@@ -128,7 +128,7 @@ public class TestParticipantMonitor {
     monitor.reportTransitionStat(cxt, data);
 
     ParticipantMonitorListener monitorListener =
-        new ParticipantMonitorListener(DOMAIN_NAME, "Cluster", CLUSTER_NAME);
+            new ParticipantMonitorListener(DOMAIN_NAME, "Cluster", CLUSTER_NAME);
     Thread.sleep(1000);
     Assert.assertEquals(monitorListener._beanValueMap.size(), monitorNum + 1);
 
@@ -164,7 +164,7 @@ public class TestParticipantMonitor {
     cxt2.getInstanceName();
 
     ParticipantMonitorListener monitorListener2 =
-        new ParticipantMonitorListener(DOMAIN_NAME, "Cluster", CLUSTER_NAME);
+            new ParticipantMonitorListener(DOMAIN_NAME, "Cluster", CLUSTER_NAME);
 
     Thread.sleep(1000);
     // Same here. Helix only measures per cluster + per state transitions.
@@ -188,7 +188,7 @@ public class TestParticipantMonitor {
     monitor.reportReceivedMessage(message);
     Thread.sleep(1000);
     ParticipantMonitorListener monitorListener =
-        new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
+            new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
     Thread.sleep(1000);
     Assert.assertEquals(monitorListener._beanValueMap.size(), 2);
     Assert.assertEquals(monitorListener._beanValueMap.get(
@@ -202,7 +202,7 @@ public class TestParticipantMonitor {
         .reportProcessedMessage(message, ParticipantMessageMonitor.ProcessedMessageState.COMPLETED);
     Thread.sleep(1000);
     monitorListener =
-        new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
+            new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
     Thread.sleep(1000);
     Assert.assertEquals(monitorListener._beanValueMap.get(
         getObjectName("ParticipantName=participant_0,MonitorType=ParticipantMessageMonitor")
@@ -217,7 +217,7 @@ public class TestParticipantMonitor {
     monitor.reportReceivedMessage(message);
     Thread.sleep(1000);
     monitorListener =
-        new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
+            new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
     Thread.sleep(1000);
     Assert.assertEquals(monitorListener._beanValueMap.get(
         getObjectName("ParticipantName=participant_0,MonitorType=ParticipantMessageMonitor")
@@ -230,7 +230,7 @@ public class TestParticipantMonitor {
         .reportProcessedMessage(message, ParticipantMessageMonitor.ProcessedMessageState.DISCARDED);
     Thread.sleep(1000);
     monitorListener =
-        new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
+            new ParticipantMonitorListener(DOMAIN_NAME, "ParticipantName", PARTICIPANT_NAME);
     Thread.sleep(1000);
     Assert.assertEquals(monitorListener._beanValueMap.get(
         getObjectName("ParticipantName=participant_0,MonitorType=ParticipantMessageMonitor")

@@ -186,7 +186,7 @@ public class CardDealingAdjustmentAlgorithmV2 {
                 // Also consider node target load if mode is evenness
                 Float node1Target = targetPartitionCount.get(node1);
                 Float node2Target = targetPartitionCount.get(node2);
-                if (node1Target != node2Target) {
+                if (!node1Target.equals(node2Target)) {
                   return node2Target.compareTo(node1Target);
                 }
               }

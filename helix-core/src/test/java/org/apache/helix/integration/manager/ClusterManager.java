@@ -127,7 +127,7 @@ public class ClusterManager extends ZKHelixManager implements Runnable, ZkTestMa
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     _watcher.interrupt();
     try {
       _watcher.join(DISCONNECT_WAIT_TIME_MS);

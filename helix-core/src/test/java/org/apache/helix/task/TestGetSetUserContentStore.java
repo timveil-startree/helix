@@ -53,7 +53,7 @@ public class TestGetSetUserContentStore extends TaskTestBase {
     TaskContent
   }
 
-  private class TaskRecord {
+  private static class TaskRecord {
     String workflowName;
     String jobName;
     String taskPartitionId;

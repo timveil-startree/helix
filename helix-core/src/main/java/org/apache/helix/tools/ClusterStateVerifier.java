@@ -435,7 +435,7 @@ public class ClusterStateVerifier {
     }
 
     @Override
-    public void finalize() {
+    protected void finalize() {
       if (zkClient != null) {
         zkClient.close();
       }
@@ -527,7 +527,7 @@ public class ClusterStateVerifier {
     }
 
     @Override
-    public void finalize() {
+    protected void finalize() {
       if (zkClient != null) {
         zkClient.close();
       }

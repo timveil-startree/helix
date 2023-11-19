@@ -35,7 +35,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestRestartParticipant extends ZkTestBase {
-  public class KillOtherTransition extends MockTransition {
+  public static class KillOtherTransition extends MockTransition {
     final AtomicReference<MockParticipantManager> _other;
 
     public KillOtherTransition(MockParticipantManager other) {

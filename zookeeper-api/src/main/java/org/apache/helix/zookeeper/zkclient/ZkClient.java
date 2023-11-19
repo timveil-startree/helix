@@ -152,7 +152,7 @@ public class ZkClient implements Watcher {
   // ZkEventThread. Otherwise the retry request might block the normal event processing.
   protected final ZkAsyncRetryThread _asyncCallRetryThread;
 
-  private class IZkDataListenerEntry {
+  private static class IZkDataListenerEntry {
     final IZkDataListener _dataListener;
     final boolean _prefetchData;
 

@@ -475,7 +475,7 @@ public class TestInstanceValidationUtil {
     InstanceValidationUtil.siblingNodesActiveReplicaCheck(mock.dataAccessor, TEST_INSTANCE);
   }
 
-  private class Mock {
+  private static class Mock {
     HelixDataAccessor dataAccessor;
     ConfigAccessor configAccessor;
 

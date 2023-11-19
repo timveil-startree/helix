@@ -40,7 +40,6 @@ import org.apache.helix.participant.statemachine.StateModelInfo;
 import org.apache.helix.participant.statemachine.Transition;
 import org.apache.helix.tools.ClusterStateVerifier;
 import org.apache.helix.tools.ClusterVerifiers.BestPossibleExternalViewVerifier;
-import org.apache.helix.tools.ClusterVerifiers.HelixClusterVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -133,7 +132,7 @@ public class TestErrorReplicaPersist extends ZkStandAloneCMTestBase {
   }
 
 
-  class MockFailedMSStateModelFactory
+  static class MockFailedMSStateModelFactory
       extends StateModelFactory<MockFailedMSStateModel> {
 
     @Override

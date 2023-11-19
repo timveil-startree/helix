@@ -299,7 +299,7 @@ public class MultiRoundCrushRebalanceStrategy implements RebalanceStrategy<Resou
 
     if (!newNodeWeight.isEmpty()) {
       // iterate more
-      return _clusterTopo.clone(zone, newNodeWeight, completedNodes);
+      return Topology.clone(zone, newNodeWeight, completedNodes);
     }
 
     // If the newNodeWeight map is empty, it will use old root tree to calculate it.

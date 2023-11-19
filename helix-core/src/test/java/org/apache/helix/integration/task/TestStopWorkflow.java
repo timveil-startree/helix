@@ -298,7 +298,7 @@ public class TestStopWorkflow extends TaskTestBase {
   /**
    * A mock task class that models a short-lived task to be stopped.
    */
-  private class StopTask extends MockTask {
+  private static class StopTask extends MockTask {
     private boolean _stopFlag = false;
 
     StopTask(TaskCallbackContext context) {

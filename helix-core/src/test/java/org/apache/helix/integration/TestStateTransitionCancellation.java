@@ -31,7 +31,6 @@ import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.integration.task.MockTask;
 import org.apache.helix.integration.task.TaskTestBase;
 import org.apache.helix.integration.task.WorkflowGenerator;
-import org.apache.helix.mock.participant.MockDelayMSStateModel;
 import org.apache.helix.model.ClusterConfig;
 import org.apache.helix.model.ExternalView;
 import org.apache.helix.model.Message;
@@ -251,7 +250,7 @@ public class TestStateTransitionCancellation extends TaskTestBase {
     }
   }
 
-  public class InMockDelayMSStateModelFactory
+  public static class InMockDelayMSStateModelFactory
       extends StateModelFactory<InternalMockDelayMSStateModel> {
     private long _delay;
 

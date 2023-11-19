@@ -993,7 +993,7 @@ public class ConfigAccessor {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 

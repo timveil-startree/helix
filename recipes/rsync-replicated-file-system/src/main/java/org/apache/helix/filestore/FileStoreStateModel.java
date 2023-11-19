@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
     "OFFLINE", "MASTER", "SLAVE"
 })
 public class FileStoreStateModel extends StateModel {
-  private final class HighWaterMarkUpdater implements DataUpdater<ZNRecord> {
+  private static final class HighWaterMarkUpdater implements DataUpdater<ZNRecord> {
     private final Message message;
     private final ChangeRecord lastRecordProcessed;
 

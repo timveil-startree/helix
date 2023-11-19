@@ -44,7 +44,7 @@ public class TestZkRoutingDataWriter extends AbstractTestClass {
   private MetadataStoreRoutingDataWriter _zkRoutingDataWriter;
 
   // MockWriter is used for testing request forwarding features in non-leader situations
-  class MockWriter extends ZkRoutingDataWriter {
+  static class MockWriter extends ZkRoutingDataWriter {
     HttpUriRequest calledRequest;
 
     MockWriter(String namespace, String zkAddress) {

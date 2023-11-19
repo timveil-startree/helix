@@ -21,7 +21,6 @@ package org.apache.helix.zookeeper.zkclient.util;
 
 import java.util.Date;
 
-import org.apache.helix.zookeeper.impl.ZkTestBase;
 import org.apache.helix.zookeeper.zkclient.RecursivePersistListener;
 import org.apache.zookeeper.Watcher;
 import org.slf4j.Logger;
@@ -104,7 +103,7 @@ public class TestZkPathRecursiveWatcherTrie {
     Assert.assertEquals(_recursiveWatcherTrie.getAllRecursiveListeners("a/b3/c/d/e/f/g/h").size(), 0);
   }
 
-  class Test implements RecursivePersistListener {
+  static class Test implements RecursivePersistListener {
 
     @Override
     public void handleZNodeChange(String dataPath, Watcher.Event.EventType eventType)

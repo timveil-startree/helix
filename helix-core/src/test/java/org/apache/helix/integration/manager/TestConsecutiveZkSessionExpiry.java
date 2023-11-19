@@ -48,7 +48,7 @@ public class TestConsecutiveZkSessionExpiry extends ZkUnitTestBase {
   /**
    * make use of PreConnectCallback to insert session expiry during HelixManager#handleNewSession()
    */
-  class PreConnectTestCallback implements PreConnectCallback {
+  static class PreConnectTestCallback implements PreConnectCallback {
     final String instanceName;
     final CountDownLatch startCountDown;
     final CountDownLatch endCountDown;
@@ -113,7 +113,7 @@ public class TestConsecutiveZkSessionExpiry extends ZkUnitTestBase {
 
       if (i == 0) {
         participants[i].addPreConnectCallback(new PreConnectTestCallback(instanceName,
-            startCountdown, endCountdown));
+                startCountdown, endCountdown));
       }
       participants[i].syncStart();
     }
@@ -191,7 +191,7 @@ public class TestConsecutiveZkSessionExpiry extends ZkUnitTestBase {
           new MockMSModelFactory());
       if (i == 0) {
         distributedControllers[i].addPreConnectCallback(new PreConnectTestCallback(contrllerName,
-            startCountdown, endCountdown));
+                startCountdown, endCountdown));
       }
       distributedControllers[i].connect();
     }

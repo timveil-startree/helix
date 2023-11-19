@@ -47,7 +47,6 @@ import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.HelixDefinedState;
 import org.apache.helix.HelixException;
-import org.apache.helix.HelixProperty;
 import org.apache.helix.InstanceType;
 import org.apache.helix.PropertyKey;
 import org.apache.helix.PropertyPathBuilder;
@@ -1746,20 +1745,14 @@ public class ZKHelixAdmin implements HelixAdmin {
 
     int size = (int) file.length();
     byte[] bytes = new byte[size];
-    DataInputStream dis = null;
-    try {
-      dis = new DataInputStream(new FileInputStream(file));
-      int read = 0;
-      int numRead = 0;
-      while (read < bytes.length && (numRead = dis.read(bytes, read, bytes.length - read)) >= 0) {
-        read = read + numRead;
+      try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+          int read = 0;
+          int numRead = 0;
+          while (read < bytes.length && (numRead = dis.read(bytes, read, bytes.length - read)) >= 0) {
+              read = read + numRead;
+          }
+          return bytes;
       }
-      return bytes;
-    } finally {
-      if (dis != null) {
-        dis.close();
-      }
-    }
   }
 
   @Override
@@ -2120,7 +2113,7 @@ public class ZKHelixAdmin implements HelixAdmin {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
   }
 

@@ -40,7 +40,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestBatchMessageWrapper extends ZkUnitTestBase {
-  class MockBatchMsgWrapper extends BatchMessageWrapper {
+  static class MockBatchMsgWrapper extends BatchMessageWrapper {
     int _startCount = 0;
     int _endCount = 0;
 
@@ -57,7 +57,7 @@ public class TestBatchMessageWrapper extends ZkUnitTestBase {
     }
   }
 
-  class TestMockMSModelFactory extends MockMSModelFactory {
+  static class TestMockMSModelFactory extends MockMSModelFactory {
     @Override
     public BatchMessageWrapper createBatchMessageWrapper(String resourceName) {
       return new MockBatchMsgWrapper();

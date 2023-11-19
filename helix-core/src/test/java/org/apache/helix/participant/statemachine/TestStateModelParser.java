@@ -35,7 +35,7 @@ public class TestStateModelParser {
   @StateModelInfo(initialState = "OFFLINE", states = {
       "MASTER", "SLAVE", "ERROR"
   })
-  class StateModelUsingAnnotation extends StateModel {
+  static class StateModelUsingAnnotation extends StateModel {
     @Transition(to = "SLAVE", from = "OFFLINE")
     public void onBecomeSlaveFromOffline(Message message, NotificationContext context) {
       LOG.info("Become SLAVE from OFFLINE");
@@ -52,14 +52,14 @@ public class TestStateModelParser {
   @StateModelInfo(initialState = "OFFLINE", states = {
       "MASTER", "SLAVE", "ERROR"
   })
-  class DerivedStateModelUsingAnnotation extends StateModelUsingAnnotation {
+  static class DerivedStateModelUsingAnnotation extends StateModelUsingAnnotation {
     @Transition(to = "SLAVE", from = "OFFLINE")
     public void derivedOnBecomeSlaveFromOffline(Message message, NotificationContext context) {
       LOG.info("Derived Become SLAVE from OFFLINE");
     }
   }
 
-  class StateModelUsingNameConvention extends StateModel {
+  static class StateModelUsingNameConvention extends StateModel {
     // empty state model
   }
 

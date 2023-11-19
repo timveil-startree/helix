@@ -222,7 +222,7 @@ public class CRUSHPlacementAlgorithm {
   /**
    * Selection algorithm based on the "straw" bucket type as described in the CRUSH algorithm.
    */
-  private class Selector {
+  private static class Selector {
     private final Map<Node,Long> straws = new HashMap<Node,Long>();
     private final JenkinsHash hashFunction;
 

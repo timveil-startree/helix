@@ -207,7 +207,7 @@ public class TestBucketizedResource extends ZkTestBase {
     deleteCluster(clusterName);
   }
 
-  class TestExternalViewListener implements ExternalViewChangeListener {
+  static class TestExternalViewListener implements ExternalViewChangeListener {
     int cbCnt = 0;
 
     @Override

@@ -118,7 +118,7 @@ public class TestSyncSessionToController extends ZkTestBase {
     deleteCluster(clusterName);
   }
 
-  class MockMessageListener implements MessageListener {
+  static class MockMessageListener implements MessageListener {
     private boolean sessionSyncMessageSent = false;
 
     @Override

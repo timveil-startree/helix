@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 
 public class TestListenerCallbackPrefetch extends ZkUnitTestBase {
 
-  class PrefetchListener implements InstanceConfigChangeListener, IdealStateChangeListener {
+  static class PrefetchListener implements InstanceConfigChangeListener, IdealStateChangeListener {
     boolean _idealStateChanged = false;
     boolean _instanceConfigChanged = false;
     boolean _containIdealStates = false;
@@ -61,11 +61,11 @@ public class TestListenerCallbackPrefetch extends ZkUnitTestBase {
   }
 
   @PreFetch (enabled = false)
-  class NonPrefetchListener extends PrefetchListener {
+  static class NonPrefetchListener extends PrefetchListener {
   }
 
 
-  class MixedPrefetchListener extends PrefetchListener {
+  static class MixedPrefetchListener extends PrefetchListener {
     @PreFetch(enabled = false)
     @Override
     public void onIdealStateChange(List<IdealState> idealState, NotificationContext changeContext) {

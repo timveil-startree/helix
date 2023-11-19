@@ -34,7 +34,7 @@ public class TestAsyncCallback {
 
   protected static final Logger LOG = LoggerFactory.getLogger(TestAsyncCallback.class);
 
-  class AsyncCallbackSample extends AsyncCallback {
+  static class AsyncCallbackSample extends AsyncCallback {
     int _onTimeOutCalled = 0;
     int _onReplyMessageCalled = 0;
 

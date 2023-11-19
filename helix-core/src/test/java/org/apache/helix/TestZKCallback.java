@@ -57,7 +57,7 @@ public class TestZKCallback extends ZkUnitTestBase {
     return split;
   }
 
-  public class TestCallbackListener implements MessageListener, LiveInstanceChangeListener,
+  public static class TestCallbackListener implements MessageListener, LiveInstanceChangeListener,
                                                ConfigChangeListener, CurrentStateChangeListener,
                                                TaskCurrentStateChangeListener,
                                                CustomizedStateConfigChangeListener,
@@ -151,9 +151,7 @@ public class TestZKCallback extends ZkUnitTestBase {
     testHelixManager.connect();
 
     try {
-      TestZKCallback test = new TestZKCallback();
-
-      TestZKCallback.TestCallbackListener testListener = test.new TestCallbackListener();
+      TestZKCallback.TestCallbackListener testListener = new TestCallbackListener();
 
       testHelixManager.addMessageListener(testListener, "localhost_8900");
       testHelixManager.addCurrentStateChangeListener(testListener, "localhost_8900",

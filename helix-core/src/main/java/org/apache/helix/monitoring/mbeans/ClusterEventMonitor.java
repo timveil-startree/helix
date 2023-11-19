@@ -58,9 +58,9 @@ public class ClusterEventMonitor extends DynamicMBeanProvider {
 
     _duration = new HistogramDynamicMetric("DurationGauge", new Histogram(
         new SlidingTimeWindowArrayReservoir(getResetIntervalInMs(), TimeUnit.MILLISECONDS)));
-    _count = new SimpleDynamicMetric("EventCounter", 0l);
-    _maxDuration = new SimpleDynamicMetric("MaxSingleDurationGauge", 0l);
-    _totalDuration = new SimpleDynamicMetric("TotalDurationCounter", 0l);
+    _count = new SimpleDynamicMetric("EventCounter", 0L);
+    _maxDuration = new SimpleDynamicMetric("MaxSingleDurationGauge", 0L);
+    _totalDuration = new SimpleDynamicMetric("TotalDurationCounter", 0L);
   }
 
   public ClusterEventMonitor(ClusterStatusMonitor clusterStatusMonitor, String phaseName,
@@ -70,9 +70,9 @@ public class ClusterEventMonitor extends DynamicMBeanProvider {
 
     _duration = new HistogramDynamicMetric("DurationGauge", new Histogram(
         new SlidingTimeWindowArrayReservoir(histogramTimeWindowMs, TimeUnit.MILLISECONDS)));
-    _count = new SimpleDynamicMetric("EventCounter", 0l);
-    _maxDuration = new SimpleDynamicMetric("MaxSingleDurationGauge", 0l);
-    _totalDuration = new SimpleDynamicMetric("TotalDurationCounter", 0l);
+    _count = new SimpleDynamicMetric("EventCounter", 0L);
+    _maxDuration = new SimpleDynamicMetric("MaxSingleDurationGauge", 0L);
+    _totalDuration = new SimpleDynamicMetric("TotalDurationCounter", 0L);
   }
 
   public void reportDuration(long duration) {

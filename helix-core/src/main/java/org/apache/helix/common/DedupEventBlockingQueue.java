@@ -39,7 +39,7 @@ public class DedupEventBlockingQueue<T, E> {
   private final Map<T, Entry<T, E>> _eventMap;
   private final Queue<Entry> _eventQueue;
 
-  class Entry <T, E> {
+  static class Entry <T, E> {
     private T _type;
     private E _event;
 

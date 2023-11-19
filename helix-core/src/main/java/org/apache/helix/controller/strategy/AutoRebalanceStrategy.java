@@ -449,7 +449,7 @@ public class AutoRebalanceStrategy {
                 "partition: " + replica + " is in currentMapping but not in partitions");
           }
 
-          if (_preferredAssignment.get(replica).id != node.id
+          if (!_preferredAssignment.get(replica).id.equals(node.id)
               && !_existingPreferredAssignment.containsKey(replica)
               && !existingNonPreferredAssignment.containsKey(replica)) {
             existingNonPreferredAssignment.put(replica, node);
@@ -513,7 +513,7 @@ public class AutoRebalanceStrategy {
           Replica replica = new Replica(partition, replicaId);
           if (_preferredAssignment.containsKey(replica)
               && !existingPreferredAssignment.containsKey(replica)
-              && _preferredAssignment.get(replica).id == node.id) {
+              && _preferredAssignment.get(replica).id.equals(node.id)) {
             existingPreferredAssignment.put(replica, node);
             node.preferred.add(replica);
             break;
@@ -582,7 +582,7 @@ public class AutoRebalanceStrategy {
    * A Node is an entity that can serve replicas. It has a capacity and knowledge
    * of replicas assigned to it, so it can decide if it can receive additional replicas.
    */
-  class Node {
+  static class Node {
     public int currentlyAssigned;
     public int capacity;
     public boolean hasCeilingCapacity;
@@ -664,7 +664,7 @@ public class AutoRebalanceStrategy {
    * A Replica is a combination of a partition of the resource, the state the replica is in
    * and an identifier signifying a specific replica of a given partition and state.
    */
-  class Replica implements Comparable<Replica> {
+  static class Replica implements Comparable<Replica> {
     private String partition;
     private int replicaId; // this is a partition-relative id
     private String format;

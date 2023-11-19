@@ -99,7 +99,7 @@ public class MockHelixTaskExecutor extends HelixTaskExecutor {
           String taskId = _messageTaskMap.get(messageTarget);
           MessageTaskInfo messageTaskInfo = _taskMap.get(taskId);
           Message existingMsg = messageTaskInfo.getTask().getMessage();
-          if (existingMsg.getMsgId() != message.getMsgId())
+          if (!existingMsg.getMsgId().equals(message.getMsgId()))
             //            logger.error("Duplicated message In Progress: " + message.getMsgId()
             //                    + ", state transition in progress with message " + existingMsg.getMsgId()
             //                    + " to " + toState + " for " + resource + ":" + partition);

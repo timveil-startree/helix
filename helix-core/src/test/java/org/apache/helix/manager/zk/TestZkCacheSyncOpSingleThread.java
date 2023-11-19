@@ -41,7 +41,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestZkCacheSyncOpSingleThread extends ZkUnitTestBase {
-  class TestListener implements HelixPropertyListener {
+  static class TestListener implements HelixPropertyListener {
     ConcurrentLinkedQueue<String> _deletePathQueue = new ConcurrentLinkedQueue<>();
     ConcurrentLinkedQueue<String> _createPathQueue = new ConcurrentLinkedQueue<>();
     ConcurrentLinkedQueue<String> _changePathQueue = new ConcurrentLinkedQueue<>();

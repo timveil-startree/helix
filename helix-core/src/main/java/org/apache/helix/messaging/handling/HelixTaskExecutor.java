@@ -87,7 +87,7 @@ public class HelixTaskExecutor implements MessageListener, TaskExecutor {
   /**
    * Put together all registration information about a message handler factory
    */
-  class MsgHandlerFactoryRegistryItem {
+  static class MsgHandlerFactoryRegistryItem {
     private final MessageHandlerFactory _factory;
     private final int _threadPoolSize;
     private final int _resetTimeout;

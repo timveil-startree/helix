@@ -89,7 +89,7 @@ public class TestHelixTaskExecutor {
     }
   }
 
-  class TestMessageHandlerFactory implements MultiTypeMessageHandlerFactory {
+  static class TestMessageHandlerFactory implements MultiTypeMessageHandlerFactory {
     final int _messageDelay;
     int _handlersCreated = 0;
     ConcurrentHashMap<String, String> _processedMsgIds = new ConcurrentHashMap<>();
@@ -144,14 +144,14 @@ public class TestHelixTaskExecutor {
     }
   }
 
-  class TestMessageHandlerFactory2 extends TestMessageHandlerFactory {
+  static class TestMessageHandlerFactory2 extends TestMessageHandlerFactory {
     @Override
     public List<String> getMessageTypes() {
       return ImmutableList.of("TestingMessageHandler2");
     }
   }
 
-  private class TestMessageHandlerFactory3 extends TestMessageHandlerFactory {
+  private static class TestMessageHandlerFactory3 extends TestMessageHandlerFactory {
     private boolean _resetDone = false;
 
     @Override
@@ -166,7 +166,7 @@ public class TestHelixTaskExecutor {
     }
   }
 
-  class CancellableHandlerFactory implements MultiTypeMessageHandlerFactory {
+  static class CancellableHandlerFactory implements MultiTypeMessageHandlerFactory {
 
     int _handlersCreated = 0;
     ConcurrentHashMap<String, String> _processedMsgIds = new ConcurrentHashMap<String, String>();
@@ -234,7 +234,7 @@ public class TestHelixTaskExecutor {
     }
   }
 
-  class TestStateTransitionHandlerFactory implements MultiTypeMessageHandlerFactory {
+  static class TestStateTransitionHandlerFactory implements MultiTypeMessageHandlerFactory {
     ConcurrentHashMap<String, String> _processedMsgIds = new ConcurrentHashMap<String, String>();
     private final String _msgType;
     private final long _delay;
@@ -375,7 +375,7 @@ public class TestHelixTaskExecutor {
     PropertyKey.Builder keyBuilder = dataAccessor.keyBuilder();
 
     TestStateTransitionHandlerFactory stateTransitionFactory =
-        new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION.name(), 1000);
+            new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION.name(), 1000);
     executor.registerMessageHandlerFactory(Message.MessageType.STATE_TRANSITION.name(),
         stateTransitionFactory);
 
@@ -439,7 +439,7 @@ public class TestHelixTaskExecutor {
     PropertyKey.Builder keyBuilder = dataAccessor.keyBuilder();
 
     TestStateTransitionHandlerFactory stateTransitionFactory =
-        new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION.name(), 1000);
+            new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION.name(), 1000);
     executor.registerMessageHandlerFactory(Message.MessageType.STATE_TRANSITION.name(),
         stateTransitionFactory);
 
@@ -940,7 +940,7 @@ public class TestHelixTaskExecutor {
 
     TestStateTransitionHandlerFactory stateTransitionFactory = new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION.name());
     TestStateTransitionHandlerFactory cancelFactory = new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION_CANCELLATION
-        .name());
+            .name());
     executor.registerMessageHandlerFactory(Message.MessageType.STATE_TRANSITION.name(), stateTransitionFactory);
     executor.registerMessageHandlerFactory(Message.MessageType.STATE_TRANSITION_CANCELLATION.name(), cancelFactory);
 
@@ -1092,7 +1092,7 @@ public class TestHelixTaskExecutor {
     PropertyKey.Builder keyBuilder = dataAccessor.keyBuilder();
 
     TestStateTransitionHandlerFactory stateTransitionFactory =
-        new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION.name());
+            new TestStateTransitionHandlerFactory(Message.MessageType.STATE_TRANSITION.name());
     executor.registerMessageHandlerFactory(Message.MessageType.STATE_TRANSITION.name(),
         stateTransitionFactory);
 

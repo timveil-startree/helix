@@ -56,7 +56,7 @@ public class TestZkHelixPropertyStore extends ZkUnitTestBase {
 
   // final int totalNodes = firstLevelNr * secondLevelNr;
 
-  class TestListener implements HelixPropertyListener {
+  static class TestListener implements HelixPropertyListener {
     Map<String, Long> _changeKeys = new HashMap<>();
     Map<String, Long> _createKeys = new HashMap<>();
     Map<String, Long> _deleteKeys = new HashMap<>();

@@ -452,7 +452,7 @@ public class BestPossibleExternalViewVerifier extends ZkHelixClusterVerifier {
 
   // TODO: to clean up, finalize is deprecated in Java 9
   @Override
-  public void finalize() {
+  protected void finalize() {
     close();
     super.finalize();
   }

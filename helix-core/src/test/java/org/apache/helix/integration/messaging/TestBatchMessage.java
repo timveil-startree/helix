@@ -45,7 +45,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestBatchMessage extends ZkTestBase {
-  class TestZkChildListener implements IZkChildListener {
+  static class TestZkChildListener implements IZkChildListener {
     int _maxNumberOfChildren = 0;
 
     @Override

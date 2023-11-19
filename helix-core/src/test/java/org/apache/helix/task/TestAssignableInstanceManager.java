@@ -155,7 +155,7 @@ public class TestAssignableInstanceManager {
     }
   }
 
-  public class MockTaskDataCache extends TaskDataCache {
+  public static class MockTaskDataCache extends TaskDataCache {
     private Map<String, JobConfig> _jobConfigMap;
     private Map<String, WorkflowConfig> _workflowConfigMap;
     private Map<String, JobContext> _jobContextMap;
@@ -209,7 +209,7 @@ public class TestAssignableInstanceManager {
     }
   }
 
-  public class MockJobContext extends JobContext {
+  public static class MockJobContext extends JobContext {
     private Set<Integer> _taskPartitionSet;
     private Map<Integer, TaskPartitionState> _taskPartitionStateMap;
     private Map<Integer, String> _partitionToTaskIDMap;

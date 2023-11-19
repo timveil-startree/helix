@@ -762,7 +762,7 @@ public class TestExecutor {
     });
 
     for (TestCommand command : commandList) {
-      testResults.put(command, new Boolean(false));
+      testResults.put(command, Boolean.FALSE);
 
       TestTrigger trigger = command._trigger;
       command._startTimestamp = System.currentTimeMillis() + trigger._startTime;

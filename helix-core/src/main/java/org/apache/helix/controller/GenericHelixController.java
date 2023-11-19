@@ -1586,7 +1586,7 @@ public class GenericHelixController implements IdealStateChangeListener, LiveIns
    * A wrapper class for the stateful rebalancer instance that will be tracked in the
    * GenericHelixController.
    */
-  private abstract class StatefulRebalancerRef<T extends StatefulRebalancer> {
+  private abstract static class StatefulRebalancerRef<T extends StatefulRebalancer> {
     private T _rebalancer = null;
     private boolean _isRebalancerValid = true;
 

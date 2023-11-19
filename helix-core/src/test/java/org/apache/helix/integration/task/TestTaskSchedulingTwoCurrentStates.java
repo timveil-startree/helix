@@ -190,7 +190,7 @@ public class TestTaskSchedulingTwoCurrentStates extends TaskTestBase {
   /**
    * A mock task that extents MockTask class to count the number of cancel messages.
    */
-  private class NewMockTask extends MockTask {
+  private static class NewMockTask extends MockTask {
 
     NewMockTask(TaskCallbackContext context) {
       super(context);

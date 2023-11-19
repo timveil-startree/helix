@@ -35,7 +35,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestAutoFallbackPropertyStore extends ZkUnitTestBase {
-  class MyDataUpdater implements DataUpdater<ZNRecord> {
+  static class MyDataUpdater implements DataUpdater<ZNRecord> {
     final String _id;
 
     MyDataUpdater(String id) {

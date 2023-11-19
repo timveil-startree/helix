@@ -143,7 +143,7 @@ public class MockParticipantManager extends ClusterManager {
   }
 
   @Override
-  public void finalize() {
+  protected void finalize() {
     super.finalize();
   }
 }

@@ -40,7 +40,6 @@ import org.apache.helix.controller.stages.ClusterEvent;
 import org.apache.helix.controller.stages.CurrentStateOutput;
 import org.apache.helix.model.Partition;
 import org.apache.helix.model.Resource;
-import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.monitoring.mbeans.ClusterStatusMonitor;
 import org.apache.helix.task.AssignableInstanceManager;
 import org.apache.helix.task.TaskConstants;
@@ -121,7 +120,7 @@ public class TaskSchedulingStage extends AbstractBaseStage {
     return output;
   }
 
-  class WorkflowObject implements Comparable<WorkflowObject> {
+  static class WorkflowObject implements Comparable<WorkflowObject> {
     String _workflowId;
     Long _rankingValue;
 

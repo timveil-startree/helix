@@ -291,7 +291,7 @@ public class TestP2PMessages extends BaseStageTest {
     String thirdMaster = getTopStateInstance(bestpossibleState.getInstanceStateMap(_db, _partition),
         MasterSlaveSMD.States.MASTER.name());
 
-    Assert.assertTrue(secondMaster != thirdMaster);
+    Assert.assertTrue(!secondMaster.equals(thirdMaster));
     messages = getMessages(thirdMaster);
     Assert.assertEquals(messages.size(), 1);
     Assert.assertEquals(messages.get(0).getTgtName(), thirdMaster);

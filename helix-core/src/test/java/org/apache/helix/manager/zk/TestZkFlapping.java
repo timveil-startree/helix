@@ -41,7 +41,7 @@ import org.testng.annotations.Test;
 public class TestZkFlapping extends ZkUnitTestBase {
   private final int _disconnectThreshold = 5;
 
-  class ZkStateCountListener implements IZkStateListener {
+  static class ZkStateCountListener implements IZkStateListener {
     int count = 0;
 
     @Override

@@ -118,21 +118,21 @@ public class TestRoutingTableProviderPeriodicRefresh extends ZkTestBase {
     _spectator_3.connect();
 
     _routingTableProvider =
-        new MockRoutingTableProvider(_spectator, PropertyType.EXTERNALVIEW, true,
-            REFRESH_PERIOD_MS);
+            new MockRoutingTableProvider(_spectator, PropertyType.EXTERNALVIEW, true,
+                    REFRESH_PERIOD_MS);
     _spectator.addExternalViewChangeListener(_routingTableProvider);
     _spectator.addLiveInstanceChangeListener(_routingTableProvider);
     _spectator.addInstanceConfigChangeListener(_routingTableProvider);
 
     _routingTableProviderNoPeriodicRefresh =
-        new MockRoutingTableProvider(_spectator_2, PropertyType.EXTERNALVIEW, false,
-            REFRESH_PERIOD_MS);
+            new MockRoutingTableProvider(_spectator_2, PropertyType.EXTERNALVIEW, false,
+                    REFRESH_PERIOD_MS);
     _spectator_2.addExternalViewChangeListener(_routingTableProviderNoPeriodicRefresh);
     _spectator_2.addLiveInstanceChangeListener(_routingTableProviderNoPeriodicRefresh);
     _spectator_2.addInstanceConfigChangeListener(_routingTableProviderNoPeriodicRefresh);
 
     _routingTableProviderLongPeriodicRefresh =
-        new MockRoutingTableProvider(_spectator_3, PropertyType.EXTERNALVIEW, true, 3000000L);
+            new MockRoutingTableProvider(_spectator_3, PropertyType.EXTERNALVIEW, true, 3000000L);
     _spectator_3.addExternalViewChangeListener(_routingTableProviderLongPeriodicRefresh);
     _spectator_3.addLiveInstanceChangeListener(_routingTableProviderLongPeriodicRefresh);
     _spectator_3.addInstanceConfigChangeListener(_routingTableProviderLongPeriodicRefresh);
@@ -165,7 +165,7 @@ public class TestRoutingTableProviderPeriodicRefresh extends ZkTestBase {
     deleteCluster(CLUSTER_NAME);
   }
 
-  public class MockRoutingTableProvider extends RoutingTableProvider {
+  public static class MockRoutingTableProvider extends RoutingTableProvider {
     private volatile int _refreshCount = 0;
     private static final boolean DEBUG = false;
 

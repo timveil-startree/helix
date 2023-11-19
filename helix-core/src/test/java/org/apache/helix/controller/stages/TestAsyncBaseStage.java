@@ -51,7 +51,7 @@ public class TestAsyncBaseStage {
     blockingAsyncStage.reset();
   }
 
-  private class BlockingAsyncStage extends AbstractAsyncBaseStage {
+  private static class BlockingAsyncStage extends AbstractAsyncBaseStage {
     public boolean _isFinished = false;
     public boolean _isStarted = false;
 

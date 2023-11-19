@@ -40,14 +40,14 @@ public class BrokerResourceOnlineOfflineStateModelFactory extends StateModelFact
   }
 
   public StateModel createNewStateModel(String resourceName) {
-    return new BrokerResourceOnlineOfflineStateModelFactory.BrokerResourceOnlineOfflineStateModel();
+    return new BrokerResourceOnlineOfflineStateModel();
   }
 
   @StateModelInfo(
       states = {"{'OFFLINE','ONLINE', 'DROPPED'}"},
       initialState = "OFFLINE"
   )
-  public class BrokerResourceOnlineOfflineStateModel extends StateModel {
+  public static class BrokerResourceOnlineOfflineStateModel extends StateModel {
     public BrokerResourceOnlineOfflineStateModel() {
     }
 

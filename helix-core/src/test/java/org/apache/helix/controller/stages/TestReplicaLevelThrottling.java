@@ -265,7 +265,7 @@ public class TestReplicaLevelThrottling extends BaseStageTest {
     }
   }
 
-  private final class Mock {
+  private static final class Mock {
     private ResourceControllerDataProvider cache = mock(ResourceControllerDataProvider.class);
   }
 }

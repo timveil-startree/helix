@@ -100,7 +100,7 @@ public class ThreadLeakageChecker {
     }
 
     public Predicate<String> getMatchPred() {
-      if (this.name() != ThreadCategory.Other.name()) {
+      if (!this.name().equals(ThreadCategory.Other.name())) {
         Predicate<String> pred = target -> {
           for (String p : _pattern) {
             if (target.toLowerCase().contains(p.toLowerCase())) {

@@ -111,7 +111,7 @@ public class TestWagedClusterExpansion extends ZkTestBase {
     public void onBecomeSlaveFromOffline(Message message, NotificationContext context) {
       if (_delay > 0) {
         try {
-          Thread.currentThread().sleep(_delay);
+          Thread.sleep(_delay);
         } catch (InterruptedException e) {
           // ignore
         }
@@ -134,7 +134,7 @@ public class TestWagedClusterExpansion extends ZkTestBase {
     public void onBecomeOfflineFromSlave(Message message, NotificationContext context) {
       if (_delay > 0) {
         try {
-          Thread.currentThread().sleep(_delay);
+          Thread.sleep(_delay);
         } catch (InterruptedException e) {
           // ignore
         }
@@ -146,7 +146,7 @@ public class TestWagedClusterExpansion extends ZkTestBase {
     public void onBecomeDroppedFromOffline(Message message, NotificationContext context) {
       if (_delay > 0) {
         try {
-          Thread.currentThread().sleep(_delay);
+          Thread.sleep(_delay);
         } catch (InterruptedException e) {
           // ignore
         }
@@ -346,7 +346,7 @@ public class TestWagedClusterExpansion extends ZkTestBase {
         break;
       }
       try {
-        Thread.currentThread().sleep(stepSleep);
+        Thread.sleep(stepSleep);
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }

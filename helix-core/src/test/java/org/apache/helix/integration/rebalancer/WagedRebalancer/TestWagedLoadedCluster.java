@@ -47,7 +47,6 @@ import org.apache.helix.participant.StateMachineEngine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -152,7 +151,7 @@ public class TestWagedLoadedCluster extends ZkTestBase {
       while (_completedTest.getCount() > 0) {
         try {
           validateInstanceUsage();
-          Thread.currentThread().sleep(100);
+          Thread.sleep(100);
         } catch (InterruptedException e) {
           LOG.debug("Exception in validateInstanceUsageThread", e);
         } catch (Exception e) {
@@ -230,11 +229,11 @@ public class TestWagedLoadedCluster extends ZkTestBase {
     resourceConfig.setPartitionCapacityMap(
         Collections.singletonMap(ResourceConfig.DEFAULT_PARTITION_KEY, _newPartitionWeight));
     dataAccessor.setProperty(dataAccessor.keyBuilder().resourceConfig(db), resourceConfig);
-    Thread.currentThread().sleep(100);
+    Thread.sleep(100);
     _weightUpdatedLatch.countDown();
-    Thread.currentThread().sleep(3000);
+    Thread.sleep(3000);
     _completedTest.countDown();
-    Thread.currentThread().sleep(100);
+    Thread.sleep(100);
   }
 
 

@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 public class RebalanceScheduler {
   private static final Logger LOG = LoggerFactory.getLogger(RebalanceScheduler.class);
 
-  private class ScheduledTask {
+  private static class ScheduledTask {
     long _startTime;
     Future _future;
 
@@ -132,7 +132,7 @@ public class RebalanceScheduler {
   /**
    * The simplest possible runnable that will trigger a run of the controller pipeline
    */
-  private class RebalanceInvoker implements Runnable {
+  private static class RebalanceInvoker implements Runnable {
     private final HelixManager _manager;
     private final String _resource;
 

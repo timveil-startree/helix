@@ -1019,7 +1019,7 @@ public class RoutingTableProvider
     }
   }
 
-  protected class ListenerContext {
+  protected static class ListenerContext {
     private Object _context;
 
     public ListenerContext(Object context) {

@@ -37,7 +37,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestListenerCallback extends ZkUnitTestBase {
-  class TestScopedConfigListener implements ScopedConfigChangeListener {
+  static class TestScopedConfigListener implements ScopedConfigChangeListener {
     boolean _configChanged = false;
     int _configSize = 0;
 
@@ -53,7 +53,7 @@ public class TestListenerCallback extends ZkUnitTestBase {
     }
   }
 
-  class TestConfigListener implements InstanceConfigChangeListener, ClusterConfigChangeListener,
+  static class TestConfigListener implements InstanceConfigChangeListener, ClusterConfigChangeListener,
       ResourceConfigChangeListener {
     boolean _instanceConfigChanged = false;
     boolean _resourceConfigChanged = false;
