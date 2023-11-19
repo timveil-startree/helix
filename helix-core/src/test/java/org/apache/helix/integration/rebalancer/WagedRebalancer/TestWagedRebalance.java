@@ -757,17 +757,13 @@ public class TestWagedRebalance extends ZkTestBase {
       _gSetupTool.dropResourceFromCluster(CLUSTER_NAME, db);
     }
     // waiting for all DB be dropped.
-    ZkHelixClusterVerifier _clusterVerifier =
-        new StrictMatchExternalViewVerifier.Builder(CLUSTER_NAME).setZkAddr(ZK_ADDR)
-            .setDeactivatedNodeAwareness(true).setResources(_allDBs)
-            .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    try {
-      Assert.assertTrue(_clusterVerifier.verifyByPolling());
-      _allDBs.clear();
-    } finally {
-      _clusterVerifier.close();
-    }
+      try (ZkHelixClusterVerifier _clusterVerifier = new StrictMatchExternalViewVerifier.Builder(CLUSTER_NAME).setZkAddr(ZK_ADDR)
+              .setDeactivatedNodeAwareness(true).setResources(_allDBs)
+              .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
+              .build()) {
+          Assert.assertTrue(_clusterVerifier.verifyByPolling());
+          _allDBs.clear();
+      }
 
     // Verify the DBs are all removed and the persisted assignment records are cleaned up.
     Assert.assertEquals(

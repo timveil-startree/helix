@@ -86,15 +86,11 @@ public class TestZkConnectionLost extends TaskTestBase {
     _controller = new ClusterControllerManager(_zkAddr, CLUSTER_NAME, controllerName);
     _controller.syncStart();
 
-    ZkHelixClusterVerifier clusterVerifier =
-        new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkAddr(_zkAddr)
-            .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    try {
-      Assert.assertTrue(clusterVerifier.verifyByPolling());
-    } finally {
-      clusterVerifier.close();
-    }
+      try (ZkHelixClusterVerifier clusterVerifier = new BestPossibleExternalViewVerifier.Builder(CLUSTER_NAME).setZkAddr(_zkAddr)
+              .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
+              .build()) {
+          Assert.assertTrue(clusterVerifier.verifyByPolling());
+      }
   }
 
   @AfterClass

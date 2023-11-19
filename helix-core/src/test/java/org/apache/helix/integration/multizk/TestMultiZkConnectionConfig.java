@@ -571,15 +571,11 @@ public class TestMultiZkConnectionConfig extends MultiZkTestBase {
       }
 
       // Create a verifier to make sure all resources have been rebalanced
-      ZkHelixClusterVerifier verifier =
-          new BestPossibleExternalViewVerifier.Builder(cluster).setResources(resourceNames)
-              .setExpectLiveInstances(liveInstancesNames)
-              .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME).build();
-      try {
-        Assert.assertTrue(verifier.verifyByPolling());
-      } finally {
-        verifier.close();
-      }
+        try (ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(cluster).setResources(resourceNames)
+                .setExpectLiveInstances(liveInstancesNames)
+                .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME).build()) {
+            Assert.assertTrue(verifier.verifyByPolling());
+        }
     }
 
     // Using the ZkBaseDataAccessor created using the Builder, check that the correct IS is read

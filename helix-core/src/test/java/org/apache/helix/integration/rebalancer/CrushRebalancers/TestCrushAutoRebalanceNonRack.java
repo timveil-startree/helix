@@ -299,16 +299,12 @@ public class TestCrushAutoRebalanceNonRack extends ZkStandAloneCMTestBase {
       _allDBs.add(db);
     }
 
-    ZkHelixClusterVerifier _clusterVerifier =
-        new StrictMatchExternalViewVerifier.Builder(CLUSTER_NAME).setZkAddr(ZK_ADDR)
-            .setDeactivatedNodeAwareness(true).setResources(_allDBs)
-            .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    try {
-      Assert.assertTrue(_clusterVerifier.verifyByPolling());
-    } finally {
-      _clusterVerifier.close();
-    }
+      try (ZkHelixClusterVerifier _clusterVerifier = new StrictMatchExternalViewVerifier.Builder(CLUSTER_NAME).setZkAddr(ZK_ADDR)
+              .setDeactivatedNodeAwareness(true).setResources(_allDBs)
+              .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
+              .build()) {
+          Assert.assertTrue(_clusterVerifier.verifyByPolling());
+      }
 
     for (String db : _allDBs) {
       IdealState is =

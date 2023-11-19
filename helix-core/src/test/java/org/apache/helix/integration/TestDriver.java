@@ -245,16 +245,12 @@ public class TestDriver {
     TestInfo testInfo = _testInfoMap.get(uniqClusterName);
     String clusterName = testInfo._clusterName;
 
-    ZkHelixClusterVerifier verifier =
-        new BestPossibleExternalViewVerifier.Builder(clusterName)
-            .setZkAddr(ZK_ADDR)
-            .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
-            .build();
-    try {
-      Assert.assertTrue(verifier.verifyByPolling());
-    } finally {
-      verifier.close();
-    }
+      try (ZkHelixClusterVerifier verifier = new BestPossibleExternalViewVerifier.Builder(clusterName)
+              .setZkAddr(ZK_ADDR)
+              .setWaitTillVerify(TestHelper.DEFAULT_REBALANCE_PROCESSING_WAIT_TIME)
+              .build()) {
+          Assert.assertTrue(verifier.verifyByPolling());
+      }
 
   }
 
