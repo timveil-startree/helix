@@ -19,7 +19,7 @@ package org.apache.helix.rest.server.mock;
  * under the License.
  */
 
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 
 import org.apache.helix.msdcommon.datamodel.TrieRoutingData;
 import org.apache.helix.msdcommon.exception.InvalidRoutingDataException;
@@ -67,7 +67,7 @@ public class MockMetadataStoreDirectoryAccessor extends MetadataStoreDirectoryAc
    * ZkMetadataStoreDirectory being a singleton makes it difficult to test it,
    * therefore this is the only way to create another instance.
    */
-  class MockZkMetadataStoreDirectory extends ZkMetadataStoreDirectory {
+  static class MockZkMetadataStoreDirectory extends ZkMetadataStoreDirectory {
     MockZkMetadataStoreDirectory(String namespace, String zkAddress)
         throws InvalidRoutingDataException {
       super();
@@ -91,7 +91,7 @@ public class MockMetadataStoreDirectoryAccessor extends MetadataStoreDirectoryAc
    * A mock to ZkRoutingDataWriter. The only purpose is to set the static flag signifying that
    * this writer is used for zookeeper operations.
    */
-  class MockZkRoutingDataWriter extends ZkRoutingDataWriter {
+  static class MockZkRoutingDataWriter extends ZkRoutingDataWriter {
     public MockZkRoutingDataWriter(String namespace, String zkAddress) {
       super(namespace, zkAddress);
       operatedOnZk = false;

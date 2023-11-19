@@ -26,15 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
+
 
 import com.codahale.metrics.annotation.ResponseMetered;
 import com.codahale.metrics.annotation.Timed;
@@ -42,6 +34,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.helix.AccessOption;
 import org.apache.helix.BaseDataAccessor;
@@ -81,12 +78,10 @@ import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 
 @Path("/clusters")
-@Api (value = "", description = "Helix REST Clusters  APIs")
+@OpenAPIDefinition(info = @Info(description = "Helix REST Clusters  APIs"))
 public class ClusterAccessor extends AbstractHelixResource {
   private static final Logger LOG = LoggerFactory.getLogger(ClusterAccessor.class.getName());
 
@@ -109,7 +104,7 @@ public class ClusterAccessor extends AbstractHelixResource {
   @ResponseMetered(name = HttpConstants.READ_REQUEST)
   @Timed(name = HttpConstants.READ_REQUEST)
   @GET
-  @ApiOperation (value = "Return list of all clusters", notes = "Helix REST Cluster Get API")
+  @Operation(summary = "Return list of all clusters", description = "Helix REST Cluster Get API")
   public Response getClusters() {
     HelixAdmin helixAdmin = getHelixAdmin();
     List<String> clusters = helixAdmin.getClusters();
@@ -124,7 +119,7 @@ public class ClusterAccessor extends AbstractHelixResource {
   @ResponseMetered(name = HttpConstants.READ_REQUEST)
   @Timed(name = HttpConstants.READ_REQUEST)
   @GET
-  @ApiOperation (value = "Return information for particular cluster", notes = "Helix REST Cluster  Get API")
+  @Operation (summary = "Return information for particular cluster", description = "Helix REST Cluster  Get API")
   @Path("{clusterId}")
   public Response getClusterInfo(@PathParam("clusterId") String clusterId) {
     if (!doesClusterExist(clusterId)) {

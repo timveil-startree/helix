@@ -23,11 +23,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.helix.TestHelper;
 import org.apache.helix.rest.acl.AclRegister;
 import org.apache.helix.rest.common.HelixRestNamespace;
@@ -44,7 +43,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.mockito.Mockito;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -53,9 +51,6 @@ import static org.mockito.ArgumentMatchers.any;
 public class TestAclRegister extends AbstractTestClass {
   private String _mockBaseUri;
   private CloseableHttpClient _httpClient;
-
-  private static String CLASSNAME_TEST_DEFAULT_ACL_REGISTER = "testDefaultAclRegister";
-  private static String CLASSNAME_TEST_CUSTOM_ACL_REGISTER = "testCustomACLRegister";
 
   @Test
   public void testDefaultAclRegister() {

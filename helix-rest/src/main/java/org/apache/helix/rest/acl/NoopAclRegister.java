@@ -19,7 +19,7 @@ package org.apache.helix.rest.acl;
  * under the License.
  */
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 public class NoopAclRegister implements AclRegister {

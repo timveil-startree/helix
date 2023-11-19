@@ -21,19 +21,18 @@ package org.apache.helix.rest.server.resources.zookeeper;
 
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 
 import com.codahale.metrics.annotation.ResponseMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.apache.helix.AccessOption;
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.manager.zk.ZKUtil;
@@ -47,8 +46,6 @@ import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * ZooKeeperAccessor provides methods for accessing ZooKeeper resources (ZNodes).
@@ -56,7 +53,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @NamespaceAuth
 @Path("/zookeeper{path: /.+}")
-@Api (value = "", description = "Helix REST zookeeper APIs")
+@OpenAPIDefinition(info = @Info(description = "Helix REST zookeeper APIs"))
 public class ZooKeeperAccessor extends AbstractResource {
   private static final Logger LOG = LoggerFactory.getLogger(ZooKeeperAccessor.class.getName());
   private BaseDataAccessor<byte[]> _zkBaseDataAccessor;
@@ -72,7 +69,7 @@ public class ZooKeeperAccessor extends AbstractResource {
   @ResponseMetered(name = HttpConstants.READ_REQUEST)
   @Timed(name = HttpConstants.READ_REQUEST)
   @GET
-  @ApiOperation (value = "Return ZNode", notes = "Helix REST Zookeeper Get API")
+  @Operation(summary = "Return ZNode", description = "Helix REST Zookeeper Get API")
   public Response get(@PathParam("path") String path, @QueryParam("command") String commandStr) {
     ZooKeeperCommand cmd = getZooKeeperCommandIfPresent(commandStr);
     if (cmd == null) {

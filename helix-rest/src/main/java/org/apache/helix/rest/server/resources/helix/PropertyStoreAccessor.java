@@ -20,20 +20,14 @@ package org.apache.helix.rest.server.resources.helix;
  */
 
 import java.io.IOException;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 
 import com.codahale.metrics.annotation.ResponseMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.apache.helix.AccessOption;
 import org.apache.helix.BaseDataAccessor;
 import org.apache.helix.PropertyPathBuilder;
@@ -67,7 +61,7 @@ public class PropertyStoreAccessor extends AbstractHelixResource {
   @GET
   @Path("{path: .+}")
   public Response getPropertyByPath(@PathParam("clusterId") String clusterId,
-      @PathParam("path") String path) {
+                                    @PathParam("path") String path) {
     path = "/" + path;
     if (!ZkValidationUtil.isPathValid(path)) {
       LOG.info("The propertyStore path {} is invalid for cluster {}", path, clusterId);
@@ -113,8 +107,8 @@ public class PropertyStoreAccessor extends AbstractHelixResource {
   @PUT
   @Path("{path: .+}")
   public Response putPropertyByPath(@PathParam("clusterId") String clusterId,
-      @PathParam("path") String path,
-      @QueryParam("isZNRecord") @DefaultValue("true") String isZNRecord, String content) {
+                                    @PathParam("path") String path,
+                                    @QueryParam("isZNRecord") @DefaultValue("true") String isZNRecord, String content) {
     path = "/" + path;
     if (!ZkValidationUtil.isPathValid(path)) {
       LOG.info("The propertyStore path {} is invalid for cluster {}", path, clusterId);

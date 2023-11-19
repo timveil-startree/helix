@@ -31,10 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
+
 
 import com.codahale.metrics.annotation.ResponseMetered;
 import com.codahale.metrics.annotation.Timed;
@@ -42,6 +39,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 import org.apache.helix.ConfigAccessor;
 import org.apache.helix.HelixDataAccessor;
 import org.apache.helix.controller.rebalancer.strategy.AutoRebalanceStrategy;
@@ -131,7 +132,7 @@ public class ResourceAssignmentOptimizerAccessor extends AbstractHelixResource {
   @Timed(name = HttpConstants.WRITE_REQUEST)
   @POST
   public Response computePotentialAssignment(@PathParam("clusterId") String clusterId,
-      String content) {
+                                             String content) {
 
     InputFields inputFields;
     ClusterState clusterState;

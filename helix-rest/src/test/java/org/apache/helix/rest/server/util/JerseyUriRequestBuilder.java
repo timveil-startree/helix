@@ -21,9 +21,9 @@ package org.apache.helix.rest.server.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;

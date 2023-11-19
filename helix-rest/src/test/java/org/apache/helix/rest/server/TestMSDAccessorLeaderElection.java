@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.helix.msdcommon.constant.MetadataStoreRoutingConstants;
@@ -87,7 +87,7 @@ public class TestMSDAccessorLeaderElection extends MetadataStoreDirectoryAccesso
       namespaces.add(new HelixRestNamespace(TEST_NAMESPACE,
           HelixRestNamespace.HelixMetadataStoreType.ZOOKEEPER, _zkAddrTestNS, false));
       _mockHelixRestServer = new MockHelixRestServer(namespaces, newPort, getBaseUri().getPath(),
-          Collections.singletonList(_auditLogger));
+              Collections.singletonList(_auditLogger));
       _mockHelixRestServer.start();
     } catch (InterruptedException e) {
       LOG.error("MockHelixRestServer starting encounter an exception.", e);
@@ -234,7 +234,7 @@ public class TestMSDAccessorLeaderElection extends MetadataStoreDirectoryAccesso
    * A class that mocks HelixRestServer for testing. It overloads getResourceConfig to inject
    * MockMetadataStoreDirectoryAccessor as a servlet.
    */
-  class MockHelixRestServer extends HelixRestServer {
+  static class MockHelixRestServer extends HelixRestServer {
     public MockHelixRestServer(List<HelixRestNamespace> namespaces, int port, String urlPrefix,
         List<AuditLogger> auditLoggers) {
       super(namespaces, port, urlPrefix, auditLoggers);

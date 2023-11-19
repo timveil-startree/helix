@@ -19,7 +19,7 @@ package org.apache.helix.rest.server.authValidator;
  * under the License.
  */
 
-import javax.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerRequestContext;
 
 
 public class NoopAuthValidator implements AuthValidator {

@@ -30,7 +30,7 @@ import javax.management.MBeanException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.helix.TestHelper;
 import org.apache.helix.rest.common.HelixRestNamespace;

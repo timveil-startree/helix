@@ -28,9 +28,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -1450,7 +1450,7 @@ public class TestClusterAccessor extends AbstractTestClass {
     Assert.assertFalse(lastOnDemandRebalanceTime == -1L,
         "The last on-demand rebalance timestamp is not found.");
     Assert.assertTrue(lastOnDemandRebalanceTime > currentTime, String.format(
-        "The last on-demand rebalance timestamp {} is stale. Expect a timestamp that is larger than {}.",
+        "The last on-demand rebalance timestamp %s is stale. Expect a timestamp that is larger than %s.",
         lastOnDemandRebalanceTime, currentTime));
     // restore the state
     config.setLastOnDemandRebalanceTimestamp(-1L);
