@@ -19,16 +19,13 @@ package org.apache.helix.metaclient.recipes.leaderelection;
  * under the License.
  */
 
-import org.apache.helix.metaclient.MetaClientTestUtil;
 import org.apache.helix.metaclient.exception.MetaClientException;
-import org.apache.helix.metaclient.impl.zk.TestMultiThreadStressTest.CreatePuppy;
 import org.apache.helix.metaclient.impl.zk.ZkMetaClient;
 import org.apache.helix.metaclient.impl.zk.ZkMetaClientTestBase;
 import org.apache.helix.metaclient.puppy.ExecDelay;
 import org.apache.helix.metaclient.puppy.PuppyManager;
 import org.apache.helix.metaclient.puppy.PuppyMode;
 import org.apache.helix.metaclient.puppy.PuppySpec;
-import org.apache.helix.zookeeper.exception.ZkClientException;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;

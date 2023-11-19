@@ -24,8 +24,6 @@ import org.apache.helix.metaclient.exception.MetaClientNoNodeException;
 import org.apache.helix.metaclient.puppy.AbstractPuppy;
 import org.apache.helix.metaclient.puppy.PuppySpec;
 
-import java.util.Random;
-
 public class SetPuppy extends AbstractPuppy {
 
   private final String _parentPath = "/test";

@@ -23,8 +23,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.helix.metaclient.api.MetaClientInterface;
 import org.apache.helix.metaclient.datamodel.DataRecord;
 
-import java.util.concurrent.locks.Lock;
-
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Permit extends DataRecord {
 

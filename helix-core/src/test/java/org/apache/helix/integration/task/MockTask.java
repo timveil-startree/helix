@@ -30,7 +30,6 @@ import org.apache.helix.task.TaskCallbackContext;
 import org.apache.helix.task.TaskConfig;
 import org.apache.helix.task.TaskResult;
 import org.apache.helix.task.UserContentStore;
-import org.apache.helix.util.TestInputLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -22,7 +22,6 @@ package org.apache.helix.zookeeper.zkclient;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.testng.Assert;

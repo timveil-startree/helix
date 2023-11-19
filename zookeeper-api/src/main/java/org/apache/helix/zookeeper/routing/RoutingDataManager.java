@@ -32,7 +32,6 @@ import org.apache.helix.zookeeper.constant.RoutingDataConstants;
 import org.apache.helix.zookeeper.constant.RoutingDataReaderType;
 import org.apache.helix.zookeeper.constant.RoutingSystemPropertyKeys;
 import org.apache.helix.zookeeper.exception.MultiZkException;
-import org.apache.helix.zookeeper.impl.client.SharedZkClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

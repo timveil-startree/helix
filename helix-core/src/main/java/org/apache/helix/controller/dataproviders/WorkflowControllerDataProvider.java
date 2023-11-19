@@ -26,7 +26,6 @@ import java.util.Set;
 
 import org.apache.helix.HelixConstants;
 import org.apache.helix.HelixDataAccessor;
-import org.apache.helix.common.caches.TaskCurrentStateCache;
 import org.apache.helix.model.CurrentState;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.common.caches.AbstractDataCache;

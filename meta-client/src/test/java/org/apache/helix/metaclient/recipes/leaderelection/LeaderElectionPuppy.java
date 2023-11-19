@@ -19,7 +19,6 @@ package org.apache.helix.metaclient.recipes.leaderelection;
  * under the License.
  */
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.apache.helix.metaclient.MetaClientTestUtil;
 import org.apache.helix.metaclient.api.MetaClientInterface;

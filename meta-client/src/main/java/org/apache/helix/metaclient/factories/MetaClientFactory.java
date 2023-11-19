@@ -24,7 +24,6 @@ import org.apache.helix.metaclient.api.MetaClientCacheInterface;
 import org.apache.helix.metaclient.api.MetaClientInterface;
 import org.apache.helix.metaclient.impl.zk.factory.ZkMetaClientConfig;
 import org.apache.helix.metaclient.impl.zk.factory.ZkMetaClientFactory;
-import org.apache.helix.zookeeper.datamodel.serializer.ZNRecordSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

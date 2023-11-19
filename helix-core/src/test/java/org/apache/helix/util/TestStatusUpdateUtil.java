@@ -24,13 +24,11 @@ import java.lang.reflect.Modifier;
 
 import org.apache.helix.HelixConstants;
 import org.apache.helix.PropertyPathBuilder;
-import org.apache.helix.SystemPropertyKeys;
 import org.apache.helix.TestHelper;
 import org.apache.helix.common.ZkTestBase;
 import org.apache.helix.integration.manager.MockParticipantManager;
 import org.apache.helix.messaging.handling.HelixStateTransitionHandler;
 import org.apache.helix.model.Message;
-import org.apache.helix.model.StatusUpdate;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.zookeeper.zkclient.exception.ZkException;
 import org.testng.Assert;

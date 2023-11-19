@@ -24,7 +24,6 @@ import org.apache.helix.metaclient.puppy.AbstractPuppy;
 import org.apache.helix.metaclient.puppy.PuppySpec;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class GetPuppy extends AbstractPuppy {
 

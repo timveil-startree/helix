@@ -19,7 +19,6 @@ package org.apache.helix.metaclient.impl.zk.adapter;
  * under the License.
  */
 
-import java.util.List;
 import org.apache.helix.metaclient.api.ChildChangeListener;
 import org.apache.helix.zookeeper.zkclient.IZkChildListener;
 import org.apache.helix.zookeeper.zkclient.RecursivePersistListener;

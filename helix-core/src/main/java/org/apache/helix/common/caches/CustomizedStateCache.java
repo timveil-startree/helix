@@ -28,8 +28,6 @@ import org.apache.helix.PropertyKey;
 import org.apache.helix.common.controllers.ControlContextProvider;
 import org.apache.helix.model.CustomizedState;
 import org.apache.helix.model.LiveInstance;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class CustomizedStateCache extends ParticipantStateCache<CustomizedState> {

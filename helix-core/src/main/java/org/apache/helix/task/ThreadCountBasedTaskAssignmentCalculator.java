@@ -20,7 +20,6 @@ package org.apache.helix.task;
  */
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,7 +29,6 @@ import java.util.TreeSet;
 
 import org.apache.helix.controller.stages.CurrentStateOutput;
 import org.apache.helix.model.IdealState;
-import org.apache.helix.model.Partition;
 import org.apache.helix.model.ResourceAssignment;
 import org.apache.helix.task.assigner.TaskAssignResult;
 import org.apache.helix.task.assigner.TaskAssigner;

@@ -36,7 +36,6 @@ import org.apache.helix.PropertyPathBuilder;
 import org.apache.helix.cloud.constants.VirtualTopologyGroupConstants;
 import org.apache.helix.cloud.topology.FifoVirtualGroupAssignmentAlgorithm;
 import org.apache.helix.cloud.topology.VirtualGroupAssignmentAlgorithm;
-import org.apache.helix.model.CloudConfig;
 import org.apache.helix.model.ClusterConfig;
 import org.apache.helix.model.ClusterTopologyConfig;
 import org.apache.helix.model.InstanceConfig;

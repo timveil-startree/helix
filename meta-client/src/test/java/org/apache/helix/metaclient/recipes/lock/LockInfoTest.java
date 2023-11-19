@@ -20,8 +20,6 @@ package org.apache.helix.metaclient.recipes.lock;
  */
 
 
-import java.time.Duration;
-
 import org.apache.helix.metaclient.datamodel.DataRecord;
 import org.testng.Assert;
 import org.testng.annotations.Test;

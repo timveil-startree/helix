@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import org.apache.helix.controller.dataproviders.ResourceControllerDataProvider;
 import org.apache.helix.controller.rebalancer.util.WagedRebalanceUtil;
-import org.apache.helix.model.IdealState;
 import org.apache.helix.model.ResourceConfig;
 
 

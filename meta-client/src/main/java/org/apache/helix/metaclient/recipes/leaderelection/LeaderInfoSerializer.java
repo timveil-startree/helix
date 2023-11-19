@@ -3,7 +3,7 @@ package org.apache.helix.metaclient.recipes.leaderelection;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import java.io.ByteArrayInputStream;
-import org.apache.helix.zookeeper.datamodel.ZNRecord;
+
 import org.apache.helix.zookeeper.datamodel.serializer.ZNRecordSerializer;
 import org.apache.helix.zookeeper.util.GZipCompressionUtil;
 import org.slf4j.Logger;

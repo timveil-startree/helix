@@ -23,8 +23,6 @@ import org.apache.helix.metaclient.api.MetaClientInterface;
 import org.apache.helix.metaclient.puppy.AbstractPuppy;
 import org.apache.helix.metaclient.puppy.PuppySpec;
 
-import java.util.Random;
-
 public class DeletePuppy extends AbstractPuppy {
 
   private final String _parentPath = "/test";

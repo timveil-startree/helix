@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
 
 import org.apache.helix.PropertyKey.Builder;
 import org.apache.helix.controller.dataproviders.WorkflowControllerDataProvider;

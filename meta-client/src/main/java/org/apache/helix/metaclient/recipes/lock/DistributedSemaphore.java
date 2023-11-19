@@ -26,7 +26,6 @@ import org.apache.helix.metaclient.exception.MetaClientException;
 import org.apache.helix.metaclient.factories.MetaClientConfig;
 import org.apache.helix.metaclient.impl.zk.factory.ZkMetaClientConfig;
 import org.apache.helix.metaclient.impl.zk.factory.ZkMetaClientFactory;
-import org.apache.helix.metaclient.impl.zk.util.ZkMetaClientUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

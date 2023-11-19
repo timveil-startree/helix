@@ -22,8 +22,6 @@ package org.apache.helix.metaclient.policy;
 import org.apache.helix.metaclient.policy.MetaClientReconnectPolicy;
 
 import static org.apache.helix.metaclient.constants.MetaClientConstants.DEFAULT_AUTO_RECONNECT_TIMEOUT_MS;
-import static org.apache.helix.metaclient.constants.MetaClientConstants.DEFAULT_INIT_EXP_BACKOFF_RETRY_INTERVAL_MS;
-import static org.apache.helix.metaclient.constants.MetaClientConstants.DEFAULT_MAX_EXP_BACKOFF_RETRY_INTERVAL_MS;
 
 /**
  * Policy to define client re-establish connection behavior when connection to underlying metadata
