@@ -72,9 +72,7 @@ public class TestHelixRestServer extends AbstractTestClass {
     }
   }
 
-  @Test(dependsOnMethods = "testInvalidHelixRestServerInitialization",
-      expectedExceptions = {IllegalStateException.class, HelixException.class},
-      expectedExceptionsMessageRegExp = ".*Multiple servlets map to path.*")
+  @Test(dependsOnMethods = "testInvalidHelixRestServerInitialization")
   public void testDefaultNamespaceFail() throws InterruptedException {
     // More than 1 default namespace shall cause failure
     List<HelixRestNamespace> invalidManifest4 = new ArrayList<>();
@@ -83,8 +81,15 @@ public class TestHelixRestServer extends AbstractTestClass {
     invalidManifest4.add(
         new HelixRestNamespace("test4-2", HelixRestNamespace.HelixMetadataStoreType.ZOOKEEPER, ZK_ADDR, true));
     HelixRestServer svr = new HelixRestServer(invalidManifest4, 10250, "/", Collections.<AuditLogger>emptyList());
-    svr.start();
-    LOG.debug("End test :" + TestHelper.getTestMethodName());
+    try {
+      svr.start();
+      Assert.fail("Expected a HelixException, but no exception was thrown.");
+    } catch (HelixException e) {
+      Assert.assertTrue(e.getMessage().contains("Multiple servlets map to path"));
+    } finally {
+      svr.shutdown();
+      LOG.debug("End test :" + TestHelper.getTestMethodName());
+    }
   }
 
 }
