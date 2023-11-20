@@ -75,7 +75,6 @@ import org.apache.helix.zookeeper.datamodel.ZNRecord;
 import org.apache.helix.zookeeper.datamodel.serializer.ZNRecordSerializer;
 import org.apache.helix.zookeeper.impl.client.FederatedZkClient;
 import org.apache.helix.zookeeper.impl.factory.SharedZkClientFactory;
-import org.apache.helix.zookeeper.introspect.CodehausJacksonIntrospector;
 import org.apache.helix.zookeeper.zkclient.DataUpdater;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,7 +159,6 @@ public class ClusterSetup {
   private final HelixAdmin _admin;
 
   protected static ObjectReader ZNRECORD_READER = new ObjectMapper()
-      .setAnnotationIntrospector(new CodehausJacksonIntrospector())
       .readerFor(ZNRecord.class);
 
   @Deprecated

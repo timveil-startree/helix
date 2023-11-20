@@ -22,8 +22,8 @@ package org.apache.helix.zookeeper.zkclient;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
 import org.apache.helix.zookeeper.zkclient.exception.ZkException;
 import org.apache.helix.zookeeper.zkclient.exception.ZkInterruptedException;

@@ -20,7 +20,7 @@ package org.apache.helix.metaclient.api;
  */
 
 import java.util.List;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 
 /**

@@ -35,8 +35,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.Adler32;
 import java.util.zip.Checksum;
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
+import jakarta.xml.bind.annotation.adapters.HexBinaryAdapter;
 import org.apache.jute.BinaryInputArchive;
 import org.apache.jute.Record;
 import org.apache.zookeeper.KeeperException.NoNodeException;

@@ -20,7 +20,7 @@ package org.apache.helix.controller.rebalancer.waged;
  */
 
 import java.util.Map;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import org.apache.helix.controller.dataproviders.ResourceControllerDataProvider;
 import org.apache.helix.controller.rebalancer.util.WagedRebalanceUtil;
 import org.apache.helix.model.ResourceConfig;

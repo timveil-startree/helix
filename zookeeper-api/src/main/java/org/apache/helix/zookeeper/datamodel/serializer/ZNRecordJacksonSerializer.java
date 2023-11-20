@@ -23,7 +23,6 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
-import org.apache.helix.zookeeper.introspect.CodehausJacksonIntrospector;
 import org.apache.helix.zookeeper.zkclient.exception.ZkMarshallingError;
 import org.apache.helix.zookeeper.zkclient.serialize.ZkSerializer;
 
@@ -33,9 +32,7 @@ import org.apache.helix.zookeeper.zkclient.serialize.ZkSerializer;
  * this serializer doesn't check for the size of the resulting binary.
  */
 public class ZNRecordJacksonSerializer implements ZkSerializer {
-  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-      // TODO: remove it after upgrading ZNRecord's annotations to Jackson 2
-      .setAnnotationIntrospector(new CodehausJacksonIntrospector());
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   @Override
   public byte[] serialize(Object record) throws ZkMarshallingError {

@@ -317,6 +317,7 @@ public class HelixRestServer {
   }
 
   // todo: re-enable
+
 //  private void initializeSwagger() {
 //    BeanConfig config = new BeanConfig();
 //    config.setTitle("Helix REST API");

@@ -32,7 +32,6 @@ import org.apache.helix.tools.IdealCalculatorByConsistentHashing;
 import org.apache.helix.tools.IdealStateCalculatorByRush;
 import org.apache.helix.tools.IdealStateCalculatorByShuffling;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
-import org.apache.helix.zookeeper.introspect.CodehausJacksonIntrospector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -72,7 +71,7 @@ public class TestShuffledIdealState {
 
     // LOG.debug(result);
     ObjectMapper mapper =
-        new ObjectMapper().setAnnotationIntrospector(new CodehausJacksonIntrospector());
+        new ObjectMapper();
 
     // ByteArrayOutputStream baos = new ByteArrayOutputStream();
     StringWriter sw = new StringWriter();

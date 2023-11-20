@@ -29,7 +29,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.helix.zookeeper.datamodel.ZNRecord;
-import org.apache.helix.zookeeper.introspect.CodehausJacksonIntrospector;
 import org.apache.helix.zookeeper.util.GZipCompressionUtil;
 import org.apache.helix.zookeeper.util.ZNRecordUtil;
 import org.apache.helix.zookeeper.zkclient.exception.ZkMarshallingError;
@@ -40,9 +39,7 @@ import org.slf4j.LoggerFactory;
 public class ZNRecordSerializer implements ZkSerializer {
   private static final Logger LOG = LoggerFactory.getLogger(ZNRecordSerializer.class);
 
-  protected static ObjectMapper mapper = new ObjectMapper()
-      // TODO: remove it after upgrading ZNRecord's annotations to Jackson 2
-      .setAnnotationIntrospector(new CodehausJacksonIntrospector());
+  protected static ObjectMapper mapper = new ObjectMapper();
 
   private static int getListFieldBound(ZNRecord record) {
     int max = Integer.MAX_VALUE;

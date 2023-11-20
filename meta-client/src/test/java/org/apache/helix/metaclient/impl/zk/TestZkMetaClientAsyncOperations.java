@@ -22,7 +22,7 @@ package org.apache.helix.metaclient.impl.zk;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.apache.helix.metaclient.api.AsyncCallback;
 import org.apache.helix.metaclient.api.MetaClientInterface;
