@@ -19,7 +19,6 @@ package org.apache.helix.rest.server.auditlog.auditloggers;
  * under the License.
  */
 
-import com.sun.research.ws.wadl.HTTPMethods;
 import org.apache.helix.rest.server.auditlog.AuditLog;
 import org.apache.helix.rest.server.auditlog.AuditLogger;
 import org.slf4j.Logger;
@@ -45,9 +44,9 @@ public class FileBasedAuditLogger implements AuditLogger {
   public void write(AuditLog auditLog) {
     if (_logReadOperations) {
       _logger.info(auditLog.toString());
-    } else if (auditLog.getHttpMethod().equals(HTTPMethods.PUT.name())
-        || auditLog.getHttpMethod().equals(HTTPMethods.POST.name())
-        || auditLog.getHttpMethod().equals(HTTPMethods.DELETE.name())) {
+    } else if (auditLog.getHttpMethod().equals("PUT")
+        || auditLog.getHttpMethod().equals("POST")
+        || auditLog.getHttpMethod().equals("DELETE")) {
       _logger.info(auditLog.toString());
     }
   }
