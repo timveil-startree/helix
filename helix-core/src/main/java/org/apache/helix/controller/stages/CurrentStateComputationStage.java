@@ -308,8 +308,7 @@ public class CurrentStateComputationStage extends AbstractBaseStage {
               .updateInstanceCapacityStatus(instanceName, usage, node.getMaxCapacity());
         }
       } catch (Exception ex) {
-        LOG.error("Failed to report instance capacity metrics. Exception message: {}",
-            ex.getMessage());
+        LOG.error("Failed to report instance capacity metrics. Exception message: " + ex.getMessage(), ex);
       }
 
       return null;
